@@ -1,0 +1,114 @@
+<title>STII Clinic Management System | Medical certificate requests</title>
+<?php include 'navbar.php'; ?>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-6">
+            <h3>Medical certificate requests</h3>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
+              <li class="breadcrumb-item active">Medical certificate requests</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <!-- /.col -->
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header p-2">
+                <!-- <button type="button" class="btn btn-sm bg-primary" data-toggle="modal" data-target="#add_medical"><i class="fa-sharp fa-solid fa-square-plus"></i> New request</button> -->
+                <div class="card-tools mr-1 mt-3">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body p-3">
+
+                 <table id="example1" class="table table-bordered table-hover text-sm">
+                  <thead>
+                  <tr> 
+                    <th>PATIENT NAME</th>
+                    <th>POSITION</th>
+                    <th>PURPOSE</th>
+                    <th>PICK UP DATE</th>
+                    <th>DATE REQUESTED</th>
+                    <th>STATUS</th>
+                    <th>PRINT</th>
+                    <th>TOOLS</th>
+                  </tr>
+                  </thead>
+                  <tbody id="users_data">
+                      <?php 
+                        $sql = mysqli_query($conn, "SELECT * FROM request_doc JOIN patient ON request_doc.patient_Id=patient.user_Id WHERE type='Medical Certificate' ");
+                        while ($row = mysqli_fetch_array($sql)) {
+                      ?>
+                    <tr>
+                        <td><?php echo $row['name']; ?></td>
+                        <td><?php echo $row['position']; ?></td>
+                        <td><?php echo $row['purpose']; ?></td>
+                        <td><?php echo date("F d, Y h:i A", strtotime($row['pick_up_date'])); ?></td>
+                        <td class="text-primary"><?php echo date("F d, Y h:i A", strtotime($row['date_created'])); ?></td>
+                        <td>
+                          <?php if($row['req_status'] == 0): ?>
+                            <span class="badge badge-warning pt-1">Pending</span>
+                          <?php elseif($row['req_status'] == 1): ?>
+                            <span class="badge badge-info pt-1">Processing</span>
+                          <?php elseif($row['req_status'] == 2): ?>
+                            <span class="badge badge-primary pt-1">Ready to pick-up</span>
+                          <?php else: ?>
+                            <span class="badge badge-success pt-1">Released</span>
+                          <?php endif; ?>
+
+                        </td>
+                        <td>
+                          <?php if($row['req_status'] == 0): ?>
+                            <span class="badge badge-warning pt-1">Pending</span>
+                          <?php elseif($row['req_status'] == 1): ?>
+                            <span class="badge badge-info pt-1">Processing</span>
+                          <?php elseif($row['req_status'] == 2): ?>
+                            <a type="button" href="print_medical_certificate.php?patient_Id=<?php echo $row['patient_Id']; ?>" class="btn bg-secondary btn-sm" ><i class="fa-solid fa-print"></i> Print</a>
+                          <?php else: ?>
+                            <span class="badge badge-success pt-1">Released</span>
+                          <?php endif; ?>
+
+                        </td>
+                        <td>
+                          <button type="button" class="btn bg-info btn-sm" data-toggle="modal" data-target="#updateStatus<?php echo $row['req_Id']; ?>"><i class="fas fa-pencil-alt"></i> Update status</button>
+                        </td>
+                        <!-- <td>
+                          <button type="button" class="btn bg-info btn-sm" data-toggle="modal" data-target="#update<?php //echo $row['req_Id']; ?>"><i class="fas fa-pencil-alt"></i> Edit</button>
+                          <button type="button" class="btn bg-danger btn-sm" data-toggle="modal" data-target="#delete<?php //echo $row['req_Id']; ?>"><i class="fas fa-trash"></i> Delete</button>
+                        </td>  -->
+                    </tr>
+
+                    <?php include 'medical_certificate_update_delete.php'; } ?>
+
+                  </tbody>
+                </table>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+<?php include 'medical_certificate_add.php'; include 'footer.php';  ?>
+<!-- <script>
+  window.addEventListener("load", window.print());
+</script> -->
+

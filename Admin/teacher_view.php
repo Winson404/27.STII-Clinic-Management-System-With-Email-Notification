@@ -62,7 +62,13 @@
                                 </select>
                               </div>
                         </div>
-                        <div class="col-8">
+                        <div class="col-4">
+                          <div class="form-group">
+                            <span class="text-dark"><b>Civil Status</b></span>
+                            <input type="text" class="form-control" placeholder="Civil Status" name="name" readonly value="<?php echo $row['civil_status']; ?>">
+                          </div>
+                        </div>
+                        <div class="col-4">
                           <div class="form-group">
                             <span class="text-dark"><b>Password</b></span>
                             <input type="email" class="form-control" placeholder="Password" name="name" readonly value="<?php echo $row['pass']; ?>">

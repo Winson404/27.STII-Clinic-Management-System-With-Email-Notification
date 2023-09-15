@@ -49,7 +49,7 @@
                         <div class="col-12 mb-3">
                           <img src="../images-users/<?php echo $row['picture'] ?>" alt="" width="150" class="d-block m-auto img-circle">
                         </div>
-                        <div class="col-4">
+                         <div class="col-4">
                             <div class="form-group">
                                 <span class="text-dark"><b>Vaccination status</b></span>
                                 <select class="form-control" name="vaccine_status" readonly>
@@ -61,8 +61,14 @@
                                   <option value="Fully Vaccinated" <?php if($row['vaccine_status'] == 'Fully Vaccinated') { echo 'selected'; } ?>>Fully Vaccinated</option>
                                 </select>
                               </div>
-                       </div>
-                        <div class="col-8">
+                        </div>
+                        <div class="col-4">
+                          <div class="form-group">
+                            <span class="text-dark"><b>Civil Status</b></span>
+                            <input type="text" class="form-control" placeholder="Civil Status" name="name" readonly value="<?php echo $row['civil_status']; ?>">
+                          </div>
+                        </div>
+                        <div class="col-4">
                           <div class="form-group">
                             <span class="text-dark"><b>Password</b></span>
                             <input type="email" class="form-control" placeholder="Password" name="name" readonly value="<?php echo $row['pass']; ?>">

@@ -62,11 +62,11 @@
                                 </select>
                               </div>
                         </div>
-                       <div class="col-8">
-                          <!-- <div class="form-group">
-                            <span class="text-dark"><b>Password</b></span>
-                            <input type="email" class="form-control" placeholder="Password" name="name" readonly value="<?php echo $row['pass']; ?>">
-                          </div> -->
+                        <div class="col-8">
+                          <div class="form-group">
+                            <span class="text-dark"><b>Civil Status</b></span>
+                            <input type="text" class="form-control" placeholder="Civil Status" name="name" readonly value="<?php echo $row['civil_status']; ?>">
+                          </div>
                         </div>
                         <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                             <div class="form-group">

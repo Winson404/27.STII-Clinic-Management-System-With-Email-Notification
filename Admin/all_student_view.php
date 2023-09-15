@@ -49,7 +49,7 @@
                         <div class="col-12 mb-3">
                           <img src="../images-users/<?php echo $row['picture'] ?>" alt="" width="150" class="d-block m-auto img-circle">
                         </div>
-                        <div class="col-6">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                             <div class="form-group">
                                 <span class="text-dark"><b>Vaccination status</b></span>
                                 <select class="form-control" name="vaccine_status" readonly>
@@ -62,10 +62,16 @@
                                 </select>
                               </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                           <div class="form-group">
                             <span class="text-dark"><b>Date registered</b></span>
                             <input type="text" class="form-control"  placeholder="Enter full name" name="name" readonly value="<?php echo date("F d, Y",strtotime($row['date_registered'])); ?>">
+                          </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-12">
+                          <div class="form-group">
+                            <span class="text-dark"><b>Civil status</b></span>
+                            <input type="text" class="form-control" name="civil_status" readonly value="<?php echo $row['civil_status']; ?>">
                           </div>
                         </div>
                         <div class="col-lg-4 col-md-6 col-sm-6 col-12">

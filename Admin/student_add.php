@@ -48,7 +48,19 @@
                                 </select>
                               </div>
                         </div>
-                        <div class="col-8"></div>
+                        <div class="col-lg-4 col-md-8 col-sm-6 col-12">
+                            <div class="form-group">
+                              <span class="text-dark"><b>Civil Status</b></span>
+                              <select class="form-control" name="civil_status" required>
+                                <option selected disabled value="">Select status</option>
+                                <option value="Single">Single</option>
+                                <option value="Married">Married</option>
+                                <option value="Widow/er">Widow/er</option>
+                                <option value="Separated">Separated</option>
+                              </select>
+                            </div>
+                        </div>
+                        <div class="col-4"></div>
                         <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                             <div class="form-group">
                               <span class="text-dark"><b>Full name</b></span>

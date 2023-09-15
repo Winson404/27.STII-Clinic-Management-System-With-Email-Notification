@@ -47,7 +47,18 @@
                                 </select>
                               </div>
                         </div>
-                        <div class="col-8"></div>
+                        <div class="col-8">
+                          <div class="form-group">
+                            <span class="text-dark"><b>Civil Status</b></span>
+                            <select class="form-control" name="civil_status" required>
+                              <option selected disabled value="">Select status</option>
+                              <option value="Single" <?php if($row['civil_status'] == 'Single') { echo 'selected'; } ?>>Single</option>
+                              <option value="Married" <?php if($row['civil_status'] == 'Married') { echo 'selected'; } ?>>Married</option>
+                              <option value="Widow/er" <?php if($row['civil_status'] == 'Widow/er') { echo 'selected'; } ?>>Widow/er</option>
+                              <option value="Separated" <?php if($row['civil_status'] == 'Separated') { echo 'selected'; } ?>>Separated</option>
+                            </select>
+                          </div>
+                        </div>
                         <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                             <div class="form-group">
                               <span class="text-dark"><b>Full name</b></span>

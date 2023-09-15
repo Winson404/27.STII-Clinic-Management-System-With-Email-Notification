@@ -24,7 +24,7 @@
                           <a class="h5 text-primary"><b>Basic information</b></a>
                           <div class="dropdown-divider"></div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                             <div class="form-group">
                                 <span class="text-dark"><b>Postion/User-type</b></span>
                                 <select class="form-control" name="position" id="position-select" onchange="handlePositionChange()" required>
@@ -35,7 +35,7 @@
                                 </select>
                               </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                             <div class="form-group">
                                 <span class="text-dark"><b>Vaccination status</b></span>
                                 <select class="form-control" name="vaccine_status" required>
@@ -47,6 +47,18 @@
                                   <option value="Fully Vaccinated">Fully Vaccinated</option>
                                 </select>
                               </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                            <div class="form-group">
+                              <span class="text-dark"><b>Civil Status</b></span>
+                              <select class="form-control" name="civil_status" required>
+                                <option selected disabled value="">Select status</option>
+                                <option value="Single">Single</option>
+                                <option value="Married">Married</option>
+                                <option value="Widow/er">Widow/er</option>
+                                <option value="Separated">Separated</option>
+                              </select>
+                            </div>
                         </div>
 
                         <div class="col-lg-4 col-md-6 col-sm-6 col-12">

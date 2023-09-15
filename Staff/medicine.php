@@ -60,8 +60,8 @@
                       ?>
                     <tr>
                        
-                        <td><?php echo $row['brand_name']; ?></td>
-                        <td><?php echo $row['med_name']; ?></td>
+                        <td><?php if($row['brand_name'] == 'Others') { echo ucwords($row['other_brand_name']); } else { echo $row['brand_name']; }; ?></td>
+                        <td><?php echo ucwords($row['med_name']); ?></td>
                         <td><?php echo $row['med_stock_in']; ?></td>
                         <td><?php echo $row['med_stock_out']; ?></td>
                         <td class="text-primary"><?php if(!empty($row['date_added'])) { echo date("F d, Y", strtotime($row['expiration_date'])); } ?></td>
@@ -70,7 +70,7 @@
                           <?php if(mysqli_num_rows($req) > 0): ?>
                           <a type="button" href="medicine_mgmt.php?page=<?php echo $row['med_Id']; ?>" class="btn btn-info btn-sm ml-2"><i class="fas fa-pencil-alt"></i> Edit</a>
                           <?php else: ?>
-                          <button type="button" class="btn bg-info btn-sm" data-toggle="modal" data-target="#requestupdate<?php echo $row['med_Id']; ?>"><i class="fas fa-pencil-alt"></i> Request update</button>
+                          <button type="button" class="btn bg-info btn-sm" data-toggle="modal" data-target="#requestupdate<?php echo $row['med_Id']; ?>"><i class="fas fa-pencil-alt"></i> Request edit</button>
                           <?php endif; ?>
                           <!--  <button type="button" class="btn bg-danger btn-sm" data-toggle="modal" data-target="#delete<?php echo $row['med_Id']; ?>"><i class="fas fa-trash"></i> Delete</button>-->
 

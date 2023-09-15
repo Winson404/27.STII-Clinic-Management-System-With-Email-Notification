@@ -1708,6 +1708,7 @@
 		// GET PATIENT NAME
 		$staff = mysqli_query($conn, "SELECT * FROM request_update JOIN users ON request_update.user_Id=users.user_Id WHERE request_update.req_Id='$req_Id' ");
 		$row     = mysqli_fetch_array($staff);
+		$sender_Id = $row['user_Id'];
 		$name    = $row['firstname'].' '.$row['middlename'].' '.$row['lastname'].' '.$row['suffix'];
 		$email   = $row['email'];
 		$type    = $row['req_type'];
@@ -1755,7 +1756,7 @@
 			        	
 						// SAVE NOTIFICATION
 			        	$message2 = 'Good day sir/maam '.$name.', a request to update '.$type.' records has been approved.';
-			        	$notif = mysqli_query($conn, "INSERT INTO notification (type, subject, message, sender) VALUES ('Request to edit', '$subject', '$message2', '$name') ");
+			        	$notif = mysqli_query($conn, "INSERT INTO notification (type, subject, message, sender) VALUES ('Request to edit', '$subject', '$message2', '$sender_Id') ");
 			        	if($notif) {
 			        		$_SESSION['message'] = "Request approved";
 						    $_SESSION['text'] = "Approved";

@@ -62,7 +62,7 @@
                             </a href="">
                         </td>
                         <td><?php echo ucwords($row['name']); ?></td>
-                        <td><?php echo $row['position']; ?></td>
+                        <td><?php echo ucwords($row['teacher_position']); ?></td>
                         <td><?php echo $row['sex']; ?></td>
                         <td><?php echo $row['contact']; ?></td>
                         <td class="text-primary"><?php if(!empty($row['date_registered'])) { echo date("F d, Y h:i A", strtotime($row['date_registered'])); } ?></td>

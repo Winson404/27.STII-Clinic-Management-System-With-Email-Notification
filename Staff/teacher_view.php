@@ -63,10 +63,10 @@
                               </div>
                         </div>
                         <div class="col-8">
-                          <div class="form-group">
+                          <!-- <div class="form-group">
                             <span class="text-dark"><b>Password</b></span>
                             <input type="email" class="form-control" placeholder="Password" name="name" readonly value="<?php echo $row['pass']; ?>">
-                          </div>
+                          </div> -->
                         </div>
                         <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                             <div class="form-group">

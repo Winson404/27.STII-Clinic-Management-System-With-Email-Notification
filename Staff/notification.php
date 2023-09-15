@@ -49,7 +49,7 @@
                   </thead>
                   <tbody id="users_data">
                       <?php 
-                        $sql = mysqli_query($conn, "SELECT * FROM notification WHERE sender='$id' ORDER BY notif_Id DESC ");
+                        $sql = mysqli_query($conn, "SELECT * FROM notification WHERE sender='$id' AND subject = 'Request update approved' ORDER BY notif_Id DESC ");
                         while ($row = mysqli_fetch_array($sql)) {
                       ?>
                     <tr>

@@ -149,7 +149,7 @@
                         <div class="col-12">
                             <span class="text-dark"><b>Nurse's Advice</b></span>
                             <div class="form-group">
-                                <textarea name="doctors_advice" id="" cols="30" rows="3" class="form-control" placeholder="Enter doctor's advice..."></textarea>
+                                <textarea name="doctors_advice" id="" cols="30" rows="3" class="form-control" placeholder="Enter Nurse's advice..."></textarea>
                             </div>
                         </div>
 

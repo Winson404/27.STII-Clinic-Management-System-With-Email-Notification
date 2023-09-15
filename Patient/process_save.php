@@ -54,7 +54,8 @@
 					  $save = mysqli_query($conn, "INSERT INTO appointment (appt_patient_Id, appt_date, appt_time, appt_reason) VALUES ('$patient_Id', '$appt_date', '$appt_time', '$appt_reason')");
 					  if($save) {
 
-					  		$save2 = mysqli_query($conn, "INSERT INTO notification (type, subject, message, sender) VALUES ('Appointment', 'Appointment request', '$appt_reason', '$patient_Id')");
+					  		$mess = 'Good day sir/maam '.$admin_name.', an appointment has been set by new patient named, '.$name.'.';
+					  		$save2 = mysqli_query($conn, "INSERT INTO notification (type, subject, message, reason, sender) VALUES ('Appointment', 'Appointment request', '$mess', '$appt_reason', '$patient_Id')");
 					  		if($save2) {
 
 							  	  $subject = 'Appointment request';
@@ -170,7 +171,8 @@
 					$save = mysqli_query($conn, "INSERT INTO request_doc (type, patient_Id, purpose, pick_up_date) VALUES ('$type', '$patient_Id', '$purpose', '$pick_up_date')");
 					  if($save) {
 
-					  		$save2 = mysqli_query($conn, "INSERT INTO notification (type, subject, message, sender) VALUES ('Medical certificate', 'Medical certificate request', '$purpose', '$patient_Id')");
+					  		$mess = 'Good day sir/maam '.$admin_name.', a request for medical records has been set by new patient named, '.$name.'.';
+					  		$save2 = mysqli_query($conn, "INSERT INTO notification (type, subject, message, reason, sender) VALUES ('Medical certificate', 'Medical certificate request', '$mess', '$purpose', '$patient_Id')");
 
 					  		if($save2) {
 					  			  $subject = 'Request Medical certification';
@@ -289,7 +291,8 @@
 					$save = mysqli_query($conn, "INSERT INTO request_doc (type, patient_Id, purpose, pick_up_date) VALUES ('$type', '$patient_Id', '$purpose', '$pick_up_date')");
 					  if($save) {
 
-					  	  $save2 = mysqli_query($conn, "INSERT INTO notification (type, subject, message, sender) VALUES ('Medical records', 'Medical records request', '$purpose', '$patient_Id')");
+					  	  $mess = 'Good day sir/maam '.$admin_name.', a request for medical records has been set by new patient named, '.$name.'.';
+					  	  $save2 = mysqli_query($conn, "INSERT INTO notification (type, subject, message, reason, sender) VALUES ('Medical records', 'Medical records request', '$mess', '$purpose', '$patient_Id')");
 
 					  		if($save2) {
 					  			  $subject = 'Request Medical records';

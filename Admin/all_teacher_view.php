@@ -17,12 +17,12 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-sm-6">
-            <h3>View Teacher</h3>
+            <h3>View School Staff Info</h3>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
-              <li class="breadcrumb-item active">Teacher info</li>
+              <li class="breadcrumb-item active">School Staff info</li>
             </ol>
           </div>
         </div>
@@ -76,8 +76,8 @@
                         </div>
                         <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                           <div class="form-group">
-                              <span class="text-dark"><b>Grade/Course</b></span>
-                              <input type="text" class="form-control"  placeholder="Enter grade/course" name="grade" readonly value="<?php echo $row['grade']; ?>">
+                              <span class="text-dark"><b>Position</b></span>
+                              <input type="text" class="form-control"  placeholder="Enter Position" name="teacher_position" readonly value="<?php echo $row['teacher_position']; ?>">
                           </div>
                         </div>
                         <div class="col-lg-4 col-md-6 col-sm-6 col-12">

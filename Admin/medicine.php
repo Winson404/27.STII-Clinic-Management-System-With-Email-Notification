@@ -56,8 +56,9 @@
                         while ($row = mysqli_fetch_array($sql)) {
                       ?>
                     <tr>
-                        <td><?php if($row['brand_name'] == 'Others') { echo $row['other_brand_name']; } else { echo $row['brand_name']; }; ?></td>
-                        <td><?php echo $row['med_name']; ?></td>
+                       
+                        <td><?php if($row['brand_name'] == 'Others') { echo ucwords($row['other_brand_name']); } else { echo $row['brand_name']; }; ?></td>
+                        <td><?php echo ucwords($row['med_name']); ?></td>
                         <td><?php echo $row['med_stock_in']; ?></td>
                         <td><?php echo $row['med_stock_out']; ?></td>
                         <td class="text-primary"><?php if(!empty($row['date_added'])) { echo date("F d, Y", strtotime($row['expiration_date'])); } ?></td>

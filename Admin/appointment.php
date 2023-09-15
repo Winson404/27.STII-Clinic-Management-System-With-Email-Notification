@@ -40,7 +40,7 @@
                  <table id="example1" class="table table-bordered table-hover text-sm">
                   <thead>
                   <tr>  
-                    <th>PATIENT TYPE</th>
+                    <!--<th>PATIENT TYPE</th>-->
                     <th>PATIENT NAME</th>
                     <th>APPT DATE</th>
                     <th>APPT TIME</th>
@@ -55,8 +55,8 @@
                         while ($row = mysqli_fetch_array($sql)) {
                       ?>
                     <tr>
-                        <td><?php echo $row['position']; ?></td>
-                        <td><?php echo $row['name']; ?></td>
+                        <!--<td><?php echo $row['position']; ?></td>-->
+                        <td><?php echo ucwords($row['name']); ?></td>
                         <td>
                           <?php if($row['appt_date'] == ""): ?>
                             <span class="badge badge-warning pt-1">Waiting for approval</span>

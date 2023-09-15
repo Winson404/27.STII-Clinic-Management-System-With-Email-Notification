@@ -76,8 +76,8 @@
                         </div>
                         <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                           <div class="form-group">
-                              <span class="text-dark"><b>Grade/Course</b></span>
-                              <input type="text" class="form-control"  placeholder="Enter grade/course" name="grade" readonly value="<?php echo $row['grade']; ?>">
+                              <span class="text-dark"><b>Position</b></span>
+                              <input type="text" class="form-control"  placeholder="Enter grade/course" name="grade" readonly value="<?php echo $row['teacher_position']; ?>">
                           </div>
                         </div>
                         <div class="col-lg-4 col-md-6 col-sm-6 col-12">

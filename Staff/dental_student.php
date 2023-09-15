@@ -64,7 +64,7 @@
                       ?>
                     <tr>
                         
-                        <td><?php echo $row['name']; ?></td>
+                        <td><?php echo ucwords($row['name']); ?></td>
                         <td><?php echo $row['dental_history']; ?></td>
                         <td><?php echo $row['teeth_no']; ?></td>
                         <td><?php echo $row['medicine_given']; ?></td>

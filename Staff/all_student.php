@@ -40,9 +40,10 @@
 
                  <table id="example1" class="table table-bordered table-hover text-sm">
                   <thead>
-                  <tr> 
+                  <tr>
+                    <th>PHOTO</th> 
                     <th>PATIENT NAME</th>
-                    <th>LEVEL</th>
+                    <th>YEAR & COURSE</th>
                     <th>BIRTHDAY</th>
                     <th>AGE</th>
                     <th>SEX</th>
@@ -60,9 +61,13 @@
                           $formattedDate = $datetime->format("F d, Y h:i A");
                       ?>
                     <tr>
-                        
-                        <td><?php echo $row['name']; ?></td>
-                        <td><?php echo $row['grade']; ?></td>
+                        <td>
+                            <a data-toggle="modal" data-target="#viewphoto<?php echo $row['user_Id']; ?>">
+                              <img src="../images-users/<?php echo $row['picture']; ?>" alt="" width="25" height="25" class="img-circle d-block m-auto">
+                            </a href="">
+                        </td>  
+                        <td><?php echo ucwords($row['name']); ?></td>
+                        <td><?php echo Ucwords($row['grade']); ?></td>
                         <td><?php echo $row['dob']; ?></td>
                         <td><?php echo $row['age']; ?></td>
                         <td><?php echo $row['sex']; ?></td>

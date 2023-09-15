@@ -241,14 +241,17 @@
                 ?>
                 <h3><?php echo $row_medicine; ?></h3>
 
-                <p>Medecine</p>
+                <p>Medicine</p>
               </div>
               <div class="icon">
-                <i class="fa-solid fa-bell"></i>
+                <i class="fa-solid fa-house-chimney-medical"></i>
               </div>
               <a href="medicine.php" class="small-box-footer">More Info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
+
+
+        
           
 
 

@@ -61,7 +61,7 @@
                                   <option value="Fully Vaccinated" <?php if($row['vaccine_status'] == 'Fully Vaccinated') { echo 'selected'; } ?>>Fully Vaccinated</option>
                                 </select>
                               </div>
-                        </div>
+                       </div>
                         <div class="col-8">
                           <div class="form-group">
                             <span class="text-dark"><b>Password</b></span>

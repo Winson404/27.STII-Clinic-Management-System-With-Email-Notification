@@ -36,9 +36,17 @@
                     <?php endif; ?>
                     
                 </div>
-                <h3 class="profile-username text-center"><?php echo $row['name']; ?></h3>
-                <p class="text-muted text-center"><?php echo $row['position']; ?></p>
-                <button type="button" class="btn bg-gradient-primary btn-block" data-toggle="modal" data-target="#viewMyProfile">Profile</button>
+                <h3 class="profile-username text-center"><?php echo ucwords($row['name']); ?></h3>
+                <p class="text-muted text-center">
+                  <?php   
+                  if($row['position'] == 'Student') {
+                    echo $row['position'];
+                  } else {
+                    echo $row['teacher_position'];
+                  }
+                  ?>
+                </p>
+                <button type="button" class="btn bg-gradient-primary btn-block" data-toggle="modal" data-target="#viewMyProfile">View your profile</button>
               </div>
             </div>
 

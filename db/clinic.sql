@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 21, 2023 at 02:26 PM
+-- Generation Time: Sep 15, 2023 at 08:34 AM
 -- Server version: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `announcement` (
 `actId` int(11) NOT NULL,
   `actName` text NOT NULL,
   `date_added` varchar(20) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `announcement`
@@ -44,7 +44,8 @@ INSERT INTO `announcement` (`actId`, `actName`, `date_added`) VALUES
 (8, 'gfdgfd', '2022-12-27'),
 (9, 'Newd', '2023-06-08'),
 (10, 'fd', '2023-06-08'),
-(11, 'fdfdsfsfdsfsdfdsfs', '2023-06-08');
+(11, 'fdfdsfsfdsfsdfdsfs', '2023-06-08'),
+(12, 'SAMPLE ANNOUNCEMENT', '2023-09-12');
 
 -- --------------------------------------------------------
 
@@ -60,14 +61,14 @@ CREATE TABLE IF NOT EXISTS `appointment` (
   `appt_reason` text NOT NULL,
   `appt_status` int(11) NOT NULL DEFAULT '0' COMMENT '0=Pending, 1=Approved, 2=Denied, 3=Settled',
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `appointment`
 --
 
 INSERT INTO `appointment` (`appt_Id`, `appt_patient_Id`, `appt_date`, `appt_time`, `appt_reason`, `appt_status`, `date_added`) VALUES
-(15, 68, '2023-07-14', '12:16', 'dsa', 0, '2023-07-12 04:13:45');
+(3, 68, '2023-09-29', '14:07', 'Sample reason', 1, '2023-09-15 06:05:37');
 
 -- --------------------------------------------------------
 
@@ -174,20 +175,20 @@ CREATE TABLE IF NOT EXISTS `medicine` (
   `med_stock_out` varchar(100) NOT NULL,
   `expiration_date` varchar(100) NOT NULL,
   `date_added` varchar(100) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
 -- Dumping data for table `medicine`
 --
 
 INSERT INTO `medicine` (`med_Id`, `brand_name`, `other_brand_name`, `med_name`, `med_stock_in`, `med_stock_in_orig`, `med_stock_out`, `expiration_date`, `date_added`) VALUES
-(3, 'Generic', '', 'sample', '1', '23', '22', '2023-08-22', '2023-06-20 04:24 PM'),
-(4, 'Others', 'Sample', 'SampleSample', '23', '0', '0', '2023-06-29', '2023-06-20 04:25 PM'),
-(5, 'Others', 'Others Kini', 'Others Kini', '11', '0', '0', '2023-06-29', '2023-06-20 04:47 PM'),
-(6, 'Others', 'ds', 'fsdf', '34', '0', '0', '2023-07-06', '2023-06-20 04:47 PM'),
-(7, 'Generic', '', 'Alright', '1000', '1000', '111', '2023-07-07', '2023-06-20 05:10 PM'),
-(8, 'RiteMed', '', 'dsadsa', '23', '23', '0', '2023-07-27', '2023-07-12 12:49 PM'),
-(9, 'RiteMed', '', 'dsadasda', '21fsfdsf', '21fsfdsf', '', '2023-07-29', '2023-07-12 12:49 PM');
+(3, 'Generic', '', 'sample', '1 Tablets', '1 Tablets', '22', '2023-12-11', '2023-06-20 04:24 PM'),
+(6, 'Others', 'ds', 'fsdf', '28', '0', '6', '2023-07-06', '2023-06-20 04:47 PM'),
+(7, 'Generic', '', 'Alright', '978', '1000', '133', '2023-07-07', '2023-06-20 05:10 PM'),
+(8, 'RiteMed', '', 'dsadsa', '65', '70', '60', '2028-06-06', '2023-07-12 12:49 PM'),
+(9, 'RiteMed', '', 'dsadasda', '21fsfdsf', '21fsfdsf', '', '2023-07-29', '2023-07-12 12:49 PM'),
+(10, 'Others', 'Sample Med', 'Sample MedSample Med', '15 tablets', '24 tablets', '10', '2023-10-05', '2023-09-12 09:48 PM'),
+(11, 'Others', 'fdsfsdfsfsdf', 'sfsdfsdfsdfsdf', '1321 tablets', '1321 tablets', '', '2023-10-06', '2023-09-12 09:50 PM');
 
 -- --------------------------------------------------------
 
@@ -200,26 +201,23 @@ CREATE TABLE IF NOT EXISTS `notification` (
   `type` varchar(100) NOT NULL,
   `subject` varchar(255) NOT NULL,
   `message` text NOT NULL,
+  `reason` text NOT NULL,
   `sender` int(11) NOT NULL,
   `date_sent` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=41 ;
 
 --
 -- Dumping data for table `notification`
 --
 
-INSERT INTO `notification` (`notif_Id`, `type`, `subject`, `message`, `sender`, `date_sent`) VALUES
-(2, 'Appointment', 'Appointment denied', 'Good day sir/maam Faculty patient, your appointment has been denied.', 68, '2023-07-05 16:32:48'),
-(3, 'Appointment', 'Appointment approved', 'Good day sir/maam Faculty patient, your appointment has been approved. Your schedule will be on  at exactly .', 68, '2023-07-05 15:47:31'),
-(4, 'Appointment', 'Appointment request', 'dsa', 68, '2023-07-12 04:13:45'),
-(6, 'Request to edit', 'Request update approved', 'Good day sir/maam Staff Staff Staff , a request to update Medical Student records has been denied.', 0, '2023-07-12 04:18:27'),
-(7, 'Dental update', 'Dental records', 'Request to update Dental records', 67, '2023-07-12 05:52:09'),
-(8, 'Student records update', 'Student records records', 'Request to update Student records records', 67, '2023-07-12 06:51:24'),
-(10, 'Medicine update', 'Medicine records', 'Request to update Medicine records', 67, '2023-07-12 06:52:13'),
-(11, 'Dental student update', 'Dental records', 'Request to update Dental student records', 67, '2023-07-12 06:52:24'),
-(12, 'Student Physical Exam update', 'Student hysical Exam records', 'Request to update Student Physical Exam records', 67, '2023-07-12 06:56:39'),
-(13, 'Student Consultation update', 'Student Consultation records', 'Request to update Student Consultation records', 67, '2023-07-12 06:56:48'),
-(14, 'Dental teacher update', 'Dental records', 'Request to update Dental teacher records', 67, '2023-07-12 06:57:05');
+INSERT INTO `notification` (`notif_Id`, `type`, `subject`, `message`, `reason`, `sender`, `date_sent`) VALUES
+(34, 'Appointment', 'Appointment request', 'Good day sir/maam Erwin Cabag Son , an appointment has been set by new patient named, Faculty patient.</p>\r\n							      <p><b>NOTE:</b> This is a system generated email. Please do not reply.', 'Sample reason', 68, '2023-09-15 06:02:10'),
+(35, 'Appointment', 'Appointment request', 'Good day sir/maam Erwin Cabag Son , an appointment has been set by new patient named, Faculty patient.', 'Sample reason', 68, '2023-09-15 06:03:09'),
+(36, 'Appointment', 'Appointment approved', 'Good day sir/maam Faculty patient, your appointment has been approved. Your schedule will be on  at exactly .', '', 68, '2023-09-15 06:05:40'),
+(37, 'Medical certificate', 'Medical certificate request', 'Good day sir/maam Erwin Cabag Son , a request for medical records has been set by new patient named, Faculty patient.', 'Medical certificate sample reason', 68, '2023-09-15 06:08:21'),
+(38, 'Medical records', 'Medical records request', 'Good day sir/maam Erwin Cabag Son , a request for medical records has been set by new patient named, Faculty patient.', 'Medical records sample reason', 68, '2023-09-15 06:11:26'),
+(39, 'Request to edit', 'Request update approved', 'Good day sir/maam Staff Staff Staff , a request to update Student update records has been approved.', '', 67, '2023-09-15 06:22:59'),
+(40, 'Request to edit', 'Request update approved', 'Good day sir/maam Staff Staff Staff , a request to update Teacher update records has been approved.', '', 67, '2023-09-15 06:25:22');
 
 -- --------------------------------------------------------
 
@@ -295,8 +293,8 @@ CREATE TABLE IF NOT EXISTS `patient` (
 --
 
 INSERT INTO `patient` (`user_Id`, `vaccine_status`, `position`, `name`, `grade`, `teacher_position`, `dob`, `age`, `sex`, `address`, `religion`, `contact`, `email`, `parentName`, `parentContact`, `illness`, `pastMedical`, `surgicalHistory`, `blood_type`, `height`, `weight`, `allergy`, `password`, `pass`, `nutritional_Immunization`, `familyHistory`, `socialHistory`, `packsYears`, `environment`, `frequency`, `general`, `hematologic`, `endocrine`, `extremities`, `skin`, `head`, `vision`, `Eyes`, `ears`, `nose`, `mouthThroat`, `yearsMonths`, `neck`, `Breast`, `Respiratory`, `Cardiovascular`, `Gastrointestinal`, `peripheralvascular`, `freq_urinary`, `Urinary`, `male`, `age_menarche`, `female`, `muscularSkeletal`, `Psychiatric`, `Neurologic`, `NeurologicExam`, `picture`, `verification_code`, `date_registered`) VALUES
-(68, '1st Booster', 'Teacher', 'Faculty patient', 'Sampl12345', 'Teachers', '2021-02-03', '2 years old', 'Male', 'Sampl', 'dsdssd123', '9359428963', 'patient@gmail.com', 'Sampl', '9359428963', 'Sampl', 'Sampl', 'Sampl', '1243', '12', '12', 'fds', '0192023a7bbd73250516f069df18b500', 'admin123', 'Complete immunization,Incomplete immunization,Normal Filipino Diet,High Protein Diet', 'Asthma,Hypertension,Cancer,Boold Dyscracis', 'Non-Smoker,Occasional Alcoholic Beverage Drinker', 'NA', 'NA', 'NA', 'Weight loss,Weakness', 'Anemia,Easy Bruising or Bleeding', 'Heat and Cold Tolerance,Excessive Sweating', 'Good Pulse,Weak Pulse', 'Rashes,Moles', 'Headache,Diziness,Head injury', 'Good', 'Eye pain,Blurring of Vision', 'Ear infection,Ear Pain', 'Nasal Discharge,Nose Bleeding,None', 'Bleeding Gums,None', 'NA', 'Goiter,Lamps', 'Lumps,Pain', 'Cough,Haemoptysis', 'Chest Pain,Palpitation,Edema', 'Heart Burn,Constipation,Loss of Appetite,Nausea & Vomiting', 'Leg Cramps,Varicose Veins', '3', 'Dysuria,Haematuria,Kidney Stone', 'Discharges/Sore on the penis,Testicular Pain or Mass', '43', 'Itching,Vaginal Discharge,Sores,Lumps', 'Muscle of Joint Pain,Arthritis,Backache,Inflammation,History of Trauma', 'Nervousness,Depression', 'Change of Moods,Headache,Dizziness,Blackouts,Loss of Sensation,Tremors', 'GCS 15,Oriented to Time and Place,Intact CN,5/5 Motor Strength Bilateral U/L Extremities', 'aisat.png', 357842, '2023-07-05 15:58:42'),
-(70, 'Fully Vaccinated', 'Student', 'Student', 'dsfdsf', '', '', '43', 'Female', 'fdsfd', '', '9359428963', 'adfdsmin@gmail.com', 'fdsf', '9359428963', 'fdsf', 'dsfsdf', 'fdsf', 'sfds', 'sdfsd', 'fdsf', 'ds', '0192023a7bbd73250516f069df18b500', 'admin123', '', '', '', 'NA', 'NA', 'NA', '', '', '', '', '', '', '', '', '', '', '', 'NA', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '13.jpg', 0, '2023-07-16 05:52:23'),
+(68, '1st Booster', 'Teacher', 'Faculty patient', 'Sampl12345', 'Teacher', '2021-02-03', '2 years old', 'Male', 'Sampl', 'dsdssd123', '9359428963', 'christinegutierez16@gmail.com', 'Sampl', '9359428963', 'Sampl', 'Sampl', 'Sampl', '1243', '12', '12', 'fds', '0192023a7bbd73250516f069df18b500', 'admin123', 'Complete immunization,Incomplete immunization,Normal Filipino Diet,High Protein Diet', 'Asthma,Hypertension,Cancer,Boold Dyscracis', 'Non-Smoker,Occasional Alcoholic Beverage Drinker', 'NA', 'NA', 'NA', 'Weight loss,Weakness', 'Anemia,Easy Bruising or Bleeding', 'Heat and Cold Tolerance,Excessive Sweating', 'Good Pulse,Weak Pulse', 'Rashes,Moles', 'Headache,Diziness,Head injury', 'Good', 'Eye pain,Blurring of Vision', 'Ear infection,Ear Pain', 'Nasal Discharge,Nose Bleeding,None', 'Bleeding Gums,None', 'NA', 'Goiter,Lamps', 'Lumps,Pain', 'Cough,Haemoptysis', 'Chest Pain,Palpitation,Edema', 'Heart Burn,Constipation,Loss of Appetite,Nausea & Vomiting', 'Leg Cramps,Varicose Veins', '3', 'Dysuria,Haematuria,Kidney Stone', 'Discharges/Sore on the penis,Testicular Pain or Mass', '43', 'Itching,Vaginal Discharge,Sores,Lumps', 'Muscle of Joint Pain,Arthritis,Backache,Inflammation,History of Trauma', 'Nervousness,Depression', 'Change of Moods,Headache,Dizziness,Blackouts,Loss of Sensation,Tremors', 'GCS 15,Oriented to Time and Place,Intact CN,5/5 Motor Strength Bilateral U/L Extremities', 'aisat.png', 357842, '2023-09-15 06:29:03'),
+(70, 'Fully Vaccinated', 'Student', 'Student', 'dsfdsf', '', '', '43', 'Female', 'fdsfd', '', '9359428963', 'student@gmail.com', 'fdsf', '9359428963', 'fdsf', 'dsfsdf', 'fdsf', 'sfds', 'sdfsd', 'fdsf', 'ds', '0192023a7bbd73250516f069df18b500', 'admin123', '', '', '', 'NA', 'NA', 'NA', '', '', '', '', '', '', '', '', '', '', '', 'NA', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '13.jpg', 0, '2023-09-15 06:29:15'),
 (71, 'Fully Vaccinated', 'Teacher', 'Faculty ko', 'Student', '', '', '23', 'Male', 'Student', '', '9359428963', 'patient2@gmail.com', 'Student', '9359428963', 'Student', 'Student', 'Student', '324', '3fd23', '2324', 'Student', '', '', '', 'Asthma,Hypertension', '', 'NA', 'NA', 'NA', '', '', '', '', '', '', '', '', 'Tinnitus,Ear infection,Ear Discharge,Ear Pain', '', '', 'NA', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2.jpg', 0, '2023-06-20 17:20:23'),
 (72, 'Fully Vaccinated', 'Student', 'Dariel', 'Dariel', '', '', '23', 'Male', 'Dariel', '', '9359428963', '', 'Dariel', '9359428963', 'Dariel', 'Dariel', 'Dariel', 'Dariel', 'Dariel', 'Dariel', 'Dariel', '', '', '', '', '', 'NA', 'NA', 'NA', '', '', '', '', '', '', '', '', '', '', '', 'NA', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'aics.jpg', 0, '2023-05-28 11:19:01'),
 (75, 'Fully Vaccinated', 'Student', 'Lito', 'Lito', '', '', '2', 'Male', 'Lito', '', '9359428963', '', 'Lito', '9359428963', 'Lito', 'Lito', 'Lito', 'Lito', 'Lito', 'Lito', 'Lito', '0d2f648242b071a890dbc370e6c726da', '', '', '', '', 'NA', 'NA', 'NA', '', '', '', '', '', '', '', '', '', '', '', 'NA', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '24.jpg', 0, '2023-06-07 18:16:50'),
@@ -369,15 +367,16 @@ CREATE TABLE IF NOT EXISTS `request_doc` (
   `pick_up_date` varchar(100) NOT NULL,
   `req_status` int(11) NOT NULL DEFAULT '0' COMMENT '0=Pending, 1=Processing, 2=Ready to pick-up, 3=Released',
   `date_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `request_doc`
 --
 
 INSERT INTO `request_doc` (`req_Id`, `type`, `patient_Id`, `purpose`, `pick_up_date`, `req_status`, `date_created`) VALUES
-(3, 'Medical Records', 68, 'dsadasfsdfdsfsdf123', '2023-07-29', 2, '2023-07-12 05:37:18'),
-(4, 'Medical Certificate', 68, 'dsadsa', '2023-07-26', 2, '2023-07-12 05:37:26');
+(6, 'Medical Records', 68, 'fdsf', '2023-09-13', 3, '2023-09-15 06:01:21'),
+(7, 'Medical Certificate', 68, 'Medical certificate sample reason', '2023-09-28', 3, '2023-09-15 06:11:12'),
+(8, 'Medical Records', 68, 'Medical records sample reason', '2023-10-05', 0, '2023-09-15 06:11:26');
 
 -- --------------------------------------------------------
 
@@ -389,22 +388,19 @@ CREATE TABLE IF NOT EXISTS `request_update` (
 `req_Id` int(11) NOT NULL,
   `user_Id` int(11) NOT NULL,
   `req_type` varchar(100) NOT NULL,
-  `req_status` int(11) NOT NULL DEFAULT '0' COMMENT '0=Requesting, 0-Approved, 2=Denied',
+  `req_status` int(11) NOT NULL DEFAULT '0' COMMENT '0=Requesting, 1-Approved, 2=Denied',
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=25 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=29 ;
 
 --
 -- Dumping data for table `request_update`
 --
 
 INSERT INTO `request_update` (`req_Id`, `user_Id`, `req_type`, `req_status`, `date_added`) VALUES
-(18, 67, 'Student update', 0, '2023-07-12 06:51:24'),
-(19, 67, 'Teacher update', 0, '2023-07-12 06:51:41'),
-(20, 67, 'Medicine', 1, '2023-07-12 06:52:13'),
-(21, 67, 'Dental Student', 0, '2023-07-12 06:52:24'),
-(22, 67, 'Physical Student', 0, '2023-07-12 06:56:39'),
-(23, 67, 'Consultation Student', 0, '2023-07-12 06:56:48'),
-(24, 67, 'Dental Teacher', 0, '2023-07-12 06:57:05');
+(25, 67, 'Student update', 1, '2023-09-15 06:19:44'),
+(26, 67, 'Teacher update', 1, '2023-09-15 06:25:19'),
+(27, 67, 'Medicine', 0, '2023-09-12 14:43:32'),
+(28, 67, 'Dental Student', 0, '2023-09-12 14:43:52');
 
 -- --------------------------------------------------------
 
@@ -534,12 +530,12 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `announcement`
 --
 ALTER TABLE `announcement`
-MODIFY `actId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+MODIFY `actId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `appointment`
 --
 ALTER TABLE `appointment`
-MODIFY `appt_Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
+MODIFY `appt_Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `consultation`
 --
@@ -559,12 +555,12 @@ MODIFY `form2_Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 -- AUTO_INCREMENT for table `medicine`
 --
 ALTER TABLE `medicine`
-MODIFY `med_Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+MODIFY `med_Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `notification`
 --
 ALTER TABLE `notification`
-MODIFY `notif_Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
+MODIFY `notif_Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=41;
 --
 -- AUTO_INCREMENT for table `patient`
 --
@@ -579,12 +575,12 @@ MODIFY `physical_Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=83;
 -- AUTO_INCREMENT for table `request_doc`
 --
 ALTER TABLE `request_doc`
-MODIFY `req_Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+MODIFY `req_Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `request_update`
 --
 ALTER TABLE `request_update`
-MODIFY `req_Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=25;
+MODIFY `req_Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT for table `users`
 --

@@ -184,6 +184,20 @@
             </div>
           </div>
 
+          <div class="col-lg-3 col-6">
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h3 class="text-info">Hidden text</h3>
+
+                <p>All records</p>
+              </div>
+              <div class="icon">
+                <i class="fa-solid fa-bell"></i>
+              </div>
+              <a href="all_student_view.php?student_Id=<?= $id; ?>" class="small-box-footer">More Info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+
 
           
 

@@ -17,12 +17,12 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-sm-6">
-            <h3>View Student</h3>
+            <h3>My records</h3>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
-              <li class="breadcrumb-item active">Student info</li>
+              <li class="breadcrumb-item active">My records</li>
             </ol>
           </div>
         </div>

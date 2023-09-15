@@ -41,7 +41,7 @@
                   <thead>
                   <tr> 
                     <th>PATIENT NAME</th>
-                    <th>POSITION</th>
+                    <!--<th>POSITION</th>-->
                     <th>PURPOSE</th>
                     <th>PICK UP DATE</th>
                     <th>DATE REQUESTED</th>
@@ -56,8 +56,8 @@
                         while ($row = mysqli_fetch_array($sql)) {
                       ?>
                     <tr>
-                        <td><?php echo $row['name']; ?></td>
-                        <td><?php echo $row['position']; ?></td>
+                        <td><?php echo ucwords($row['name']); ?></td>
+                        <!--<td><?php echo $row['position']; ?></td>-->
                         <td><?php echo $row['purpose']; ?></td>
                         <td><?php echo date("F d, Y h:i A", strtotime($row['pick_up_date'])); ?></td>
                         <td class="text-primary"><?php echo date("F d, Y h:i A", strtotime($row['date_created'])); ?></td>

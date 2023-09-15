@@ -8,12 +8,12 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-sm-6">
-            <h3>All Faculty records</h3>
+            <h3>All School Staff records</h3>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
-              <li class="breadcrumb-item active">All Faculty records</li>
+              <li class="breadcrumb-item active">All School Staff records</li>
             </ol>
           </div>
         </div>
@@ -40,9 +40,10 @@
 
                  <table id="example1" class="table table-bordered table-hover text-sm">
                   <thead>
-                  <tr> 
+                  <tr>
+                    <th>PHOTO</th> 
                     <th>PATIENT NAME</th>
-                    <th>LEVEL</th>
+                    <th>POSITION</th>
                     <th>BIRTHDAY</th>
                     <th>AGE</th>
                     <th>SEX</th>
@@ -60,9 +61,13 @@
                           $formattedDate = $datetime->format("F d, Y h:i A");
                       ?>
                     <tr>
-                        
-                        <td><?php echo $row['name']; ?></td>
-                        <td><?php echo $row['grade']; ?></td>
+                    <td>
+                            <a data-toggle="modal" data-target="#viewphoto<?php echo $row['user_Id']; ?>">
+                              <img src="../images-users/<?php echo $row['picture']; ?>" alt="" width="25" height="25" class="img-circle d-block m-auto">
+                            </a href="">
+                        </td>  
+                        <td><?php echo ucwords($row['name']); ?></td>
+                        <td><?php echo ucwords($row['teacher_position']); ?></td>
                         <td><?php echo $row['dob']; ?></td>
                         <td><?php echo $row['age']; ?></td>
                         <td><?php echo $row['sex']; ?></td>

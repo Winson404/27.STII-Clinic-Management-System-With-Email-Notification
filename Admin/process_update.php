@@ -193,6 +193,7 @@
 		$email		              = mysqli_real_escape_string($conn, $_POST['email']);
 		$parentName		          = mysqli_real_escape_string($conn, $_POST['parentName']);
 		$parentContact	          = mysqli_real_escape_string($conn, $_POST['parentContact']);
+		$guardianName             = mysqli_real_escape_string($conn, $_POST['guardianName']);
 		$illness		          = mysqli_real_escape_string($conn, $_POST['illness']);
 		$pastMedical	          = mysqli_real_escape_string($conn, $_POST['pastMedical']);
 		$surgicalHistory          = mysqli_real_escape_string($conn, $_POST['surgicalHistory']);
@@ -394,7 +395,7 @@
 			} else {
 
 				if(empty($file)) {
-					$update = mysqli_query($conn, "UPDATE patient SET vaccine_status='$vaccine_status', civil_status='$civil_status', name='$name', grade='$grade', dob='$dob', age='$age', sex='$sex', address='$address', religion='$religion', contact='$contact', email='$email', parentName='$parentName', parentContact='$parentContact', illness='$illness', pastMedical='$pastMedical', surgicalHistory='$surgicalHistory', blood_type='$blood_type', height='$height', weight='$weight', allergy='$allergy', nutritional_Immunization='$nutritional_Immunization', familyHistory='$familyHistory', socialHistory='$socialHistory', packsYears='$packsYears', environment='$environment', frequency='$frequency', general='$general', hematologic='$hematologic', endocrine='$endocrine', extremities='$extremities', skin='$skin', head='$head', vision='$vision', Eyes='$Eyes', ears='$ears', nose='$nose', mouthThroat='$mouthThroat', yearsMonths='$yearsMonths', neck='$neck', Breast='$Breast', Respiratory='$Respiratory', Cardiovascular='$Cardiovascular', Gastrointestinal='$Gastrointestinal', peripheralvascular='$peripheralvascular', freq_urinary='$freq_urinary', Urinary='$Urinary', male='$male', age_menarche='$age_menarche', female='$female', muscularSkeletal='$muscularSkeletal', Psychiatric='$Psychiatric', Neurologic='$Neurologic', NeurologicExam='$NeurologicExam' WHERE user_Id='$student_Id' ");
+					$update = mysqli_query($conn, "UPDATE patient SET vaccine_status='$vaccine_status', civil_status='$civil_status', name='$name', grade='$grade', dob='$dob', age='$age', sex='$sex', address='$address', religion='$religion', contact='$contact', email='$email', parentName='$parentName', parentContact='$parentContact', guardianName='$guardianName', illness='$illness', pastMedical='$pastMedical', surgicalHistory='$surgicalHistory', blood_type='$blood_type', height='$height', weight='$weight', allergy='$allergy', nutritional_Immunization='$nutritional_Immunization', familyHistory='$familyHistory', socialHistory='$socialHistory', packsYears='$packsYears', environment='$environment', frequency='$frequency', general='$general', hematologic='$hematologic', endocrine='$endocrine', extremities='$extremities', skin='$skin', head='$head', vision='$vision', Eyes='$Eyes', ears='$ears', nose='$nose', mouthThroat='$mouthThroat', yearsMonths='$yearsMonths', neck='$neck', Breast='$Breast', Respiratory='$Respiratory', Cardiovascular='$Cardiovascular', Gastrointestinal='$Gastrointestinal', peripheralvascular='$peripheralvascular', freq_urinary='$freq_urinary', Urinary='$Urinary', male='$male', age_menarche='$age_menarche', female='$female', muscularSkeletal='$muscularSkeletal', Psychiatric='$Psychiatric', Neurologic='$Neurologic', NeurologicExam='$NeurologicExam' WHERE user_Id='$student_Id' ");
 
 	              	  if($update) {
 			          	$_SESSION['message'] = "Student record has been updated!";
@@ -453,7 +454,7 @@
 				    } else {
 
 			        	if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-			        		$update = mysqli_query($conn, "UPDATE patient SET vaccine_status='$vaccine_status', civil_status='$civil_status', name='$name', grade='$grade', dob='$dob', age='$age', sex='$sex', address='$address', religion='$religion', contact='$contact', email='$email', parentName='$parentName', parentContact='$parentContact', illness='$illness', pastMedical='$pastMedical', surgicalHistory='$surgicalHistory', blood_type='$blood_type', height='$height', weight='$weight', allergy='$allergy', nutritional_Immunization='$nutritional_Immunization', familyHistory='$familyHistory', socialHistory='$socialHistory', packsYears='$packsYears', environment='$environment', frequency='$frequency', general='$general', hematologic='$hematologic', endocrine='$endocrine', extremities='$extremities', skin='$skin', head='$head', vision='$vision', Eyes='$Eyes', ears='$ears', nose='$nose', mouthThroat='$mouthThroat', yearsMonths='$yearsMonths', neck='$neck', Breast='$Breast', Respiratory='$Respiratory', Cardiovascular='$Cardiovascular', Gastrointestinal='$Gastrointestinal', peripheralvascular='$peripheralvascular', freq_urinary='$freq_urinary', Urinary='$Urinary', male='$male', age_menarche='$age_menarche', female='$female', muscularSkeletal='$muscularSkeletal', Psychiatric='$Psychiatric', Neurologic='$Neurologic', NeurologicExam='$NeurologicExam', picture='$file' WHERE user_Id='$student_Id' ");
+			        		$update = mysqli_query($conn, "UPDATE patient SET vaccine_status='$vaccine_status', civil_status='$civil_status', name='$name', grade='$grade', dob='$dob', age='$age', sex='$sex', address='$address', religion='$religion', contact='$contact', email='$email', parentName='$parentName', parentContact='$parentContact', guardianName='$guardianName', illness='$illness', pastMedical='$pastMedical', surgicalHistory='$surgicalHistory', blood_type='$blood_type', height='$height', weight='$weight', allergy='$allergy', nutritional_Immunization='$nutritional_Immunization', familyHistory='$familyHistory', socialHistory='$socialHistory', packsYears='$packsYears', environment='$environment', frequency='$frequency', general='$general', hematologic='$hematologic', endocrine='$endocrine', extremities='$extremities', skin='$skin', head='$head', vision='$vision', Eyes='$Eyes', ears='$ears', nose='$nose', mouthThroat='$mouthThroat', yearsMonths='$yearsMonths', neck='$neck', Breast='$Breast', Respiratory='$Respiratory', Cardiovascular='$Cardiovascular', Gastrointestinal='$Gastrointestinal', peripheralvascular='$peripheralvascular', freq_urinary='$freq_urinary', Urinary='$Urinary', male='$male', age_menarche='$age_menarche', female='$female', muscularSkeletal='$muscularSkeletal', Psychiatric='$Psychiatric', Neurologic='$Neurologic', NeurologicExam='$NeurologicExam', picture='$file' WHERE user_Id='$student_Id' ");
 
 		              	  if($update) {
 				          	$_SESSION['message'] = "Student record has been updated!";
@@ -1216,6 +1217,9 @@
 		$patient_Id = $row['appt_patient_Id'];
 		$name       = $row['name'];
 		$email      = $row['email'];
+		$appt_date  = $row['appt_date'];
+		$appt_time  = $row['appt_time'];
+
 
 		
 		    
@@ -1338,9 +1342,8 @@
 		$vital_sign        = mysqli_real_escape_string($conn, $_POST['vital_sign']);
 		$diagnosis         = mysqli_real_escape_string($conn, $_POST['diagnosis']);
 		$medical_advised   = mysqli_real_escape_string($conn, $_POST['medical_advised']);
-		$medical_personnel = mysqli_real_escape_string($conn, $_POST['medical_personnel']);
 
-		$save = mysqli_query($conn, "UPDATE form2 SET patient_Id='$patient_Id', vs_bp='$vs_bp', pr='$pr', rr='$rr', temperature='$temperature', vital_sign='$vital_sign', diagnosis='$diagnosis', medical_advised='$medical_advised', medical_personnel='$medical_personnel' WHERE form2_Id='$form2_Id' ");
+		$save = mysqli_query($conn, "UPDATE form2 SET patient_Id='$patient_Id', vs_bp='$vs_bp', pr='$pr', rr='$rr', temperature='$temperature', vital_sign='$vital_sign', diagnosis='$diagnosis', medical_advised='$medical_advised' WHERE form2_Id='$form2_Id' ");
 
 		  if($save) {
 		  	$_SESSION['message'] = "Record has been updated.";
@@ -1357,7 +1360,33 @@
 
 
 
+	// UPDATE ASKING MEDICINE - ASKING_MED_MGMT.PHP
+	if(isset($_POST['update_asking_med'])) {
+		$asking_med_Id     = mysqli_real_escape_string($conn, $_POST['asking_med_Id']);
+		$patient_Id        = mysqli_real_escape_string($conn, $_POST['patient_Id']);
+		$pr                = mysqli_real_escape_string($conn, $_POST['pr']);
+		$temperature       = mysqli_real_escape_string($conn, $_POST['temperature']);
+		$vital_sign        = mysqli_real_escape_string($conn, $_POST['vital_sign']);
+		$medical_advised   = mysqli_real_escape_string($conn, $_POST['medical_advised']);
+		$medicine_given    = mysqli_real_escape_string($conn, $_POST['medicine_given']);
+		$chief_complaints  = mysqli_real_escape_string($conn, $_POST['chief_complaints']);
 
+		$save = mysqli_query($conn, "UPDATE asking_med SET patient_Id='$patient_Id', pr='$pr', temperature='$temperature', vital_sign='$vital_sign', medical_advised='$medical_advised', medicine_given='$medicine_given', chief_complaints='$chief_complaints' WHERE asking_med_Id='$asking_med_Id' ");
+
+		  if($save) {
+		  	$_SESSION['message'] = "Record has been updated.";
+		    $_SESSION['text'] = "Updated successfully!";
+		    $_SESSION['status'] = "success";
+			header("Location: asking_med_mgmt.php?page=".$asking_med_Id);
+		  } else {
+		    $_SESSION['message'] = "Something went wrong while saving the information.";
+		    $_SESSION['text'] = "Please try again.";
+		    $_SESSION['status'] = "error";
+			header("Location: asking_med_mgmt.php?page=".$asking_med_Id);
+		  }
+	}
+
+	
 
 
 	// UPDATE PHYSICAL EXAM CONSULTATION - PHYSICAL_MGMT.PHP
@@ -1510,6 +1539,7 @@
 		$brand_name       = mysqli_real_escape_string($conn, $_POST['brand_name']);
 		$other_brand_name = mysqli_real_escape_string($conn, $_POST['other_brand_name']);
 		$med_name         = mysqli_real_escape_string($conn, $_POST['med_name']);
+		$milligrams       = mysqli_real_escape_string($conn, $_POST['milligrams']);
 		$med_stock_in     = mysqli_real_escape_string($conn, $_POST['med_stock_in']);
 		$expiration_date  = mysqli_real_escape_string($conn, $_POST['expiration_date']);
 
@@ -1527,7 +1557,7 @@
 			    $_SESSION['status'] = "error";
 			    header("Location: medicine_mgmt.php?page=".$med_Id);
 			} else {
-				  $update = mysqli_query($conn, "UPDATE medicine SeT brand_name='$brand_name', other_brand_name='$other_brand_name', med_name='$med_name', med_stock_in='$med_stock_in', med_stock_in_orig='$med_stock_in', expiration_date='$expiration_date' WHERE med_Id='$med_Id' ");
+				  $update = mysqli_query($conn, "UPDATE medicine SeT brand_name='$brand_name', other_brand_name='$other_brand_name', med_name='$med_name', milligrams='$milligrams', med_stock_in='$med_stock_in', med_stock_in_orig='$med_stock_in', expiration_date='$expiration_date' WHERE med_Id='$med_Id' ");
 
 				  if($update) {
 				  	$_SESSION['message'] = "Record has been updated.";

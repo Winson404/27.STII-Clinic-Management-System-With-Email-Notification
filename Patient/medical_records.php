@@ -69,7 +69,12 @@
                         </td>
                         <td class="text-primary"><?php echo date("F d, Y h:i A", strtotime($row['date_created'])); ?></td>
                         <td>
+                          <?php if($row['req_status'] == 0): ?>
                           <button type="button" class="btn bg-info btn-sm" data-toggle="modal" data-target="#update_medical_records<?php echo $row['req_Id']; ?>"><i class="fas fa-pencil-alt"></i> Edit</button>
+                          <?php else: ?>
+                           <button type="button" class="btn bg-info btn-sm" data-toggle="modal" data-target="#update_medical_records<?php echo $row['req_Id']; ?>" disabled><i class="fas fa-pencil-alt"></i> Edit</button>
+                          <?php endif; ?>
+                          
                            <!-- <button type="button" class="btn bg-danger btn-sm" data-toggle="modal" data-target="#delete_medical_records<?php echo $row['req_Id']; ?>"><i class="fas fa-trash"></i> Delete</button>-->
                         </td> 
                     </tr>

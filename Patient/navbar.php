@@ -189,62 +189,90 @@
       </li> -->
 
       <!-- Notifications Dropdown Menu -->
-      <?php 
+      <!-- <?php 
 
-        $get = mysqli_query($conn, "SELECT * FROM announcement ORDER BY actId DESC LIMIT 5");
-        $count = mysqli_num_rows($get);
+        //$get = mysqli_query($conn, "SELECT * FROM announcement ORDER BY actId DESC LIMIT 5");
+        //$count = mysqli_num_rows($get);
 
         // LIMIT NUMBER OF CHARACTERS
-        function custom_echo($x, $length)
-        {
-          if(strlen($x)<=$length) {
-            echo $x;
-          } else {
-            $y=substr($x,0,$length) . '...';
-            echo $y;
-          }
-        }
+       // function custom_echo($x, $length)
+       // {
+       //   if(strlen($x)<=$length) {
+       //     echo $x;
+       //   } else {
+       //     $y=substr($x,0,$length) . '...';
+       //     echo $y;
+       //   }
+       // }
 
       ?>
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge"><?php echo $count; ?></span>
+          <span class="badge badge-warning navbar-badge"><?php// echo $count; ?></span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <span class="dropdown-item dropdown-header">
             <?php 
-                if(mysqli_num_rows($get) < 1) { 
-                  echo 'No announcement for today'; 
-                } elseif(mysqli_num_rows($get) == 1) {  
-                  echo $count. ' announcement notification'; 
-                } else {  
-                  echo $count. ' announcement notifications'; 
-                } 
+               // if(mysqli_num_rows($get) < 1) { 
+               //   echo 'No announcement for today'; 
+               // } elseif(mysqli_num_rows($get) == 1) {  
+               //   echo $count. ' announcement notification'; 
+               // } else {  
+               //   echo $count. ' announcement notifications'; 
+               // } 
             ?> 
           </span>
           <div class="dropdown-divider"></div>
 
           
           <?php 
-              if(mysqli_num_rows($get) > 0) {
-                while ($r_count = mysqli_fetch_array($get)) {
+             // if(mysqli_num_rows($get) > 0) {
+             //   while ($r_count = mysqli_fetch_array($get)) {
           ?>
               <a href="#" class="dropdown-item">
-                <i class="fa-solid fa-circle-info mr-2"></i> <?php echo custom_echo($r_count['actName'], 15); ?>
-                <span class="float-right text-muted text-sm"><?php echo $r_count['date_added']; ?></span>
+                <i class="fa-solid fa-circle-info mr-2"></i> <?php //echo custom_echo($r_count['actName'], 15); ?>
+                <span class="float-right text-muted text-sm"><?php //echo $r_count['date_added']; ?></span>
               </a>
               <div class="dropdown-divider"></div>
           <?php
-                }
-              }
+               // }
+              //}
           ?>
 
-          <?php if(mysqli_num_rows($get) == 1) : ?>
+          <?php// if(mysqli_num_rows($get) == 1) : ?>
             <a type="button" data-toggle="modal" data-target="#reminder" class="dropdown-item dropdown-footer">See Announcement</a>
-          <?php elseif(mysqli_num_rows($get) > 1): ?>
+          <?php// elseif(mysqli_num_rows($get) > 1): ?>
             <a type="button" data-toggle="modal" data-target="#reminder" class="dropdown-item dropdown-footer">See All Announcement</a>
-          <?php endif; ?>
+          <?php// endif; ?>
+        </div>
+      </li> -->
+
+
+      <li class="nav-item dropdown">
+        <?php  
+          // Count the total records
+        $countSql = mysqli_query($conn, "SELECT COUNT(*) AS total FROM notification WHERE sender='$id' AND is_read_by_patient=0 AND (subject != 'Appointment request' AND subject != 'Medical certificate request' AND subject != 'Medical records request') ");
+        $countRow = mysqli_fetch_assoc($countSql);
+        $totalNotifications = $countRow['total'];
+
+        $getNotif = mysqli_query($conn, "SELECT * FROM notification WHERE sender='$id' AND is_read_by_patient=0 AND (subject != 'Appointment request' AND subject != 'Medical certificate request' AND subject != 'Medical records request') ORDER BY notif_Id DESC LIMIT 5");
+            // $sql = mysqli_query($conn, "SELECT *, patient.user_Id AS patient_userId FROM notification LEFT JOIN patient ON notification.receiver=patient.user_Id LEFT JOIN users ON notification.receiver=users.user_Id");
+        ?>
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="fa-solid fa-bell"></i>
+          <span class="badge badge-danger navbar-badge"><?= $totalNotifications ?></span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <?php 
+            while ($row_notif = mysqli_fetch_array($getNotif)) {
+          ?>
+          <div class="dropdown-divider"></div>
+          <a type="button" href="#" class="dropdown-item"><?= $row_notif['type'] . '<br><span class="text-xs">' . substr($row_notif['message'], 0, 45); echo strlen($row_notif['message']) > 45 ? '...' : ''; ?></span>
+          </a>
+          <?php } ?>
+          <div class="dropdown-divider"></div>
+          <a type="button" href="notification.php" class="dropdown-item">See <?php if($totalNotifications = 1) { echo 'notification'; } else { echo 'all notifications'; } ?></a>
         </div>
       </li>
 
@@ -363,19 +391,23 @@
           
           <li class="nav-header text-secondary" style="margin-bottom: -14px;">My Records</li>
           <li class="nav-item">
-            <a href="dental.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'dental.php') ? 'active' : ''; ?>"><i class="fa-solid fa-tooth"></i><p>&nbsp;&nbsp; Dental Admission</p></a>
+            <a href="asking_med.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'asking_med.php' || basename($_SERVER['PHP_SELF']) == 'asking_med_mgmt.php') ? 'active' : ''; ?>"><i class="fa-solid fa-hospital"></i><p>&nbsp;&nbsp; Asking medicine</p></a>
           </li>
 
           <li class="nav-item">
-            <a href="form2.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'form2.php') ? 'active' : ''; ?>"><i class="fa-solid fa-house-chimney-medical"></i><p>&nbsp;&nbsp;Medical Admission</p></a>
+            <a href="dental.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'dental.php' || basename($_SERVER['PHP_SELF']) == 'dental_mgmt.php') ? 'active' : ''; ?>"><i class="fa-solid fa-tooth"></i><p>&nbsp;&nbsp; Dental Admission</p></a>
           </li>
 
           <li class="nav-item">
-            <a href="physical.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'physical.php') ? 'active' : ''; ?>"><i class="fa-solid fa-heart-pulse"></i><p>&nbsp;&nbsp;Physical exam</p></a>
+            <a href="form2.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'form2.php' || basename($_SERVER['PHP_SELF']) == 'form2_mgmt.php') ? 'active' : ''; ?>"><i class="fa-solid fa-house-chimney-medical"></i><p>&nbsp;&nbsp;Medical Admission</p></a>
           </li>
 
           <li class="nav-item">
-            <a href="consultation.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'consultation.php') ? 'active' : ''; ?>"><i class="fa-solid fa-heart-pulse"></i><p>&nbsp;&nbsp;Consultation</p></a>
+            <a href="physical.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'physical.php' || basename($_SERVER['PHP_SELF']) == 'physical_mgmt.php') ? 'active' : ''; ?>"><i class="fa-solid fa-heart-pulse"></i><p>&nbsp;&nbsp;Physical exam</p></a>
+          </li>
+
+          <li class="nav-item">
+            <a href="consultation.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'consultation.php' || basename($_SERVER['PHP_SELF']) == 'consultation_mgmt.php') ? 'active' : ''; ?>"><i class="fa-solid fa-heart-pulse"></i><p>&nbsp;&nbsp;Consultation</p></a>
           </li>
 
           <li class="nav-item">

@@ -146,100 +146,90 @@
 		$admin_name = $row_admin['firstname'].' '.$row_admin['middlename'].' '.$row_admin['lastname'].' '.$row_admin['suffix'];
 		$email      = $row_admin['email'];
 
-		if($pick_up_date < $date_today) {
-			$_SESSION['message'] = "Selected date must be onward/later.";
+		$appt_exists = mysqli_query($conn, "SELECT * FROM request_doc WHERE type='$type' AND patient_Id='$patient_Id' AND pick_up_date='$pick_up_date' ");
+		if(mysqli_num_rows($appt_exists) > 0 ) {
+			$_SESSION['message'] = "Request type with the same pick up date already exists.";
 	        $_SESSION['text'] = "Please try again.";
 	        $_SESSION['status'] = "error";
 			header("Location: medical_certificate.php");
 		} else {
 
-			$appt_exists = mysqli_query($conn, "SELECT * FROM request_doc WHERE type='$type' AND patient_Id='$patient_Id' AND pick_up_date='$pick_up_date' ");
+			$appt_exists = mysqli_query($conn, "SELECT * FROM request_doc WHERE req_status != 3 AND patient_Id='$patient_Id' ");
 			if(mysqli_num_rows($appt_exists) > 0 ) {
-				$_SESSION['message'] = "Request type with the same pick up date already exists.";
+				$_SESSION['message'] = "You still have pending request that needs to be released first.";
 		        $_SESSION['text'] = "Please try again.";
 		        $_SESSION['status'] = "error";
 				header("Location: medical_certificate.php");
 			} else {
+				$save = mysqli_query($conn, "INSERT INTO request_doc (type, patient_Id, purpose, pick_up_date) VALUES ('$type', '$patient_Id', '$purpose', '$pick_up_date')");
+				  if($save) {
 
-				$appt_exists = mysqli_query($conn, "SELECT * FROM request_doc WHERE req_status != 3 AND patient_Id='$patient_Id' ");
-				if(mysqli_num_rows($appt_exists) > 0 ) {
-					$_SESSION['message'] = "You still have pending request that needs to be released first.";
+				  		$mess = 'Good day sir/maam '.$admin_name.', a request for medical records has been set by new patient named, '.$name.'.';
+				  		$save2 = mysqli_query($conn, "INSERT INTO notification (type, subject, message, reason, sender) VALUES ('Medical certificate', 'Medical certificate request', '$mess', '$purpose', '$patient_Id')");
+
+				  		if($save2) {
+				  			  $subject = 'Request Medical certification';
+						      $message = '<p>Good day sir/maam '.$admin_name.', a request for medical records has been set by new patient named, '.$name.'.</p>
+						      <p><b>NOTE:</b> This is a system generated email. Please do not reply.</p> ';
+
+						      $mail = new PHPMailer(true);                            
+						      try {
+						        //Server settings
+						        $mail->isSMTP();                                     
+						        $mail->Host = 'smtp.gmail.com';                      
+						        $mail->SMTPAuth = true;                             
+						        $mail->Username = 'tatakmedellin@gmail.com';     
+						        $mail->Password = 'nzctaagwhqlcgbqq';              
+						        $mail->SMTPOptions = array(
+						        'ssl' => array(
+						        'verify_peer' => false,
+						        'verify_peer_name' => false,
+						        'allow_self_signed' => true
+						        )
+						        );                         
+						        $mail->SMTPSecure = 'ssl';                           
+						        $mail->Port = 465;                                   
+
+						        //Send Email
+						        $mail->setFrom('tatakmedellin@gmail.com');
+
+						        //Recipients
+						        $mail->addAddress($email);              
+						        $mail->addReplyTo('tatakmedellin@gmail.com');
+
+						        //Content
+						        $mail->isHTML(true);                                  
+						        $mail->Subject = $subject;
+						        $mail->Body    = $message;
+
+						        $mail->send();
+
+						        	$_SESSION['message'] = "Medical certification request successful.";
+								    $_SESSION['text'] = "Request success";
+								    $_SESSION['status'] = "success";
+									header("Location: medical_certificate.php");
+
+							  } catch (Exception $e) { 
+							  	$_SESSION['message'] = "Email not sent.";
+							    $_SESSION['text'] = "Please try again.";
+							    $_SESSION['status'] = "error";
+								header("Location: medical_certificate.php");
+							  } 
+						} else {
+							$_SESSION['message'] = "Something went wrong while saving the information.";
+					        $_SESSION['text'] = "Please try again.";
+					        $_SESSION['status'] = "error";
+							header("Location: appointment.php");
+						}
+
+				  	  
+
+			      } else {
+			        $_SESSION['message'] = "Something went wrong while saving the information.";
 			        $_SESSION['text'] = "Please try again.";
 			        $_SESSION['status'] = "error";
 					header("Location: medical_certificate.php");
-				} else {
-					$save = mysqli_query($conn, "INSERT INTO request_doc (type, patient_Id, purpose, pick_up_date) VALUES ('$type', '$patient_Id', '$purpose', '$pick_up_date')");
-					  if($save) {
-
-					  		$mess = 'Good day sir/maam '.$admin_name.', a request for medical records has been set by new patient named, '.$name.'.';
-					  		$save2 = mysqli_query($conn, "INSERT INTO notification (type, subject, message, reason, sender) VALUES ('Medical certificate', 'Medical certificate request', '$mess', '$purpose', '$patient_Id')");
-
-					  		if($save2) {
-					  			  $subject = 'Request Medical certification';
-							      $message = '<p>Good day sir/maam '.$admin_name.', a request for medical records has been set by new patient named, '.$name.'.</p>
-							      <p><b>NOTE:</b> This is a system generated email. Please do not reply.</p> ';
-
-							      $mail = new PHPMailer(true);                            
-							      try {
-							        //Server settings
-							        $mail->isSMTP();                                     
-							        $mail->Host = 'smtp.gmail.com';                      
-							        $mail->SMTPAuth = true;                             
-							        $mail->Username = 'tatakmedellin@gmail.com';     
-							        $mail->Password = 'nzctaagwhqlcgbqq';              
-							        $mail->SMTPOptions = array(
-							        'ssl' => array(
-							        'verify_peer' => false,
-							        'verify_peer_name' => false,
-							        'allow_self_signed' => true
-							        )
-							        );                         
-							        $mail->SMTPSecure = 'ssl';                           
-							        $mail->Port = 465;                                   
-
-							        //Send Email
-							        $mail->setFrom('tatakmedellin@gmail.com');
-
-							        //Recipients
-							        $mail->addAddress($email);              
-							        $mail->addReplyTo('tatakmedellin@gmail.com');
-
-							        //Content
-							        $mail->isHTML(true);                                  
-							        $mail->Subject = $subject;
-							        $mail->Body    = $message;
-
-							        $mail->send();
-
-							        	$_SESSION['message'] = "Medical certification request successful.";
-									    $_SESSION['text'] = "Request success";
-									    $_SESSION['status'] = "success";
-										header("Location: medical_certificate.php");
-
-								  } catch (Exception $e) { 
-								  	$_SESSION['message'] = "Email not sent.";
-								    $_SESSION['text'] = "Please try again.";
-								    $_SESSION['status'] = "error";
-									header("Location: medical_certificate.php");
-								  } 
-							} else {
-								$_SESSION['message'] = "Something went wrong while saving the information.";
-						        $_SESSION['text'] = "Please try again.";
-						        $_SESSION['status'] = "error";
-								header("Location: appointment.php");
-							}
-
-					  	  
-
-				      } else {
-				        $_SESSION['message'] = "Something went wrong while saving the information.";
-				        $_SESSION['text'] = "Please try again.";
-				        $_SESSION['status'] = "error";
-						header("Location: medical_certificate.php");
-				      }
-				}
-
-			  
+			      }
 			}
 		}
 	}

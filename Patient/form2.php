@@ -42,7 +42,6 @@
                     <th>VITAL SIGN</th>
                     <th>DIAGNOSIS</th>
                     <th>MEDICAL ADVISED</th>
-                    <th>MEDICAL PERSONNEL</th>
                     <th>DATE ADMITTED</th>
                     <th>TOOLS</th>
                   </tr>
@@ -60,7 +59,6 @@
                         <td><?php echo $row['vital_sign']; ?></td>
                         <td><?php echo $row['diagnosis']; ?></td>
                         <td><?php echo $row['medical_advised']; ?></td>
-                        <td><?php echo $row['medical_personnel']; ?></td>
                         <td class="text-primary"><?php if($row['date_admitted'] != '') { echo $formattedDate;} ?></td>
                         <td>
                           <a class="btn btn-info btn-sm" href="form2_mgmt.php?page=<?php echo $row['form2_Id']; ?>"><i class="fa-solid fa-eye"></i> View</a>

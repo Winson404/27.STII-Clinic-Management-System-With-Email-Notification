@@ -31,13 +31,52 @@
             <div class="small-box bg-info">
               <div class="inner">
                 <?php
-                  $dental = mysqli_query($conn, "SELECT dental_Id FROM dental WHERE DATE(date_admitted) = '$date_today'");
-                  $dentalCountRow = mysqli_num_rows($dental);
+                  $sql = mysqli_query($conn, "SELECT patient_Id FROM dental WHERE DATE(date_admitted) = '$date_today'");
+                  $dental = array();
+                  while ($row = mysqli_fetch_assoc($sql)) {
+                      $dental[$row['patient_Id']] = true;
+                  }
+                  // Count the unique patient IDs
+                  $dental_count = count($dental);
 
-                  $form2 = mysqli_query($conn, "SELECT form2_Id FROM form2 WHERE DATE(date_admitted) = '$date_today'");
-                  $form2CountRow = mysqli_num_rows($form2);
+                  $sql2 = mysqli_query($conn, "SELECT patient_Id FROM form2 WHERE DATE(date_admitted) = '$date_today'");
+                  $form2 = array();
+                  while ($row2 = mysqli_fetch_assoc($sql2)) {
+                      $form2[$row2['patient_Id']] = true;
+                  }
+                  // Count the unique patient IDs
+                  $form2_count = count($form2);
 
-                  $total = $dentalCountRow + $form2CountRow;
+                  $sql3 = mysqli_query($conn, "SELECT patient_Id FROM consultation WHERE DATE(date_admitted) = '$date_today'");
+                  $consultation = array();
+                  while ($row3 = mysqli_fetch_assoc($sql3)) {
+                      $consultation[$row3['patient_Id']] = true;
+                  }
+                  // Count the unique patient IDs
+                  $consult_count = count($consultation);
+
+                  $sql4 = mysqli_query($conn, "SELECT patient_Id FROM physical WHERE DATE(date_admitted) = '$date_today'");
+                  $physical = array();
+                  while ($row4 = mysqli_fetch_assoc($sql4)) {
+                      $physical[$row4['patient_Id']] = true;
+                  }
+                  // Count the unique patient IDs
+                  $physical_count = count($physical);
+
+                  $sql5 = mysqli_query($conn, "SELECT patient_Id FROM asking_med WHERE DATE(date_admitted) = '$date_today'");
+                  $asking_med = array();
+                  while ($row5 = mysqli_fetch_assoc($sql5)) {
+                      $asking_med[$row5['patient_Id']] = true;
+                  }
+                  // Count the unique patient IDs
+                  $asking_med_count = count($asking_med);
+
+
+                  $total = $dental_count + $form2_count + $consult_count + $physical_count + $asking_med_count;
+                  // $form2 = mysqli_query($conn, "SELECT form2_Id FROM form2 WHERE DATE(date_admitted) = '$date_today'");
+                  // $form2CountRow = mysqli_num_rows($form2);
+
+                  // $total = $dentalCountRow + $form2CountRow;
                 ?>
                 <h3><?php echo $total; ?></h3>
 
@@ -46,7 +85,7 @@
               <div class="icon">
                 <i class="ion ion-person-add"></i>
               </div>
-              <a href="todays_patient.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="todays_patient.php" class="small-box-footer">More Info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
 
@@ -232,6 +271,23 @@
               <a href="consultation_student.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
+          <div class="col-lg-3 col-6">
+            <div class="small-box bg-info">
+              <div class="inner">
+                <?php
+                  $users = mysqli_query($conn, "SELECT * FROM asking_med JOIN patient ON asking_med.patient_Id=patient.user_Id WHERE position='Student'");
+                  $row_users = mysqli_num_rows($users);
+                ?>
+                <h3><?php echo $row_users; ?></h3>
+
+                <p>Asking Medicine History</p>
+              </div>
+              <div class="icon">
+                <i class="fa-solid fa-heart-pulse"></i>
+              </div>
+              <a href="asking_med_student.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
 
 
 
@@ -311,6 +367,76 @@
               <a href="consultation_teacher.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
+          <div class="col-lg-3 col-6">
+            <div class="small-box bg-info">
+              <div class="inner">
+                <?php
+                  $users = mysqli_query($conn, "SELECT * FROM asking_med JOIN patient ON asking_med.patient_Id=patient.user_Id WHERE position='Teacher'");
+                  $row_users = mysqli_num_rows($users);
+                ?>
+                <h3><?php echo $row_users; ?></h3>
+
+                <p>Asking Medicine History</p>
+              </div>
+              <div class="icon">
+                <i class="fa-solid fa-heart-pulse"></i>
+              </div>
+              <a href="asking_med_teacher.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+
+
+          <div class="col-12"><hr><h3>Statistics</h3></div>
+
+          <div class="col-lg-3 col-6">
+            <div class="small-box bg-info">
+              <div class="inner">
+                <?php
+                  // Get the current month and year
+                  $currentMonth = date('Y-m');
+
+                  // Modify your SQL queries to filter records for the current month
+                  $dental = mysqli_query($conn, "SELECT * FROM dental JOIN patient ON dental.patient_Id=patient.user_Id WHERE DATE_FORMAT(date_admitted, '%Y-%m') = '$currentMonth'");
+                  $row_dental = mysqli_num_rows($dental);
+
+                  $form2 = mysqli_query($conn, "SELECT * FROM form2 JOIN patient ON form2.patient_Id=patient.user_Id WHERE DATE_FORMAT(date_admitted, '%Y-%m') = '$currentMonth'");
+                  $row_form2 = mysqli_num_rows($form2);
+
+                  $physical = mysqli_query($conn, "SELECT * FROM physical JOIN patient ON physical.patient_Id=patient.user_Id WHERE DATE_FORMAT(date_admitted, '%Y-%m') = '$currentMonth'");
+                  $row_physical = mysqli_num_rows($physical);
+
+                  $consult = mysqli_query($conn, "SELECT * FROM consultation JOIN patient ON consultation.patient_Id=patient.user_Id WHERE DATE_FORMAT(date_admitted, '%Y-%m') = '$currentMonth'");
+                  $row_consult = mysqli_num_rows($consult);
+
+                  $med = mysqli_query($conn, "SELECT * FROM asking_med JOIN patient ON asking_med.patient_Id=patient.user_Id WHERE DATE_FORMAT(date_admitted, '%Y-%m') = '$currentMonth'");
+                  $row_med = mysqli_num_rows($med);
+
+
+                  // $teacher_dental = mysqli_query($conn, "SELECT * FROM dental JOIN patient ON dental.patient_Id=patient.user_Id WHERE position='Teacher' AND DATE_FORMAT(date_admitted, '%Y-%m') = '$currentMonth'");
+                  // $row_teacher_dental = mysqli_num_rows($teacher_dental);
+
+                  // $teacher_form2 = mysqli_query($conn, "SELECT * FROM form2 JOIN patient ON form2.patient_Id=patient.user_Id WHERE position='Teacher' AND DATE_FORMAT(date_admitted, '%Y-%m') = '$currentMonth'");
+                  // $row_teacher_form2 = mysqli_num_rows($teacher_form2);
+
+                  // $teacher_physical = mysqli_query($conn, "SELECT * FROM physical JOIN patient ON physical.patient_Id=patient.user_Id WHERE position='Teacher' AND DATE_FORMAT(date_admitted, '%Y-%m') = '$currentMonth'");
+                  // $row_teacher_physical = mysqli_num_rows($teacher_physical);
+
+                  // $teacher_consult = mysqli_query($conn, "SELECT * FROM consultation JOIN patient ON consultation.patient_Id=patient.user_Id WHERE position='Teacher' AND DATE_FORMAT(date_admitted, '%Y-%m') = '$currentMonth'");
+                  // $row_teacher_consult = mysqli_num_rows($teacher_consult);
+
+                  // $teacher_med = mysqli_query($conn, "SELECT * FROM asking_med JOIN patient ON asking_med.patient_Id=patient.user_Id WHERE position='Teacher' AND DATE_FORMAT(date_admitted, '%Y-%m') = '$currentMonth'");
+                  // $row_teacher_med = mysqli_num_rows($teacher_med);
+                ?>
+                <h3><?php echo $total_student = $row_dental + $row_form2 + $row_physical + $row_consult + $row_med; ?></h3>
+
+                <p>Statistics</p>
+              </div>
+              <div class="icon">
+                <i class="fa-solid fa-tooth"></i>
+              </div>
+            </div>
+          </div>
+          
 
         </div>
       </div>
@@ -319,5 +445,14 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 <?php include 'footer.php'; ?>

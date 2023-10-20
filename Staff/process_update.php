@@ -195,6 +195,7 @@
 		$email		              = mysqli_real_escape_string($conn, $_POST['email']);
 		$parentName		          = mysqli_real_escape_string($conn, $_POST['parentName']);
 		$parentContact	          = mysqli_real_escape_string($conn, $_POST['parentContact']);
+		$guardianName             = mysqli_real_escape_string($conn, $_POST['guardianName']);
 		$illness		          = mysqli_real_escape_string($conn, $_POST['illness']);
 		$pastMedical	          = mysqli_real_escape_string($conn, $_POST['pastMedical']);
 		$surgicalHistory          = mysqli_real_escape_string($conn, $_POST['surgicalHistory']);
@@ -396,7 +397,7 @@
 			} else {
 
 				if(empty($file)) {
-					$update = mysqli_query($conn, "UPDATE patient SET vaccine_status='$vaccine_status', civil_status='$civil_status', name='$name', grade='$grade', dob='$dob', age='$age', sex='$sex', address='$address', religion='$religion', contact='$contact', email='$email', parentName='$parentName', parentContact='$parentContact', illness='$illness', pastMedical='$pastMedical', surgicalHistory='$surgicalHistory', blood_type='$blood_type', height='$height', weight='$weight', allergy='$allergy', nutritional_Immunization='$nutritional_Immunization', familyHistory='$familyHistory', socialHistory='$socialHistory', packsYears='$packsYears', environment='$environment', frequency='$frequency', general='$general', hematologic='$hematologic', endocrine='$endocrine', extremities='$extremities', skin='$skin', head='$head', vision='$vision', Eyes='$Eyes', ears='$ears', nose='$nose', mouthThroat='$mouthThroat', yearsMonths='$yearsMonths', neck='$neck', Breast='$Breast', Respiratory='$Respiratory', Cardiovascular='$Cardiovascular', Gastrointestinal='$Gastrointestinal', peripheralvascular='$peripheralvascular', freq_urinary='$freq_urinary', Urinary='$Urinary', male='$male', age_menarche='$age_menarche', female='$female', muscularSkeletal='$muscularSkeletal', Psychiatric='$Psychiatric', Neurologic='$Neurologic', NeurologicExam='$NeurologicExam' WHERE user_Id='$student_Id' ");
+					$update = mysqli_query($conn, "UPDATE patient SET vaccine_status='$vaccine_status', civil_status='$civil_status', name='$name', grade='$grade', dob='$dob', age='$age', sex='$sex', address='$address', religion='$religion', contact='$contact', email='$email', parentName='$parentName', parentContact='$parentContact', guardianName='$guardianName', illness='$illness', pastMedical='$pastMedical', surgicalHistory='$surgicalHistory', blood_type='$blood_type', height='$height', weight='$weight', allergy='$allergy', nutritional_Immunization='$nutritional_Immunization', familyHistory='$familyHistory', socialHistory='$socialHistory', packsYears='$packsYears', environment='$environment', frequency='$frequency', general='$general', hematologic='$hematologic', endocrine='$endocrine', extremities='$extremities', skin='$skin', head='$head', vision='$vision', Eyes='$Eyes', ears='$ears', nose='$nose', mouthThroat='$mouthThroat', yearsMonths='$yearsMonths', neck='$neck', Breast='$Breast', Respiratory='$Respiratory', Cardiovascular='$Cardiovascular', Gastrointestinal='$Gastrointestinal', peripheralvascular='$peripheralvascular', freq_urinary='$freq_urinary', Urinary='$Urinary', male='$male', age_menarche='$age_menarche', female='$female', muscularSkeletal='$muscularSkeletal', Psychiatric='$Psychiatric', Neurologic='$Neurologic', NeurologicExam='$NeurologicExam' WHERE user_Id='$student_Id' ");
 
 	              	  if($update) {
 			          	$_SESSION['message'] = "Student record has been updated!";
@@ -455,7 +456,7 @@
 				    } else {
 
 			        	if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-			        		$update = mysqli_query($conn, "UPDATE patient SET vaccine_status='$vaccine_status', civil_status='$civil_status', name='$name', grade='$grade', dob='$dob', age='$age', sex='$sex', address='$address', religion='$religion', contact='$contact', email='$email', parentName='$parentName', parentContact='$parentContact', illness='$illness', pastMedical='$pastMedical', surgicalHistory='$surgicalHistory', blood_type='$blood_type', height='$height', weight='$weight', allergy='$allergy', nutritional_Immunization='$nutritional_Immunization', familyHistory='$familyHistory', socialHistory='$socialHistory', packsYears='$packsYears', environment='$environment', frequency='$frequency', general='$general', hematologic='$hematologic', endocrine='$endocrine', extremities='$extremities', skin='$skin', head='$head', vision='$vision', Eyes='$Eyes', ears='$ears', nose='$nose', mouthThroat='$mouthThroat', yearsMonths='$yearsMonths', neck='$neck', Breast='$Breast', Respiratory='$Respiratory', Cardiovascular='$Cardiovascular', Gastrointestinal='$Gastrointestinal', peripheralvascular='$peripheralvascular', freq_urinary='$freq_urinary', Urinary='$Urinary', male='$male', age_menarche='$age_menarche', female='$female', muscularSkeletal='$muscularSkeletal', Psychiatric='$Psychiatric', Neurologic='$Neurologic', NeurologicExam='$NeurologicExam', picture='$file' WHERE user_Id='$student_Id' ");
+			        		$update = mysqli_query($conn, "UPDATE patient SET vaccine_status='$vaccine_status', civil_status='$civil_status', name='$name', grade='$grade', dob='$dob', age='$age', sex='$sex', address='$address', religion='$religion', contact='$contact', email='$email', parentName='$parentName', parentContact='$parentContact', guardianName='$guardianName', illness='$illness', pastMedical='$pastMedical', surgicalHistory='$surgicalHistory', blood_type='$blood_type', height='$height', weight='$weight', allergy='$allergy', nutritional_Immunization='$nutritional_Immunization', familyHistory='$familyHistory', socialHistory='$socialHistory', packsYears='$packsYears', environment='$environment', frequency='$frequency', general='$general', hematologic='$hematologic', endocrine='$endocrine', extremities='$extremities', skin='$skin', head='$head', vision='$vision', Eyes='$Eyes', ears='$ears', nose='$nose', mouthThroat='$mouthThroat', yearsMonths='$yearsMonths', neck='$neck', Breast='$Breast', Respiratory='$Respiratory', Cardiovascular='$Cardiovascular', Gastrointestinal='$Gastrointestinal', peripheralvascular='$peripheralvascular', freq_urinary='$freq_urinary', Urinary='$Urinary', male='$male', age_menarche='$age_menarche', female='$female', muscularSkeletal='$muscularSkeletal', Psychiatric='$Psychiatric', Neurologic='$Neurologic', NeurologicExam='$NeurologicExam', picture='$file' WHERE user_Id='$student_Id' ");
 
 		              	  if($update) {
 				          	$_SESSION['message'] = "Student record has been updated!";
@@ -1089,7 +1090,7 @@
 		$req_type    = 'Dental Student';
 
 		// GET PATIENT NAME
-		$patient = mysqli_query($conn, "SELECT * FROM users WHERE user_Id='$users' ");
+		$patient = mysqli_query($conn, "SELECT * FROM users WHERE user_Id='$user_Id' ");
 		$row     = mysqli_fetch_array($patient);
 		$name    = $row['firstname'].' '.$row['middlename'].' '.$row['lastname'].' '.$row['suffix'];
 
@@ -1192,7 +1193,7 @@
 		$req_type    = 'Dental Teacher';
 
 		// GET PATIENT NAME
-		$patient = mysqli_query($conn, "SELECT * FROM users WHERE user_Id='$users' ");
+		$patient = mysqli_query($conn, "SELECT * FROM users WHERE user_Id='$user_Id' ");
 		$row     = mysqli_fetch_array($patient);
 		$name    = $row['firstname'].' '.$row['middlename'].' '.$row['lastname'].' '.$row['suffix'];
 
@@ -1299,9 +1300,8 @@
 		$vital_sign        = mysqli_real_escape_string($conn, $_POST['vital_sign']);
 		$diagnosis         = mysqli_real_escape_string($conn, $_POST['diagnosis']);
 		$medical_advised   = mysqli_real_escape_string($conn, $_POST['medical_advised']);
-		$medical_personnel = mysqli_real_escape_string($conn, $_POST['medical_personnel']);
 
-		$save = mysqli_query($conn, "UPDATE form2 SET patient_Id='$patient_Id', vs_bp='$vs_bp', pr='$pr', rr='$rr', temperature='$temperature', vital_sign='$vital_sign', diagnosis='$diagnosis', medical_advised='$medical_advised', medical_personnel='$medical_personnel' WHERE form2_Id='$form2_Id' ");
+		$save = mysqli_query($conn, "UPDATE form2 SET patient_Id='$patient_Id', vs_bp='$vs_bp', pr='$pr', rr='$rr', temperature='$temperature', vital_sign='$vital_sign', diagnosis='$diagnosis', medical_advised='$medical_advised' WHERE form2_Id='$form2_Id' ");
 
 		  if($save) {
 		  	$_SESSION['message'] = "Record has been updated.";
@@ -1329,7 +1329,7 @@
 		$req_type    = 'Medical Student';
 
 		// GET PATIENT NAME
-		$patient = mysqli_query($conn, "SELECT * FROM users WHERE user_Id='$users' ");
+		$patient = mysqli_query($conn, "SELECT * FROM users WHERE user_Id='$user_Id' ");
 		$row     = mysqli_fetch_array($patient);
 		$name    = $row['firstname'].' '.$row['middlename'].' '.$row['lastname'].' '.$row['suffix'];
 
@@ -1432,7 +1432,7 @@
 		$req_type    = 'Medical Teacher';
 
 		// GET PATIENT NAME
-		$patient = mysqli_query($conn, "SELECT * FROM users WHERE user_Id='$users' ");
+		$patient = mysqli_query($conn, "SELECT * FROM users WHERE user_Id='$user_Id' ");
 		$row     = mysqli_fetch_array($patient);
 		$name    = $row['firstname'].' '.$row['middlename'].' '.$row['lastname'].' '.$row['suffix'];
 
@@ -1525,6 +1525,34 @@
 	}
 
 
+
+
+
+	// UPDATE ASKING MEDICINE - ASKING_MED_MGMT.PHP
+	if(isset($_POST['update_asking_med'])) {
+		$asking_med_Id     = mysqli_real_escape_string($conn, $_POST['asking_med_Id']);
+		$patient_Id        = mysqli_real_escape_string($conn, $_POST['patient_Id']);
+		$pr                = mysqli_real_escape_string($conn, $_POST['pr']);
+		$temperature       = mysqli_real_escape_string($conn, $_POST['temperature']);
+		$vital_sign        = mysqli_real_escape_string($conn, $_POST['vital_sign']);
+		$medical_advised   = mysqli_real_escape_string($conn, $_POST['medical_advised']);
+		$medicine_given    = mysqli_real_escape_string($conn, $_POST['medicine_given']);
+		$chief_complaints  = mysqli_real_escape_string($conn, $_POST['chief_complaints']);
+
+		$save = mysqli_query($conn, "UPDATE asking_med SET patient_Id='$patient_Id', pr='$pr', temperature='$temperature', vital_sign='$vital_sign', medical_advised='$medical_advised', medicine_given='$medicine_given', chief_complaints='$chief_complaints' WHERE asking_med_Id='$asking_med_Id' ");
+
+		  if($save) {
+		  	$_SESSION['message'] = "Record has been updated.";
+		    $_SESSION['text'] = "Updated successfully!";
+		    $_SESSION['status'] = "success";
+			header("Location: asking_med_mgmt.php?page=".$asking_med_Id);
+		  } else {
+		    $_SESSION['message'] = "Something went wrong while saving the information.";
+		    $_SESSION['text'] = "Please try again.";
+		    $_SESSION['status'] = "error";
+			header("Location: asking_med_mgmt.php?page=".$asking_med_Id);
+		  }
+	}
 
 
 
@@ -1639,7 +1667,7 @@
 		$req_type    = 'Physical Student';
 
 		// GET PATIENT NAME
-		$patient = mysqli_query($conn, "SELECT * FROM users WHERE user_Id='$users' ");
+		$patient = mysqli_query($conn, "SELECT * FROM users WHERE user_Id='$user_Id' ");
 		$row     = mysqli_fetch_array($patient);
 		$name    = $row['firstname'].' '.$row['middlename'].' '.$row['lastname'].' '.$row['suffix'];
 
@@ -1736,6 +1764,207 @@
 
 
 
+	// REQUEST ASKING MEDICINE TEACHER - ASKING_MED_DELETE.PHP
+	if(isset($_POST['requestupdate_asking_med_teacher'])) {
+
+		$user_Id     = mysqli_real_escape_string($conn, $_POST['user_Id']);
+		$req_type    = 'Asking Med Teacher';
+
+		// GET PATIENT NAME
+		$patient = mysqli_query($conn, "SELECT * FROM users WHERE user_Id='$user_Id' ");
+		$row     = mysqli_fetch_array($patient);
+		$name    = $row['firstname'].' '.$row['middlename'].' '.$row['lastname'].' '.$row['suffix'];
+
+		// GET ADMIN NAME
+		$admin      = mysqli_query($conn, "SELECT * FROM users WHERE user_type='Admin' LIMIT 1");
+		$row_admin  = mysqli_fetch_array($admin);
+		$admin_name = $row_admin['firstname'].' '.$row_admin['middlename'].' '.$row_admin['lastname'].' '.$row_admin['suffix'];
+		$email      = $row_admin['email'];
+
+		$check = mysqli_query($conn, "SELECT * FROM request_update WHERE user_Id='$user_Id' AND req_type= '$req_type' AND req_status=0 ");
+		if(mysqli_num_rows($check) > 0) {
+			$_SESSION['message'] = "You have already requested admin to update asking medicine records for teachers.";
+		    $_SESSION['text'] = "Please try again.";
+		    $_SESSION['status'] = "error";
+		    header("Location: asking_med_teacher.php");
+		} else {
+
+		  $save = mysqli_query($conn, "INSERT INTO request_update (user_Id, req_type) VALUES ('$user_Id', '$req_type') ");
+
+		  if($save) {
+
+		  	$mess = 'Good day sir/maam '.$admin_name.', a request to update asking medicine records for teachers has been set by your staff named, '.$name.'.';
+		  	$save2 = mysqli_query($conn, "INSERT INTO notification (type, subject, message, sender) VALUES ('Asking Medicine update', 'Teacher Asking Medicine records', '$mess', '$user_Id')");
+
+	  		if($save2) {
+	  			$subject = 'Teacher Asking Medicine Update';
+			      $message = '<p>Good day sir/maam '.$admin_name.', a request to update asking medicine records for teachers has been set by your staff named, '.$name.'.</p>
+			      <p><b>NOTE:</b> This is a system generated email. Please do not reply.</p> ';
+
+			      $mail = new PHPMailer(true);                            
+			      try {
+			        //Server settings
+			        $mail->isSMTP();                                     
+			        $mail->Host = 'smtp.gmail.com';                      
+			        $mail->SMTPAuth = true;                             
+			        $mail->Username = 'tatakmedellin@gmail.com';     
+			        $mail->Password = 'nzctaagwhqlcgbqq';              
+			        $mail->SMTPOptions = array(
+			        'ssl' => array(
+			        'verify_peer' => false,
+			        'verify_peer_name' => false,
+			        'allow_self_signed' => true
+			        )
+			        );                         
+			        $mail->SMTPSecure = 'ssl';                           
+			        $mail->Port = 465;                                   
+
+			        //Send Email
+			        $mail->setFrom('tatakmedellin@gmail.com');
+
+			        //Recipients
+			        $mail->addAddress($email);              
+			        $mail->addReplyTo('tatakmedellin@gmail.com');
+
+			        //Content
+			        $mail->isHTML(true);                                  
+			        $mail->Subject = $subject;
+			        $mail->Body    = $message;
+
+			        $mail->send();
+
+			        	$_SESSION['message'] = "Request successful.";
+					    $_SESSION['text'] = "Requested successfully!";
+					    $_SESSION['status'] = "success";
+						header("Location: asking_med_teacher.php");
+
+				  } catch (Exception $e) { 
+				  	$_SESSION['message'] = "Email not sent.";
+				    $_SESSION['text'] = "Please try again.";
+				    $_SESSION['status'] = "error";
+					header("Location: asking_med_teacher.php");
+				  }
+			} else {
+				$_SESSION['message'] = "Something went wrong while saving the information.";
+		        $_SESSION['text'] = "Please try again.";
+		        $_SESSION['status'] = "error";
+				header("Location: asking_med_teacher.php");
+			}
+
+
+ 				  
+		  	
+		  } else {
+		    $_SESSION['message'] = "Something went wrong.";
+		    $_SESSION['text'] = "Please try again.";
+		    $_SESSION['status'] = "error";
+		    header("Location: asking_med_teacher.php");
+		  }
+		}
+	}
+
+
+
+
+
+	// REQUEST ASKING MEDICINE STUDENT - ASKING_MED_DELETE.PHP
+	if(isset($_POST['requestupdate_asking_med'])) {
+
+		$user_Id     = mysqli_real_escape_string($conn, $_POST['user_Id']);
+		$req_type    = 'Asking Med Student';
+
+		// GET PATIENT NAME
+		$patient = mysqli_query($conn, "SELECT * FROM users WHERE user_Id='$user_Id' ");
+		$row     = mysqli_fetch_array($patient);
+		$name    = $row['firstname'].' '.$row['middlename'].' '.$row['lastname'].' '.$row['suffix'];
+
+		// GET ADMIN NAME
+		$admin      = mysqli_query($conn, "SELECT * FROM users WHERE user_type='Admin' LIMIT 1");
+		$row_admin  = mysqli_fetch_array($admin);
+		$admin_name = $row_admin['firstname'].' '.$row_admin['middlename'].' '.$row_admin['lastname'].' '.$row_admin['suffix'];
+		$email      = $row_admin['email'];
+
+		$check = mysqli_query($conn, "SELECT * FROM request_update WHERE user_Id='$user_Id' AND req_type= '$req_type' AND req_status=0 ");
+		if(mysqli_num_rows($check) > 0) {
+			$_SESSION['message'] = "You have already requested admin to update asking medicine records for students.";
+		    $_SESSION['text'] = "Please try again.";
+		    $_SESSION['status'] = "error";
+		    header("Location: asking_med_student.php");
+		} else {
+
+		  $save = mysqli_query($conn, "INSERT INTO request_update (user_Id, req_type) VALUES ('$user_Id', '$req_type') ");
+
+		  if($save) {
+
+		  	$mess = 'Good day sir/maam '.$admin_name.', a request to update asking medicine records for students has been set by your staff named, '.$name.'.';
+		  	$save2 = mysqli_query($conn, "INSERT INTO notification (type, subject, message, sender) VALUES ('Asking Medicine update', 'Student Asking Medicine records', '$mess', '$user_Id')");
+
+	  		if($save2) {
+	  			$subject = 'Student Asking Medicine Update';
+			      $message = '<p>Good day sir/maam '.$admin_name.', a request to update asking medicine records for students has been set by your staff named, '.$name.'.</p>
+			      <p><b>NOTE:</b> This is a system generated email. Please do not reply.</p> ';
+
+			      $mail = new PHPMailer(true);                            
+			      try {
+			        //Server settings
+			        $mail->isSMTP();                                     
+			        $mail->Host = 'smtp.gmail.com';                      
+			        $mail->SMTPAuth = true;                             
+			        $mail->Username = 'tatakmedellin@gmail.com';     
+			        $mail->Password = 'nzctaagwhqlcgbqq';              
+			        $mail->SMTPOptions = array(
+			        'ssl' => array(
+			        'verify_peer' => false,
+			        'verify_peer_name' => false,
+			        'allow_self_signed' => true
+			        )
+			        );                         
+			        $mail->SMTPSecure = 'ssl';                           
+			        $mail->Port = 465;                                   
+
+			        //Send Email
+			        $mail->setFrom('tatakmedellin@gmail.com');
+
+			        //Recipients
+			        $mail->addAddress($email);              
+			        $mail->addReplyTo('tatakmedellin@gmail.com');
+
+			        //Content
+			        $mail->isHTML(true);                                  
+			        $mail->Subject = $subject;
+			        $mail->Body    = $message;
+
+			        $mail->send();
+
+			        	$_SESSION['message'] = "Request successful.";
+					    $_SESSION['text'] = "Requested successfully!";
+					    $_SESSION['status'] = "success";
+						header("Location: asking_med_student.php");
+
+				  } catch (Exception $e) { 
+				  	$_SESSION['message'] = "Email not sent.";
+				    $_SESSION['text'] = "Please try again.";
+				    $_SESSION['status'] = "error";
+					header("Location: asking_med_student.php");
+				  }
+			} else {
+				$_SESSION['message'] = "Something went wrong while saving the information.";
+		        $_SESSION['text'] = "Please try again.";
+		        $_SESSION['status'] = "error";
+				header("Location: asking_med_student.php");
+			}
+		  } else {
+		    $_SESSION['message'] = "Something went wrong.";
+		    $_SESSION['text'] = "Please try again.";
+		    $_SESSION['status'] = "error";
+		    header("Location: asking_med_student.php");
+		  }
+		}
+	}
+
+
+
+
 
 	// REQUEST UPDATE PHYSICAL EXAM TEACHER - PHYSICAL_DELETE.PHP
 	if(isset($_POST['requestupdate_physical_teacher'])) {
@@ -1744,7 +1973,7 @@
 		$req_type    = 'Physical Teacher';
 
 		// GET PATIENT NAME
-		$patient = mysqli_query($conn, "SELECT * FROM users WHERE user_Id='$users' ");
+		$patient = mysqli_query($conn, "SELECT * FROM users WHERE user_Id='$user_Id' ");
 		$row     = mysqli_fetch_array($patient);
 		$name    = $row['firstname'].' '.$row['middlename'].' '.$row['lastname'].' '.$row['suffix'];
 
@@ -1891,7 +2120,7 @@
 		$req_type    = 'Consultation Student';
 
 		// GET PATIENT NAME
-		$patient = mysqli_query($conn, "SELECT * FROM users WHERE user_Id='$users' ");
+		$patient = mysqli_query($conn, "SELECT * FROM users WHERE user_Id='$user_Id' ");
 		$row     = mysqli_fetch_array($patient);
 		$name    = $row['firstname'].' '.$row['middlename'].' '.$row['lastname'].' '.$row['suffix'];
 
@@ -1995,7 +2224,7 @@
 		$req_type    = 'Consultation Teacher';
 
 		// GET PATIENT NAME
-		$patient = mysqli_query($conn, "SELECT * FROM users WHERE user_Id='$users' ");
+		$patient = mysqli_query($conn, "SELECT * FROM users WHERE user_Id='$user_Id' ");
 		$row     = mysqli_fetch_array($patient);
 		$name    = $row['firstname'].' '.$row['middlename'].' '.$row['lastname'].' '.$row['suffix'];
 
@@ -2144,7 +2373,7 @@
 		$req_type    = 'Medicine';
 
 		// GET PATIENT NAME
-		$patient = mysqli_query($conn, "SELECT * FROM users WHERE user_Id='$users' ");
+		$patient = mysqli_query($conn, "SELECT * FROM users WHERE user_Id='$user_Id' ");
 		$row     = mysqli_fetch_array($patient);
 		$name    = $row['firstname'].' '.$row['middlename'].' '.$row['lastname'].' '.$row['suffix'];
 
@@ -2248,7 +2477,7 @@
 		$req_type    = 'Student update';
 
 		// GET PATIENT NAME
-		$patient = mysqli_query($conn, "SELECT * FROM users WHERE user_Id='$users' ");
+		$patient = mysqli_query($conn, "SELECT * FROM users WHERE user_Id='$user_Id' ");
 		$row     = mysqli_fetch_array($patient);
 		$name    = $row['firstname'].' '.$row['middlename'].' '.$row['lastname'].' '.$row['suffix'];
 
@@ -2353,7 +2582,7 @@
 		$req_type    = 'Teacher update';
 
 		// GET PATIENT NAME
-		$patient = mysqli_query($conn, "SELECT * FROM users WHERE user_Id='$users' ");
+		$patient = mysqli_query($conn, "SELECT * FROM users WHERE user_Id='$user_Id' ");
 		$row     = mysqli_fetch_array($patient);
 		$name    = $row['firstname'].' '.$row['middlename'].' '.$row['lastname'].' '.$row['suffix'];
 
@@ -2448,7 +2677,32 @@
 
 
 
-	
+	if (isset($_POST['mark_as_read'])) {
+    $notification_ids = isset($_POST['notification_ids']) ? $_POST['notification_ids'] : array();
+
+    // Ensure that $notification_ids contains integer values.
+    $notification_ids = array_map('intval', $notification_ids);
+    
+    if (!empty($notification_ids)) {
+        // Create a comma-separated list of notification IDs.
+        $notification_ids_str = implode(',', $notification_ids);
+    
+        // Update records based on notif_Id.
+        $update = mysqli_query($conn, "UPDATE notification SET is_read_by_staff = 1 WHERE notif_Id IN ($notification_ids_str)");
+    
+        if ($update) {
+            header("Location: notification.php");
+            exit();
+        } else {
+            $_SESSION['message'] = "Something went wrong while marking notifications as read.";
+            $_SESSION['text'] = "Please try again.";
+            $_SESSION['status'] = "error";
+            header("Location: notification.php");
+            exit();
+        }
+    }
+}
+
 
 
 

@@ -137,8 +137,8 @@
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                             <div class="form-group">
-                              <span class="text-dark"><b>Parent's name/Guardian</b></span>
-                              <input class="form-control" placeholder="Enter Parent's name/Guardian" name="parentName" required value="<?php echo $row['parentName']; ?>">
+                              <span class="text-dark"><b>Parent's name/Guardian Or Spouse</b></span>
+                              <input class="form-control" placeholder="Enter Parent's name/Guardian Or Spouse" name="parentName" required value="<?php echo $row['parentName']; ?>">
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-12">

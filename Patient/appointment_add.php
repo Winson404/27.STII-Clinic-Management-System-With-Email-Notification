@@ -13,9 +13,24 @@
           <input type="hidden" class="form-control" value="<?php echo $id; ?>" name="patient_Id">
           <!-- <h6 class="text-center">Request for an appointment?</h6> -->
           <div class="form-group">
-            <label for="">Pick desired appointment date</label>
-            <input type="date" class="form-control" name="appt_date" required>
+              <label for="appt_date">Pick desired appointment date</label>
+              <input type="date" class="form-control" id="appt_date" name="appt_date" required>
           </div>
+
+          <script>
+              // Get the current date
+              const currentDate = new Date();
+              
+              // Calculate the next day
+              currentDate.setDate(currentDate.getDate() + 1);
+              
+              // Format the next day in the YYYY-MM-DD format
+              const nextDay = currentDate.toISOString().split('T')[0];
+              
+              // Set the minimum date for the input element
+              document.getElementById('appt_date').setAttribute('min', nextDay);
+          </script>
+
           <div class="form-group">
             <label for="">Pick desired appointment time</label>
             <input type="time" class="form-control" name="appt_time" required>

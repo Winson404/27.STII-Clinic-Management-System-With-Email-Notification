@@ -137,19 +137,25 @@
                               <small id="text" style="font-style: italic;"></small>
                             </div>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                             <div class="form-group">
-                              <span class="text-dark"><b>Parent's name/Guardian</b></span>
-                              <input class="form-control" placeholder="Enter Parent's name/Guardian" name="parentName" readonly value="<?php echo $row['parentName']; ?>">
+                              <span class="text-dark"><b>Parent's name</b></span>
+                              <input class="form-control" placeholder="Enter Parent's name" name="parentName" readonly value="<?php echo $row['parentName']; ?>">
                             </div>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                             <div class="form-group">
-                              <span class="text-dark"><b>Parent/Guardian contact #</b></span>
+                              <span class="text-dark"><b>Parent's contact #</b></span>
                               <div class="input-group">
                                 <div class="input-group-text">+63</div>
                                 <input type="tel" class="form-control" pattern="[7-9]{1}[0-9]{9}" id="contact" name="parentContact" placeholder = "9123456789" readonly maxlength="10" value="<?php echo $row['parentContact']; ?>">
                               </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                            <div class="form-group">
+                              <span class="text-dark"><b>Guardian name</b></span>
+                              <input class="form-control" placeholder="Enter Guardian name" name="guardianName" required value="<?php echo $row['guardianName']; ?>" readonly>
                             </div>
                         </div>
                         <div class="col-12">
@@ -1456,12 +1462,7 @@
                             </div>
                         </div>
 
-                        <div class="col-12">
-                            <div class="form-group">
-                              <span class="text-dark"><b>Date and Medical Personnel</b></span>
-                              <textarea cols="30" rows="3" class="form-control" placeholder="Date and Medical Personnel" name="medical_personnel" readonly><?php echo $row['medical_personnel']; ?></textarea>
-                            </div>
-                        </div>
+                      
                       <?php 
                         } else { 
                           $fetch = mysqli_query($conn, "SELECT * FROM form2 JOIN patient ON form2.patient_Id=patient.user_Id WHERE form2.patient_Id='$student_Id' LIMIT 1");
@@ -1520,12 +1521,7 @@
                             </div>
                         </div>
 
-                        <div class="col-12">
-                            <div class="form-group">
-                              <span class="text-dark"><b>Date and Medical Personnel</b></span>
-                              <textarea cols="30" rows="3" class="form-control" placeholder="Date and Medical Personnel" name="medical_personnel" readonly><?php echo $row['medical_personnel']; ?></textarea>
-                            </div>
-                        </div>
+                      
                       <?php } else { ?>
 
                         <div class="col-lg-12 mt-3 mb-2 col-md-12 col-sm-12 col-12">

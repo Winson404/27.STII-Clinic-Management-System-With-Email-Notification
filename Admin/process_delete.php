@@ -171,6 +171,41 @@
 
 
 
+	// DELETE ASKING MED - ASKING_ME_DELETE.PHP
+	if(isset($_POST['delete_asking_me'])) {
+		$asking_med_Id = $_POST['asking_med_Id'];
+		$fetch = mysqli_query($conn, "SELECT * FROM asking_med WHERE asking_med_Id='$asking_med_Id' ");
+		$row = mysqli_fetch_array($fetch);
+		$patient_Id = $row['patient_Id'];
+		$fetch2 = mysqli_query($conn, "SELECT * FROM patient WHERE user_Id='$patient_Id' ");
+		$row2 = mysqli_fetch_array($fetch2);
+
+		$delete = mysqli_query($conn, "DELETE FROM asking_med WHERE asking_med_Id='$asking_med_Id'");
+		 if($delete) {
+	      	$_SESSION['message'] = "Record has been deleted!";
+	        $_SESSION['text'] = "Deleted successfully!";
+	        $_SESSION['status'] = "success";
+			if($row2['position'] == 'Student') {
+	        	header("Location: asking_med_student.php");
+	        } else {
+	        	header("Location: asking_med_teacher.php");
+	        }
+	      } else {
+	        $_SESSION['message'] = "Something went wrong while deleting the record";
+	        $_SESSION['text'] = "Please try again.";
+	        $_SESSION['status'] = "error";
+			if($row2['position'] == 'Student') {
+	        	header("Location: asking_med_student.php");
+	        } else {
+	        	header("Location: asking_med_teacher.php");
+	        }
+	      }
+	}
+
+
+
+
+
 
 	// DELETE MEDICINE - MEDICINE_UPDATE_DELETE.PHP
 	if(isset($_POST['delete_medicine'])) {

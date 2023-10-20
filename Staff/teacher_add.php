@@ -27,6 +27,9 @@
         <div class="row">
           <div class="col-md-12">
             <form action="process_save.php" method="POST" enctype="multipart/form-data">
+              <!-- ID OF THE LOGGED IN USER -->
+              <input type="hidden" class="form-control" name="added_by" value="<?= $row['user_Id']; ?>">
+              
               <div class="card">
                 <div class="card-body">
                     <div class="row">
@@ -129,8 +132,8 @@
                         
                         <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                             <div class="form-group">
-                              <span class="text-dark"><b>Parent's name/Guardian</b></span>
-                              <input class="form-control" placeholder="Enter Parent's name/Guardian" name="parentName" required>
+                              <span class="text-dark"><b>Parent's name/Guardian Or Spouse</b></span>
+                              <input class="form-control" placeholder="Enter Parent's name/Guardian Or Spouse" name="parentName" required>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-12">

@@ -49,12 +49,22 @@
                   </thead>
                   <tbody id="users_data">
                       <?php 
-                        $sql = mysqli_query($conn, "SELECT * FROM notification WHERE (subject = 'Appointment request' || subject = 'Medical certificate request' || subject = 'Medical records request' || subject = 'Student records request to update' || subject = 'Dental records' || subject = 'Medicine records' || subject = 'Teacher records request to update' || subject = 'Teacher Consultation records' || subject = 'Student Consultation records' || subject = 'Teacher Physical Exam records' || subject = 'Student Physical Exam records') ORDER BY notif_Id DESC");
+                        $sql = mysqli_query($conn, "SELECT * FROM notification WHERE (subject = 'Appointment request' || subject = 'Medical certificate request' || subject = 'Medical records request' || subject = 'Student records request to update' || subject = 'Dental records' || subject = 'Medicine records' || subject = 'Teacher records request to update' || subject = 'Teacher Consultation records' || subject = 'Student Consultation records' || subject = 'Teacher Physical Exam records' || subject = 'Student Physical Exam records' || subject = 'Teacher Asking Medicine records' || subject = 'Student Asking Medicine records') ORDER BY notif_Id DESC");
                         // $sql = mysqli_query($conn, "SELECT *, patient.user_Id AS patient_userId FROM notification LEFT JOIN patient ON notification.receiver=patient.user_Id LEFT JOIN users ON notification.receiver=users.user_Id");
                         while ($row = mysqli_fetch_array($sql)) {
                       ?>
                     <tr>
-                        <td><?php echo $row['type']; ?></td>
+                        <td>
+                          <?php if($row['type'] == 'Appointment'): ?>
+                            <a href="appointment.php" class="text-dark" >Appointment</a>
+                          <?php elseif($row['type'] == 'Medical certificate'): ?>
+                            <a href="medical_certificate.php" class="text-dark" >Medical certificate</a>
+                          <?php elseif($row['type'] == 'Medical records'): ?>
+                            <a href="medical_records.php" class="text-dark" >Medical records</a>
+                          <?php else: ?>
+                            <a href="request_update.php" class="text-dark" >Request to edit</a>
+                          <?php endif; ?>
+                        </td>
                         <td><?php echo $row['subject']; ?></td>
                         <td><?php echo $row['message']; ?></td>
                         <td class="text-primary"><?php if(!empty($row['date_sent'])) { echo date("F d, Y h:i A", strtotime($row['date_sent'])); } ?></td>

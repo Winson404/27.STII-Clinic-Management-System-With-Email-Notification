@@ -165,30 +165,35 @@
       </li> -->
 
       <!-- Messages Dropdown Menu -->
-      <!-- <li class="nav-item dropdown">
+      <li class="nav-item dropdown">
+        <?php  
+          // Count the total records
+        $countSql = mysqli_query($conn, "SELECT COUNT(*) AS total FROM notification WHERE (subject = 'Appointment request' || subject = 'Medical certificate request' || subject = 'Medical records request' || subject = 'Student records request to update' || subject = 'Dental records' || subject = 'Medicine records' || subject = 'Teacher records request to update' || subject = 'Teacher Consultation records' || subject = 'Student Consultation records' || subject = 'Teacher Physical Exam records' || subject = 'Student Physical Exam records')");
+        $countRow = mysqli_fetch_assoc($countSql);
+        $totalNotifications = $countRow['total'];
+
+        $getNotif = mysqli_query($conn, "SELECT * FROM notification WHERE (subject = 'Appointment request' || subject = 'Medical certificate request' || subject = 'Medical records request' || subject = 'Student records request to update' || subject = 'Dental records' || subject = 'Medicine records' || subject = 'Teacher records request to update' || subject = 'Teacher Consultation records' || subject = 'Student Consultation records' || subject = 'Teacher Physical Exam records' || subject = 'Student Physical Exam records') ORDER BY notif_Id DESC LIMIT 5");
+            // $sql = mysqli_query($conn, "SELECT *, patient.user_Id AS patient_userId FROM notification LEFT JOIN patient ON notification.receiver=patient.user_Id LEFT JOIN users ON notification.receiver=users.user_Id");
+        ?>
         <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-comments"></i>
-          <span class="badge badge-danger navbar-badge">3</span>
+          <i class="fa-solid fa-bell"></i>
+          <span class="badge badge-danger navbar-badge"><?= $totalNotifications ?></span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <a href="#" class="dropdown-item">
-            <div class="media">
-              <img src="../dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Brad Diesel
-                  <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">Call me whenever you can...</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-          </a>
+          <?php 
+            while ($row_notif = mysqli_fetch_array($getNotif)) {
+          ?>
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+          <a type="button" href="#" class="dropdown-item"><?= $row_notif['type'] . '<br><span class="text-xs">' . substr($row_notif['message'], 0, 45); echo strlen($row_notif['message']) > 45 ? '...' : ''; ?></span>
+          </a>
+          <?php } ?>
+          <div class="dropdown-divider"></div>
+          <a type="button" href="notification.php" class="dropdown-item">See <?php if($totalNotifications == 1) { echo 'notification'; } else { echo 'all notifications'; } ?></a>
         </div>
-      </li> -->
+      </li>
 
+
+     
 
 
        <li class="nav-item dropdown user-menu">
@@ -297,7 +302,12 @@
               basename($_SERVER['PHP_SELF']) == 'dashboard.php' || 
               basename($_SERVER['PHP_SELF']) == 'todays_patient.php' || 
               basename($_SERVER['PHP_SELF']) == 'request_update.php' || 
-              basename($_SERVER['PHP_SELF']) == 'notification.php'
+              basename($_SERVER['PHP_SELF']) == 'notification.php' ||
+              basename($_SERVER['PHP_SELF']) == 'dashboard_asking_med.php' || 
+              basename($_SERVER['PHP_SELF']) == 'dashboard_dental.php' || 
+                basename($_SERVER['PHP_SELF']) == 'dashboard_medical.php' || 
+                basename($_SERVER['PHP_SELF']) == 'dashboard_physical.php' || 
+                basename($_SERVER['PHP_SELF']) == 'dashboard_consultaion.php'
               ) ? 'active' : ''; 
             ?> 
             ">
@@ -307,7 +317,12 @@
                 basename($_SERVER['PHP_SELF']) == 'dashboard.php' || 
                 basename($_SERVER['PHP_SELF']) == 'todays_patient.php' || 
                 basename($_SERVER['PHP_SELF']) == 'request_update.php' || 
-                basename($_SERVER['PHP_SELF']) == 'notification.php'
+                basename($_SERVER['PHP_SELF']) == 'notification.php' ||
+                basename($_SERVER['PHP_SELF']) == 'dashboard_asking_med.php' || 
+                basename($_SERVER['PHP_SELF']) == 'dashboard_dental.php' || 
+                basename($_SERVER['PHP_SELF']) == 'dashboard_medical.php' || 
+                basename($_SERVER['PHP_SELF']) == 'dashboard_physical.php' || 
+                basename($_SERVER['PHP_SELF']) == 'dashboard_consultaion.php'
                 ) ? 'style="display: block;"' : ''; 
               ?> 
             >
@@ -315,8 +330,56 @@
                 <a href="dashboard.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'dashboard.php') ? 'active' : ''; ?>"><i class="fa-solid fa-gauge"></i><p>&nbsp;&nbsp; Main Dashboard</p></a>
               </li>
               <li class="nav-item">
-                <a href="todays_patient.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'todays_patient.php') ? 'active' : ''; ?>"><i class="fa-solid fa-calendar-days"></i><p>&nbsp;&nbsp; Todays Patient</p></a>
+                <a href="#" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'reports.php') ? 'active' : ''; ?>">
+                  <i class="fas fa-chart-bar"></i><p>&nbsp;&nbsp; Reports</p>
+                </a>
               </li>
+
+
+              <li class="nav-item">
+                  <a href="#" class="nav-link
+                    <?php echo (
+                      basename($_SERVER['PHP_SELF']) == 'dashboard_asking_med.php' || 
+                      basename($_SERVER['PHP_SELF']) == 'dashboard_dental.php' || 
+                      basename($_SERVER['PHP_SELF']) == 'dashboard_medical.php' || 
+                      basename($_SERVER['PHP_SELF']) == 'dashboard_physical.php' || 
+                      basename($_SERVER['PHP_SELF']) == 'dashboard_consultaion.php'
+                      ) ? 'active' : ''; 
+                    ?> 
+                  ">
+                      <i class="fa-solid fa-calendar-days"></i><p>&nbsp;&nbsp; Todays Patient<i class="right fas fa-angle-left"></i></p>
+                  </a>
+                  <ul class="nav nav-treeview"
+                  <?php echo (
+                    basename($_SERVER['PHP_SELF']) == 'dashboard_asking_med.php' || 
+                    basename($_SERVER['PHP_SELF']) == 'dashboard_dental.php' || 
+                    basename($_SERVER['PHP_SELF']) == 'dashboard_medical.php' || 
+                    basename($_SERVER['PHP_SELF']) == 'dashboard_physical.php' || 
+                    basename($_SERVER['PHP_SELF']) == 'dashboard_consultaion.php'
+                    ) ? 'style="display: block;"' : ''; 
+                  ?> 
+                  >
+                      <li class="nav-item">
+                          <a href="dashboard_asking_med.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'dashboard_asking_med.php') ? 'active' : ''; ?>"><i class="fa-solid fa-hospital"></i><p>&nbsp;&nbsp; Asking medicine</p></a>
+                      </li>
+                      <li class="nav-item">
+                          <a href="dashboard_dental.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'dashboard_dental.php') ? 'active' : ''; ?>"><i class="fa-solid fa-tooth"></i><p>&nbsp;&nbsp; Dental</p></a>
+                      </li>
+                      <li class="nav-item">
+                          <a href="dashboard_medical.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'dashboard_medical.php') ? 'active' : ''; ?>"><i class="fa-solid fa-hospital"></i><p>&nbsp;&nbsp; Medical</p></a>
+                      </li>
+                      <li class="nav-item">
+                          <a href="dashboard_physical.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'dashboard_physical.php') ? 'active' : ''; ?>"><i class="fa-solid fa-stethoscope"></i><p>&nbsp;&nbsp; Physical</p></a>
+                      </li>
+                      <li class="nav-item">
+                          <a href="dashboard_consultaion.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'dashboard_consultaion.php') ? 'active' : ''; ?>"><i class="fa-solid fa-comments"></i><p>&nbsp;&nbsp; Consultation</p></a>
+                      </li>
+                  </ul>
+              </li>
+
+              <!-- <li class="nav-item">
+                <a href="todays_patient.php" class="nav-link <?php //echo (basename($_SERVER['PHP_SELF']) == 'todays_patient.php') ? 'active' : ''; ?>"><i class="fa-solid fa-calendar-days"></i><p>&nbsp;&nbsp; Todays Patient</p></a>
+              </li> -->
               <li class="nav-item">
                 <a href="request_update.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'request_update.php') ? 'active' : ''; ?>"><i class="fa-solid fa-hourglass-start"></i><p>&nbsp;&nbsp; Update Requests</p></a>
               </li>
@@ -336,35 +399,92 @@
           <li class="nav-item">
             <a href="#" class="nav-link 
               <?php echo (
-                basename($_SERVER['PHP_SELF']) == 'student.php' || basename($_SERVER['PHP_SELF']) == 'student_add.php' || basename($_SERVER['PHP_SELF']) == 'student_update.php' || 
-                basename($_SERVER['PHP_SELF']) == 'teacher.php' || basename($_SERVER['PHP_SELF']) == 'teacher_add.php' || basename($_SERVER['PHP_SELF']) == 'teacher_update.php'
+                basename($_SERVER['PHP_SELF']) == 'student.php' || 
+                basename($_SERVER['PHP_SELF']) == 'student_add.php' || 
+                basename($_SERVER['PHP_SELF']) == 'student_update.php' || 
+                basename($_SERVER['PHP_SELF']) == 'student_view.php' || 
+                basename($_SERVER['PHP_SELF']) == 'teacher.php' ||
+                basename($_SERVER['PHP_SELF']) == 'teacher_add.php' || 
+                basename($_SERVER['PHP_SELF']) == 'teacher_update.php' || 
+                basename($_SERVER['PHP_SELF']) == 'teacher_view.php' ||
+                basename($_SERVER['PHP_SELF']) == 'all_student_view.php' ||
+                basename($_SERVER['PHP_SELF']) == 'all_teacher_view.php'
                 ) ? 'active' : ''; 
               ?> 
             "><i class="fa-solid fa-notes-medical"></i><p>&nbsp;&nbsp;Patient<i class="right fas fa-angle-left"></i></p></a>
             <ul class="nav nav-treeview" 
               <?php echo (
-                basename($_SERVER['PHP_SELF']) == 'student.php' || basename($_SERVER['PHP_SELF']) == 'student_add.php' || basename($_SERVER['PHP_SELF']) == 'student_update.php' ||
-                basename($_SERVER['PHP_SELF']) == 'teacher.php' || basename($_SERVER['PHP_SELF']) == 'teacher_add.php' || basename($_SERVER['PHP_SELF']) == 'teacher_update.php'
+                basename($_SERVER['PHP_SELF']) == 'student.php' || 
+                basename($_SERVER['PHP_SELF']) == 'student_add.php' || 
+                basename($_SERVER['PHP_SELF']) == 'student_update.php' || 
+                basename($_SERVER['PHP_SELF']) == 'student_view.php' || 
+                basename($_SERVER['PHP_SELF']) == 'teacher.php' ||
+                basename($_SERVER['PHP_SELF']) == 'teacher_add.php' || 
+                basename($_SERVER['PHP_SELF']) == 'teacher_update.php' || 
+                basename($_SERVER['PHP_SELF']) == 'teacher_view.php' ||
+                basename($_SERVER['PHP_SELF']) == 'all_student_view.php' ||
+                basename($_SERVER['PHP_SELF']) == 'all_teacher_view.php'
                 ) ? 'style="display: block;"' : ''; 
               ?>
             >
               <li class="nav-item">
-                <a href="student.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'student.php' || basename($_SERVER['PHP_SELF']) == 'student_add.php' || basename($_SERVER['PHP_SELF']) == 'student_update.php') ? 'active' : ''; ?>"><i class="fa-solid fa-user-graduate"></i><p>&nbsp; Student</p></a>
+                <a href="student.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'student.php' || basename($_SERVER['PHP_SELF']) == 'student_add.php' || basename($_SERVER['PHP_SELF']) == 'student_update.php' || basename($_SERVER['PHP_SELF']) == 'student_view.php' || basename($_SERVER['PHP_SELF']) == 'all_student_view.php') ? 'active' : ''; ?>"><i class="fa-solid fa-user-graduate"></i><p>&nbsp; Student</p></a>
               </li>
               <li class="nav-item">
-                <a href="teacher.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'teacher.php' || basename($_SERVER['PHP_SELF']) == 'teacher_add.php' || basename($_SERVER['PHP_SELF']) == 'teacher_update.php') ? 'active' : ''; ?>"><i class="fa-solid fa-user-graduate"></i><p>&nbsp;&nbsp;School Staff</p></a>
+                <a href="teacher.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'teacher.php' || basename($_SERVER['PHP_SELF']) == 'teacher_add.php' || basename($_SERVER['PHP_SELF']) == 'teacher_update.php' || basename($_SERVER['PHP_SELF']) == 'teacher_view.php' || basename($_SERVER['PHP_SELF']) == 'all_teacher_view.php') ? 'active' : ''; ?>"><i class="fa-solid fa-user-graduate"></i><p>&nbsp;&nbsp;School Staff</p></a>
               </li>
             </ul>
           </li>
 
 
+         
+
+
+          <!-- <li class="nav-item">
+           <a href="appointment.php" class="nav-link <?php// echo (basename($_SERVER['PHP_SELF']) == 'appointment.php') ? 'active' : ''; ?>"><i class="fa-solid fa-calendar-check"></i><p>&nbsp;&nbsp; Apppointment</p></a>
+          </li> -->
+
           <li class="nav-item">
-           <a href="appointment.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'appointment.php') ? 'active' : ''; ?>"><i class="fa-solid fa-calendar-check"></i><p>&nbsp;&nbsp; Apppointment</p></a>
+            <a href="#" class="nav-link 
+              <?php echo (
+                basename($_SERVER['PHP_SELF']) == 'appointment.php' || 
+                basename($_SERVER['PHP_SELF']) == 'appointment_approved.php' ||
+                basename($_SERVER['PHP_SELF']) == 'appointment_denied.php'
+                ) ? 'active' : ''; 
+              ?>
+            "><i class="fa-solid fa-calendar-check"></i><p>&nbsp;&nbsp;Apppointment<i class="right fas fa-angle-left"></i></p></a>
+            <ul class="nav nav-treeview" 
+              <?php echo (
+                basename($_SERVER['PHP_SELF']) == 'appointment.php' || 
+                basename($_SERVER['PHP_SELF']) == 'appointment_approved.php' ||
+                basename($_SERVER['PHP_SELF']) == 'appointment_denied.php'
+                ) ? 'style="display: block;"' : ''; 
+              ?>
+            >
+              <li class="nav-item">
+                  <a href="appointment.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'appointment.php') ? 'active' : ''; ?>">
+                      <i class="fa-solid fa-certificate"></i><p>&nbsp;&nbsp; All appointments</p>
+                  </a>
+              </li>
+              <li class="nav-item">
+                  <a href="appointment_approved.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'appointment_approved.php') ? 'active' : ''; ?>">
+                      <i class="fa-solid fa-check"></i><p>&nbsp;&nbsp;Approved appt</p>
+                  </a>
+              </li>
+              <li class="nav-item">
+                  <a href="appointment_denied.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'appointment_denied.php') ? 'active' : ''; ?>">
+                      <i class="fa-solid fa-times"></i><p>&nbsp;&nbsp; Denied appt</p>
+                  </a>
+              </li>
+
+            </ul>
           </li>
+
+
 
           <li class="nav-header text-secondary" style="margin-bottom: -14px;">MEDICINE MANAGEMENT</li>
           <li class="nav-item">
-            <a href="medicine.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'medicine.php') ? 'active' : ''; ?>"><i class="fa-solid fa-house-chimney-medical"></i><p>&nbsp; Medicine </p></a>
+            <a href="medicine.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'medicine.php' || basename($_SERVER['PHP_SELF']) == 'medicine_mgmt.php') ? 'active' : ''; ?>"><i class="fa-solid fa-house-chimney-medical"></i><p>&nbsp; Medicine </p></a>
           </li>
 
           
@@ -373,6 +493,7 @@
           <li class="nav-item">
             <a href="#" class="nav-link 
             <?php echo (
+              basename($_SERVER['PHP_SELF']) == 'asking_med_mgmt.php' || 
               basename($_SERVER['PHP_SELF']) == 'dental_mgmt.php' || 
               basename($_SERVER['PHP_SELF']) == 'form2_mgmt.php' || 
               basename($_SERVER['PHP_SELF']) == 'physical_mgmt.php' || 
@@ -382,15 +503,19 @@
             "><i class="fa-solid fa-address-book"></i><p>&nbsp;&nbsp;Add records<i class="right fas fa-angle-left"></i></p></a>
             <ul class="nav nav-treeview"  
               <?php echo (
+                basename($_SERVER['PHP_SELF']) == 'asking_med_mgmt.php' || 
                 basename($_SERVER['PHP_SELF']) == 'dental_mgmt.php' || 
                 basename($_SERVER['PHP_SELF']) == 'form2_mgmt.php' || 
                 basename($_SERVER['PHP_SELF']) == 'physical_mgmt.php' || 
                 basename($_SERVER['PHP_SELF']) == 'consultation_mgmt.php'
                 ) ? 'style="display: block;"' : ''; 
               ?>
-            >
+            > 
               <li class="nav-item">
-                <a href="dental_mgmt.php?page=create" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'dental_mgmt.php') ? 'active' : ''; ?>"><i class="fa-solid fa-tooth"></i><p>&nbsp; Dental Admission</p></a>
+                <a href="asking_med_mgmt.php?page=create" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'asking_med_mgmt.php') ? 'active' : ''; ?>"><i class="fa-solid fa-hospital"></i><p>&nbsp; Asking Medicine</p></a>
+              </li>
+              <li class="nav-item">
+                <a href="dental_mgmt.php?page=create" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'dental_mgmt.php') ? 'active' : ''; ?>"><i class="fa-solid fa-tooth"></i><p>&nbsp;&nbsp; Dental Admission</p></a>
               </li>
               <li class="nav-item">
                 <a href="form2_mgmt.php?page=create" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'form2_mgmt.php') ? 'active' : ''; ?>"><i class="fa-solid fa-house-chimney-medical"></i><p>&nbsp;&nbsp;Medical Admission</p></a>
@@ -410,7 +535,8 @@
           <li class="nav-item">
             <a href="#" class="nav-link 
               <?php echo (
-                basename($_SERVER['PHP_SELF']) == 'dental_student.php' || 
+                basename($_SERVER['PHP_SELF']) == 'asking_med_student.php' ||
+                basename($_SERVER['PHP_SELF']) == 'dental_student.php' ||  
                 basename($_SERVER['PHP_SELF']) == 'form2_student.php' || 
                 basename($_SERVER['PHP_SELF']) == 'physical_student.php' || 
                 basename($_SERVER['PHP_SELF']) == 'consultation_student.php' ||
@@ -420,7 +546,8 @@
             "><i class="fa-solid fa-user-graduate"></i><p>&nbsp;&nbsp;Student <i class="right fas fa-angle-left"></i></p></a>
             <ul class="nav nav-treeview"  
               <?php echo (
-                basename($_SERVER['PHP_SELF']) == 'dental_student.php' || 
+                basename($_SERVER['PHP_SELF']) == 'asking_med_student.php' ||
+                basename($_SERVER['PHP_SELF']) == 'dental_student.php' ||  
                 basename($_SERVER['PHP_SELF']) == 'form2_student.php' || 
                 basename($_SERVER['PHP_SELF']) == 'physical_student.php' || 
                 basename($_SERVER['PHP_SELF']) == 'consultation_student.php' ||
@@ -428,6 +555,9 @@
                 ) ? 'style="display: block;"' : ''; 
               ?>
             >
+              <li class="nav-item">
+               <a href="asking_med_student.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'asking_med_student.php') ? 'active' : ''; ?>"><i class="fa-solid fa-hospital"></i><p>&nbsp;&nbsp; Asking medicine</p></a>
+              </li>
               <li class="nav-item">
                <a href="dental_student.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'dental_student.php') ? 'active' : ''; ?>"><i class="fa-solid fa-tooth"></i><p>&nbsp;&nbsp; Dental History</p></a>
               </li>
@@ -451,7 +581,8 @@
           <li class="nav-item">
             <a href="#" class="nav-link 
               <?php echo (
-                basename($_SERVER['PHP_SELF']) == 'dental_teacher.php' || 
+                basename($_SERVER['PHP_SELF']) == 'asking_med_teacher.php' ||
+                basename($_SERVER['PHP_SELF']) == 'dental_teacher.php' ||  
                 basename($_SERVER['PHP_SELF']) == 'form2_teacher.php' || 
                 basename($_SERVER['PHP_SELF']) == 'physical_teacher.php' || 
                 basename($_SERVER['PHP_SELF']) == 'consultation_teacher.php' ||
@@ -461,7 +592,8 @@
              "><i class="fa-solid fa-chalkboard-user"></i><p>&nbsp;&nbsp;School Staff <i class="right fas fa-angle-left"></i></p></a>
             <ul class="nav nav-treeview"  
               <?php echo (
-                basename($_SERVER['PHP_SELF']) == 'dental_teacher.php' || 
+                basename($_SERVER['PHP_SELF']) == 'asking_med_teacher.php' ||
+                basename($_SERVER['PHP_SELF']) == 'dental_teacher.php' ||  
                 basename($_SERVER['PHP_SELF']) == 'form2_teacher.php' || 
                 basename($_SERVER['PHP_SELF']) == 'physical_teacher.php' || 
                 basename($_SERVER['PHP_SELF']) == 'consultation_teacher.php' ||
@@ -469,6 +601,9 @@
                 ) ? 'style="display: block;"' : ''; 
               ?>
             >
+              <li class="nav-item">
+               <a href="asking_med_teacher.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'asking_med_teacher.php') ? 'active' : ''; ?>"><i class="fa-solid fa-hospital"></i><p>&nbsp;&nbsp; Asking medicine</p></a>
+              </li>
               <li class="nav-item">
                <a href="dental_teacher.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'dental_teacher.php') ? 'active' : ''; ?>"><i class="fa-solid fa-tooth"></i><p>&nbsp;&nbsp; Dental History</p></a>
               </li>
@@ -527,7 +662,7 @@
             <a href="announcement.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'announcement.php') ? 'active' : ''; ?>"><i class="fa-solid fa-bell"></i><p>&nbsp;&nbsp; Announcement</p></a>
           </li>
           <li class="nav-item">
-           <a href="admin.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'admin.php') ? 'active' : ''; ?>"><i class="fa-solid fa-users-gear"></i><p>&nbsp;&nbsp;System Users</p></a>
+           <a href="admin.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'admin.php' || basename($_SERVER['PHP_SELF']) == 'admin_mgmt.php' || basename($_SERVER['PHP_SELF']) == 'admin_view.php') ? 'active' : ''; ?>"><i class="fa-solid fa-users-gear"></i><p>&nbsp;&nbsp;System Users</p></a>
           </li>
           <li class="nav-item">
            <a href="profile.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'profile.php') ? 'active' : ''; ?>"><i class="fa-solid fa-user-gear"></i><p>&nbsp;&nbsp;Settings</p></a>

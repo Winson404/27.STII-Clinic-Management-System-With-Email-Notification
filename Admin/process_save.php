@@ -122,6 +122,7 @@
 
 	// SAVE STUDENT - STUDENT_ADD.PHP
 	if(isset($_POST['create_user'])) {
+		$added_by                 = mysqli_real_escape_string($conn, $_POST['added_by']);
 		$vaccine_status           = mysqli_real_escape_string($conn, $_POST['vaccine_status']);
 		$position		          = 'Student';
 		$civil_status             = mysqli_real_escape_string($conn, $_POST['civil_status']);
@@ -136,10 +137,11 @@
 		$email		              = mysqli_real_escape_string($conn, $_POST['email']);
 		$parentName		          = mysqli_real_escape_string($conn, $_POST['parentName']);
 		$parentContact	          = mysqli_real_escape_string($conn, $_POST['parentContact']);
+		$guardianName             = mysqli_real_escape_string($conn, $_POST['guardianName']);
 		$illness		          = mysqli_real_escape_string($conn, $_POST['illness']);
 		$pastMedical	          = mysqli_real_escape_string($conn, $_POST['pastMedical']);
 		$surgicalHistory          = mysqli_real_escape_string($conn, $_POST['surgicalHistory']);
-		$blood_type	          = mysqli_real_escape_string($conn, $_POST['blood_type']);
+		$blood_type	              = mysqli_real_escape_string($conn, $_POST['blood_type']);
 		$height		              = mysqli_real_escape_string($conn, $_POST['height']);
 		$weight		              = mysqli_real_escape_string($conn, $_POST['weight']);
 		$allergy		          = mysqli_real_escape_string($conn, $_POST['allergy']);
@@ -384,7 +386,7 @@
 
 		        if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
 
-	        		$save = mysqli_query($conn, "INSERT INTO patient (vaccine_status, position, civil_status, name, grade, dob, age, sex, address, religion, contact, email, parentName, parentContact, illness, pastMedical, surgicalHistory, blood_type, height, weight, allergy, password, pass, nutritional_Immunization, familyHistory, socialHistory, packsYears, environment, frequency, general, hematologic, endocrine, extremities, skin, head, vision, Eyes, ears, nose, mouthThroat, yearsMonths, neck, Breast, Respiratory, Cardiovascular, Gastrointestinal, peripheralvascular, freq_urinary, Urinary, male, age_menarche, female, muscularSkeletal, Psychiatric, Neurologic, NeurologicExam, picture) VALUES ('$vaccine_status', '$position', '$civil_status', '$name', '$grade', '$dob', '$age', '$sex', '$address', '$religion', '$contact', '$email', '$parentName', '$parentContact', '$illness', '$pastMedical', '$surgicalHistory', '$blood_type', '$height', '$weight', '$allergy', '$password', '$pass', '$nutritional_Immunization', '$familyHistory', '$socialHistory', '$packsYears', '$environment', '$frequency', '$general', '$hematologic', '$endocrine', '$extremities', '$skin', '$head', '$vision', '$Eyes', '$ears', '$nose', '$mouthThroat', '$yearsMonths', '$neck', '$Breast', '$Respiratory', '$Cardiovascular', '$Gastrointestinal', '$peripheralvascular', '$freq_urinary', '$Urinary', '$male', '$age_menarche', '$female', '$muscularSkeletal', '$Psychiatric', '$Neurologic', '$NeurologicExam', '$file')");
+	        		$save = mysqli_query($conn, "INSERT INTO patient (added_by, vaccine_status, position, civil_status, name, grade, dob, age, sex, address, religion, contact, email, parentName, parentContact, guardianName, illness, pastMedical, surgicalHistory, blood_type, height, weight, allergy, password, pass, nutritional_Immunization, familyHistory, socialHistory, packsYears, environment, frequency, general, hematologic, endocrine, extremities, skin, head, vision, Eyes, ears, nose, mouthThroat, yearsMonths, neck, Breast, Respiratory, Cardiovascular, Gastrointestinal, peripheralvascular, freq_urinary, Urinary, male, age_menarche, female, muscularSkeletal, Psychiatric, Neurologic, NeurologicExam, picture) VALUES ('$added_by', '$vaccine_status', '$position', '$civil_status', '$name', '$grade', '$dob', '$age', '$sex', '$address', '$religion', '$contact', '$email', '$parentName', '$parentContact', '$guardianName', '$illness', '$pastMedical', '$surgicalHistory', '$blood_type', '$height', '$weight', '$allergy', '$password', '$pass', '$nutritional_Immunization', '$familyHistory', '$socialHistory', '$packsYears', '$environment', '$frequency', '$general', '$hematologic', '$endocrine', '$extremities', '$skin', '$head', '$vision', '$Eyes', '$ears', '$nose', '$mouthThroat', '$yearsMonths', '$neck', '$Breast', '$Respiratory', '$Cardiovascular', '$Gastrointestinal', '$peripheralvascular', '$freq_urinary', '$Urinary', '$male', '$age_menarche', '$female', '$muscularSkeletal', '$Psychiatric', '$Neurologic', '$NeurologicExam', '$file')");
 
 	              	  if($save) {
 			          	$_SESSION['message'] = "Student record has been saved!";
@@ -737,6 +739,37 @@
 
 
 
+	// CREATE/SAVE ASKING MEDICINE PATIENT - ASKING_MED_MGMT.PHP
+	if(isset($_POST['create_asking_med'])) {
+
+		$patient_Id        = mysqli_real_escape_string($conn, $_POST['patient_Id']);
+		$pr                = mysqli_real_escape_string($conn, $_POST['pr']);
+		$temperature       = mysqli_real_escape_string($conn, $_POST['temperature']);
+		$vital_sign        = mysqli_real_escape_string($conn, $_POST['vital_sign']);
+		$medical_advised   = mysqli_real_escape_string($conn, $_POST['medical_advised']);
+		$medicine_given    = mysqli_real_escape_string($conn, $_POST['medicine_given']);
+		$chief_complaints  = mysqli_real_escape_string($conn, $_POST['chief_complaints']);
+		$date_admitted     = date('Y-m-d H:i:s');
+
+		$save = mysqli_query($conn, "INSERT INTO asking_med (patient_Id, pr, temperature, vital_sign, medical_advised, medicine_given, chief_complaints, date_admitted) VALUES ('$patient_Id', '$pr', '$temperature', '$vital_sign', '$medical_advised', '$medicine_given', '$chief_complaints', '$date_admitted')");
+
+		  if($save) {
+		  	$_SESSION['message'] = "Record has been added.";
+		    $_SESSION['text'] = "Saved successfully!";
+		    $_SESSION['status'] = "success";
+			header("Location: asking_med_mgmt.php?page=create");
+		  } else {
+		    $_SESSION['message'] = "Something went wrong while saving the information.";
+		    $_SESSION['text'] = "Please try again.";
+		    $_SESSION['status'] = "error";
+		    header("Location: asking_med_mgmt.php?page=create");
+		  }
+	}
+
+
+
+
+
 	// CREATE/SAVE DENTAL PATIENT - DENTAL_MGMT.PHP
 	if(isset($_POST['create_dental'])) {
 
@@ -787,10 +820,9 @@
 		$vital_sign        = mysqli_real_escape_string($conn, $_POST['vital_sign']);
 		$diagnosis         = mysqli_real_escape_string($conn, $_POST['diagnosis']);
 		$medical_advised   = mysqli_real_escape_string($conn, $_POST['medical_advised']);
-		$medical_personnel = mysqli_real_escape_string($conn, $_POST['medical_personnel']);
 		$date_admitted     = date('Y-m-d H:i:s');
 
-		$save = mysqli_query($conn, "INSERT INTO form2 (patient_Id, vs_bp, pr, rr, temperature, vital_sign, diagnosis, medical_advised, medical_personnel, date_admitted) VALUES ('$patient_Id', '$vs_bp', '$pr', '$rr', '$temperature', '$vital_sign', '$diagnosis', '$medical_advised', '$medical_personnel', '$date_admitted')");
+		$save = mysqli_query($conn, "INSERT INTO form2 (patient_Id, vs_bp, pr, rr, temperature, vital_sign, diagnosis, medical_advised, date_admitted) VALUES ('$patient_Id', '$vs_bp', '$pr', '$rr', '$temperature', '$vital_sign', '$diagnosis', '$medical_advised', '$date_admitted')");
 
 		  if($save) {
 		  	$_SESSION['message'] = "Record has been added.";
@@ -967,6 +999,7 @@
 		$brand_name       = mysqli_real_escape_string($conn, $_POST['brand_name']);
 		$other_brand_name = mysqli_real_escape_string($conn, $_POST['other_brand_name']);
 		$med_name         = mysqli_real_escape_string($conn, $_POST['med_name']);
+		$milligrams       = mysqli_real_escape_string($conn, $_POST['milligrams']);
 		$med_stock_in     = mysqli_real_escape_string($conn, $_POST['med_stock_in']);
 		$expiration_date  = mysqli_real_escape_string($conn, $_POST['expiration_date']);
 		$date_added       = date('Y-m-d h:i A');
@@ -986,7 +1019,7 @@
 			    header("Location: medicine_mgmt.php?page=create");
 			} else {
 
-			  $save = mysqli_query($conn, "INSERT INTO medicine (brand_name, other_brand_name, med_name, med_stock_in, med_stock_in_orig, expiration_date, date_added) VALUES ('$brand_name', '$other_brand_name', '$med_name', '$med_stock_in', '$med_stock_in', '$expiration_date', '$date_added')");
+			  $save = mysqli_query($conn, "INSERT INTO medicine (brand_name, other_brand_name, med_name, milligrams, med_stock_in, med_stock_in_orig, expiration_date, date_added) VALUES ('$brand_name', '$other_brand_name', '$med_name', '$milligrams', '$med_stock_in', '$med_stock_in', '$expiration_date', '$date_added')");
 
 			  if($save) {
 			  	$_SESSION['message'] = "Record has been added.";

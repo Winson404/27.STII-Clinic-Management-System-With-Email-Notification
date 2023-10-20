@@ -137,19 +137,25 @@
                               <small id="text" style="font-style: italic;"></small>
                             </div>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                             <div class="form-group">
-                              <span class="text-dark"><b>Parent's name/Guardian</b></span>
-                              <input class="form-control" placeholder="Enter Parent's name/Guardian" name="parentName" readonly value="<?php echo $row['parentName']; ?>">
+                              <span class="text-dark"><b>Parent's name</b></span>
+                              <input class="form-control" placeholder="Enter Parent's name" name="parentName" readonly value="<?php echo $row['parentName']; ?>">
                             </div>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                             <div class="form-group">
-                              <span class="text-dark"><b>Parent/Guardian contact #</b></span>
+                              <span class="text-dark"><b>Parent's contact #</b></span>
                               <div class="input-group">
                                 <div class="input-group-text">+63</div>
                                 <input type="tel" class="form-control" pattern="[7-9]{1}[0-9]{9}" id="contact" name="parentContact" placeholder = "9123456789" readonly maxlength="10" value="<?php echo $row['parentContact']; ?>">
                               </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                            <div class="form-group">
+                              <span class="text-dark"><b>Guardian name</b></span>
+                              <input class="form-control" placeholder="Enter Guardian name" name="guardianName" required value="<?php echo $row['guardianName']; ?>" readonly>
                             </div>
                         </div>
                         <div class="col-12">
@@ -1430,7 +1436,7 @@
                         <div class="col-3 mt-3">
                             <div class="form-group">
                               <span class="text-dark"><b>Temperature</b></span>
-                              <input type="text" class="form-control" placeholder="Enter Temperature" name="rr" required readonly value="<?php echo $row['rr']; ?>">
+                              <input type="text" class="form-control" placeholder="Enter Temperature" name="temperature" required readonly value="<?php echo $row['temperature']; ?>">
                             </div>
                         </div>
                         <div class="col-12">
@@ -1454,12 +1460,7 @@
                             </div>
                         </div>
 
-                        <div class="col-12">
-                            <div class="form-group">
-                              <span class="text-dark"><b>Date and Medical Personnel</b></span>
-                              <textarea cols="30" rows="3" class="form-control" placeholder="Date and Medical Personnel" name="medical_personnel" readonly><?php echo $row['medical_personnel']; ?></textarea>
-                            </div>
-                        </div>
+                       
                       <?php 
                         } else { 
                           $fetch = mysqli_query($conn, "SELECT * FROM form2 JOIN patient ON form2.patient_Id=patient.user_Id WHERE form2.patient_Id='$student_Id' LIMIT 1");
@@ -1494,7 +1495,7 @@
                         <div class="col-3 mt-3">
                             <div class="form-group">
                               <span class="text-dark"><b>Temperature</b></span>
-                              <input type="text" class="form-control" placeholder="Enter Temperature" name="rr" required readonly value="<?php echo $row['rr']; ?>">
+                              <input type="text" class="form-control" placeholder="Enter Temperature" name="temperature" required readonly value="<?php echo $row['temperature']; ?>">
                             </div>
                         </div>
                         <div class="col-12">
@@ -1518,12 +1519,7 @@
                             </div>
                         </div>
 
-                        <div class="col-12">
-                            <div class="form-group">
-                              <span class="text-dark"><b>Date and Medical Personnel</b></span>
-                              <textarea cols="30" rows="3" class="form-control" placeholder="Date and Medical Personnel" name="medical_personnel" readonly><?php echo $row['medical_personnel']; ?></textarea>
-                            </div>
-                        </div>
+                        
                       <?php } else { ?>
 
                         <div class="col-lg-12 mt-3 mb-2 col-md-12 col-sm-12 col-12">
@@ -2455,7 +2451,114 @@
                         </div>
                       <?php } } ?>
 
+                      <?php 
+                          $fetch = mysqli_query($conn, "SELECT * FROM asking_med JOIN patient ON asking_med.patient_Id=patient.user_Id WHERE asking_med.patient_Id='$student_Id' ORDER BY asking_med.date_admitted DESC LIMIT 1");
+                          if(mysqli_num_rows($fetch) > 0) {
+                          $row = mysqli_fetch_array($fetch);
+                       ?> 
+                        
+                        <div class="col-lg-12 mt-3 mb-2 col-md-12 col-sm-12 col-12">
+                          <hr>
+                          <a class="h5 text-primary"><b>ASKING MEDICINE RECORDS </b> </a>
+                          <br>
+                          Date admitted: <?php echo date("F d, Y",strtotime($row['date_admitted'])); ?>
+                          <div class="dropdown-divider"></div>
+                        </div>
+                        <div class="col-3 mt-3">
+                            <div class="form-group">
+                              <span class="text-dark"><b>PR</b></span>
+                              <input type="text" class="form-control" placeholder="Enter PR" name="pr" required value="<?php echo $row['pr']; ?>" readonly>
+                            </div>
+                        </div>
+                        <div class="col-3 mt-3">
+                            <div class="form-group">
+                              <span class="text-dark"><b>Temperature</b></span>
+                              <input type="text" class="form-control" placeholder="Enter Temperature" name="rr" required value="<?php echo $row['temperature']; ?>" readonly>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                              <span class="text-dark"><b>Vital sign</b></span>
+                              <textarea cols="30" rows="3" class="form-control" placeholder="Vital sign" name="vital_sign" required disabled><?php echo $row['vital_sign']; ?></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                              <span class="text-dark"><b>Treatment/ Medical advised</b></span>
+                              <textarea cols="30" rows="3" class="form-control" placeholder="Treatment/ Medical advised" name="medical_advised" required disabled><?php echo $row['medical_advised']; ?></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                              <span class="text-dark"><b>Medicine given</b></span>
+                              <textarea cols="30" rows="3" class="form-control" placeholder="Medicine given" name="medicine_given" required disabled><?php echo $row['medicine_given']; ?></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                              <span class="text-dark"><b>Chief complaint</b></span>
+                              <textarea cols="30" rows="3" class="form-control" placeholder="Chief complaint" name="chief_complaints" required disabled><?php echo $row['chief_complaints']; ?></textarea>
+                            </div>
+                        </div>
 
+                      <?php 
+                        } else { 
+                          $fetch = mysqli_query($conn, "SELECT * FROM asking_med JOIN patient ON asking_med.patient_Id=patient.user_Id WHERE asking_med.patient_Id='$student_Id' LIMIT 1");
+                          if(mysqli_num_rows($fetch) > 0) {
+                          $row = mysqli_fetch_array($fetch);
+                      ?>
+                          
+                        <div class="col-lg-12 mt-3 mb-2 col-md-12 col-sm-12 col-12">
+                          <hr>
+                          <a class="h5 text-primary"><b>ASKING MEDICINE RECORDS </b> </a>
+                          <br>
+                          Date admitted: <?php echo date("F d, Y",strtotime($row['date_admitted'])); ?>
+                          <div class="dropdown-divider"></div>
+                        </div>
+                        <div class="col-3 mt-3">
+                            <div class="form-group">
+                              <span class="text-dark"><b>PR</b></span>
+                              <input type="text" class="form-control" placeholder="Enter PR" name="pr" required value="<?php echo $row['pr']; ?>" readonly>
+                            </div>
+                        </div>
+                        <div class="col-3 mt-3">
+                            <div class="form-group">
+                              <span class="text-dark"><b>Temperature</b></span>
+                              <input type="text" class="form-control" placeholder="Enter Temperature" name="rr" required value="<?php echo $row['temperature']; ?>" readonly>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                              <span class="text-dark"><b>Vital sign</b></span>
+                              <textarea cols="30" rows="3" class="form-control" placeholder="Vital sign" name="vital_sign" required disabled><?php echo $row['vital_sign']; ?></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                              <span class="text-dark"><b>Treatment/ Medical advised</b></span>
+                              <textarea cols="30" rows="3" class="form-control" placeholder="Treatment/ Medical advised" name="medical_advised" required disabled><?php echo $row['medical_advised']; ?></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                              <span class="text-dark"><b>Medicine given</b></span>
+                              <textarea cols="30" rows="3" class="form-control" placeholder="Medicine given" name="medicine_given" required disabled><?php echo $row['medicine_given']; ?></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                              <span class="text-dark"><b>Chief complaint</b></span>
+                              <textarea cols="30" rows="3" class="form-control" placeholder="Chief complaint" name="chief_complaints" required disabled><?php echo $row['chief_complaints']; ?></textarea>
+                            </div>
+                        </div>
+
+                      <?php } else { ?>
+                        <div class="col-lg-12 mt-3 mb-2 col-md-12 col-sm-12 col-12">
+                          <hr>
+                          <a class="h5 text-primary text-center"><b>NO ASKING MEDICINE RECORDS</b></a>
+                          <div class="dropdown-divider"></div>
+                        </div>
+                      <?php } } ?>
 
 
                     </div>

@@ -16,9 +16,24 @@
             <textarea class="form-control" name="purpose" placeholder="Enter for purpose" id="" cols="30" rows="3" required></textarea>
           </div>
           <div class="form-group">
-            <label for="">Pick-up date</label>
-            <input type="date" class="form-control" name="pick_up_date" required>
+              <label for="appt_date">Pick desired appointment date</label>
+              <input type="date" class="form-control" id="appt_date" name="appt_date" required>
           </div>
+
+          <script>
+              // Get the current date
+              const currentDate = new Date();
+              
+              // Calculate the next day
+              currentDate.setDate(currentDate.getDate() + 1);
+              
+              // Format the next day in the YYYY-MM-DD format
+              const nextDay = currentDate.toISOString().split('T')[0];
+              
+              // Set the minimum date for the input element
+              document.getElementById('appt_date').setAttribute('min', nextDay);
+          </script>
+
          
           
       </div>

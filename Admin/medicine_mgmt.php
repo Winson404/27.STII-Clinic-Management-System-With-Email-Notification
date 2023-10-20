@@ -41,7 +41,6 @@
                       <span class="text-dark"><b>Brand name</b></span>
                       <select class="form-control" name="brand_name" id="brand_name" required>
                         <option selected disabled value="">Select Brand Name</option>
-                        <option value="Generic">Generic</option>
                         <option value="RiteMed">RiteMed</option>
                         <option value="Biogesic">Biogesic</option>
                         <option value="Others">Others</option>
@@ -52,10 +51,13 @@
                       <span class="text-dark"><b>Other brand name</b></span>
                       <input type="text" class="form-control" placeholder="Enter other brand name" name="other_brand_name" id="other_brand_name">
                     </div>
-
                     <div class="form-group">
-                      <span class="text-dark"><b>Medicine name</b></span>
-                      <input type="text" class="form-control" placeholder="Enter medicine name" name="med_name" required>
+                      <span class="text-dark"><b>Generic name</b></span>
+                      <input type="text" class="form-control" placeholder="Enter generic name" name="med_name" required>
+                    </div>
+                    <div class="form-group">
+                      <span class="text-dark"><b>Milligrams</b></span>
+                      <input type="text" class="form-control" placeholder="Enter Milligrams" name="milligrams" required>
                     </div>
                     <div class="form-group">
                       <span class="text-dark"><b>Quantity available</b></span>
@@ -125,7 +127,6 @@
                       <span class="text-dark"><b>Brand name</b></span>
                       <select class="form-control" name="brand_name" id="brand_name" required>
                         <option selected disabled value="">Select vaccine status</option>
-                        <option value="Generic" <?php if($row['brand_name'] == 'Generic') { echo 'selected'; } ?>>Generic</option>
                         <option value="RiteMed" <?php if($row['brand_name'] == 'RiteMed') { echo 'selected'; } ?>>RiteMed</option>
                         <option value="Biogesic" <?php if($row['brand_name'] == 'Biogesic') { echo 'selected'; } ?>>Biogesic</option>
                         <option value="Others" <?php if($row['brand_name'] == 'Others') { echo 'selected'; } ?>>Others</option>
@@ -136,13 +137,13 @@
                       <span class="text-dark"><b>Other brand name</b></span>
                       <input type="text" class="form-control" placeholder="Enter other brand name" name="other_brand_name" id="other_brand_name" value="<?php echo $row['other_brand_name']; ?>">
                     </div>
-
-
-
-
                     <div class="form-group">
-                      <span class="text-dark"><b>Medicine name</b></span>
-                      <input type="text" class="form-control" placeholder="Enter medicine name" name="med_name" required value="<?php echo $row['med_name']; ?>">
+                      <span class="text-dark"><b>Generic name</b></span>
+                      <input type="text" class="form-control" placeholder="Enter generic name" name="med_name" required value="<?php echo $row['med_name']; ?>">
+                    </div>
+                    <div class="form-group">
+                      <span class="text-dark"><b>Milligrams</b></span>
+                      <input type="text" class="form-control" placeholder="Enter Milligrams" name="milligrams" required value="<?php echo $row['milligrams']; ?>">
                     </div>
                     <div class="form-group">
                       <span class="text-dark"><b>Quantity stock available</b></span>

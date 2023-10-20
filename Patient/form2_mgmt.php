@@ -97,7 +97,12 @@
                               <input type="text" class="form-control"  placeholder="Address" readonly id="address" value="<?php echo $row['address']; ?>">
                             </div>
                         </div>
-
+                        <div class="col-12">
+                            <div class="form-group">
+                              <span class="text-dark"><b>Temperature</b></span>
+                              <input type="text" class="form-control" placeholder="Enter Temperature" name="temperature" required readonly value="<?php echo $row['temperature']; ?>">
+                            </div>
+                        </div>
                        
                         <div class="col-12">
                             <div class="form-group">
@@ -119,14 +124,6 @@
                               <textarea cols="30" rows="3" class="form-control" placeholder="Treatment/ Medical advised" name="medical_advised" readonly><?php echo $row['medical_advised']; ?></textarea>
                             </div>
                         </div>
-
-                        <div class="col-12">
-                            <div class="form-group">
-                              <span class="text-dark"><b>Date and Medical Personnel</b></span>
-                              <textarea cols="30" rows="3" class="form-control" placeholder="Date and Medical Personnel" name="medical_personnel" readonly><?php echo $row['medical_personnel']; ?></textarea>
-                            </div>
-                        </div>
-                        
 
                     </div>
                     <!-- END ROW -->

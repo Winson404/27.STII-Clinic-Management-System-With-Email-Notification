@@ -17,9 +17,22 @@
           </div>
           <div class="form-group">
             <label for="">Pick-up date</label>
-            <input type="date" class="form-control" name="pick_up_date" required>
+            <input type="date" class="form-control" name="pick_up_date" id="pick_up_date" required>
           </div>
-         
+           <script>
+              // Get the current date
+              const currentDate = new Date();
+              
+              // Calculate the next day
+              currentDate.setDate(currentDate.getDate() + 1);
+              
+              // Format the next day in the YYYY-MM-DD format
+              const nextDay = currentDate.toISOString().split('T')[0];
+              
+              // Set the minimum date for the input element
+              document.getElementById('pick_up_date').setAttribute('min', nextDay);
+          </script>
+
           
       </div>
       <div class="modal-footer alert-light">

@@ -65,6 +65,7 @@
 	
 
 
+
 	// DELETE NOTIFICATION - NOTIFICATION_DELETE.PHP
 	if(isset($_POST['delete_notification'])) {
 		$notif_Id = $_POST['notif_Id'];

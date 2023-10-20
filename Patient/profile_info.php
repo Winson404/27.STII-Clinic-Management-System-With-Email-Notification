@@ -122,21 +122,46 @@
                               <small id="text" style="font-style: italic;"></small>
                             </div>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                            <div class="form-group">
-                              <span class="text-dark"><b>Parent's name/Guardian</b></span>
-                              <input class="form-control" placeholder="Enter Parent's name/Guardian" name="parentName" required value="<?php echo $row['parentName']; ?>">
+                        <?php if($row['position'] == 'Student') { ?>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                <div class="form-group">
+                                  <span class="text-dark"><b>Parent's name</b></span>
+                                  <input class="form-control" placeholder="Enter Parent's name" name="parentName" required value="<?php echo $row['parentName']; ?>">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                            <div class="form-group">
-                              <span class="text-dark"><b>Parent/Guardian contact #</b></span>
-                              <div class="input-group">
-                                <div class="input-group-text">+63</div>
-                                <input type="tel" class="form-control" pattern="[7-9]{1}[0-9]{9}" id="contact" name="parentContact" placeholder = "9123456789" required maxlength="10" value="<?php echo $row['parentContact']; ?>">
-                              </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                <div class="form-group">
+                                  <span class="text-dark"><b>Parent's' contact #</b></span>
+                                  <div class="input-group">
+                                    <div class="input-group-text">+63</div>
+                                    <input type="tel" class="form-control" pattern="[7-9]{1}[0-9]{9}" id="contact" name="parentContact" placeholder = "9123456789" required maxlength="10" value="<?php echo $row['parentContact']; ?>">
+                                  </div>
+                                </div>
                             </div>
-                        </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                <div class="form-group">
+                                  <span class="text-dark"><b>Guardian name</b></span>
+                                  <input class="form-control" placeholder="Enter Guardian name" name="guardianName" value="<?php echo $row['guardianName']; ?>" required>
+                                </div>
+                            </div>
+                        <?php } else { ?>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                <div class="form-group">
+                                  <span class="text-dark"><b>Parent's name/Guardian or Spouse</b></span>
+                                  <input class="form-control" placeholder="Enter Parent's name/Guardian or Spouse" name="parentName" required value="<?php echo $row['parentName']; ?>">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                  <span class="text-dark"><b>Parent/Guardian contact #</b></span>
+                                  <div class="input-group">
+                                    <div class="input-group-text">+63</div>
+                                    <input type="tel" class="form-control" pattern="[7-9]{1}[0-9]{9}" id="contact" name="parentContact" placeholder = "9123456789" required maxlength="10" value="<?php echo $row['parentContact']; ?>">
+                                  </div>
+                                </div>
+                            </div>
+                         <?php } ?>
+                        
                         <div class="col-12">
                             <div class="form-group">
                               <span class="text-dark"><b>History of Present Illness</b></span>

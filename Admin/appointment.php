@@ -51,7 +51,7 @@
                   </thead>
                   <tbody id="users_data">
                       <?php 
-                        $sql = mysqli_query($conn, "SELECT * FROM appointment JOIN patient ON appointment.appt_patient_Id=patient.user_Id");
+                        $sql = mysqli_query($conn, "SELECT * FROM appointment JOIN patient ON appointment.appt_patient_Id=patient.user_Id WHERE (appt_status=0 || appt_status=3)");
                         while ($row = mysqli_fetch_array($sql)) {
                       ?>
                     <tr>
@@ -85,7 +85,7 @@
                         </td>
                         <td>
                           <?php if($row['appt_status'] == 0): ?>
-
+                            
                                 <button type="button" class="btn bg-success btn-sm" data-toggle="modal" data-target="#approve<?php echo $row['appt_Id']; ?>"><i class="fa-solid fa-circle-check"></i> Approve/Update</button>
                                 <button type="button" class="btn bg-info btn-sm" data-toggle="modal" data-target="#settled<?php echo $row['appt_Id']; ?>"disabled><i class="fa-solid fa-circle-check"></i> Settled</button>
                                 <button type="button" class="btn bg-warning btn-sm" data-toggle="modal" data-target="#deny<?php echo $row['appt_Id']; ?>"><i class="fa-solid fa-circle-xmark"></i> Deny</button>

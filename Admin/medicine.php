@@ -28,7 +28,7 @@
           <div class="col-md-12">
             <div class="card">
               <div class="card-header p-2">
-                <a href="medicine_mgmt.php?page=create" class="btn bg-primary btn-sm ml-2"><i class="fa-sharp fa-solid fa-square-plus"></i>Add  New Medicine</a>
+                <a href="medicine_mgmt.php?page=create" class="btn bg-primary btn-sm ml-2"><i class="fa-sharp fa-solid fa-square-plus"></i> Add  New Medicine</a>
 
                 <div class="card-tools mr-1 mt-3">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">

@@ -143,14 +143,6 @@
                             </div>
                         </div>
 
-                        <div class="col-12">
-                            <div class="form-group">
-                              <span class="text-dark"><b>Date and Medical Personnel</b></span>
-                              <textarea cols="30" rows="3" class="form-control" placeholder="Date and Medical Personnel" name="medical_personnel" required></textarea>
-                            </div>
-                        </div>
-                        
-
                     </div>
                     <!-- END ROW -->
                 </div>
@@ -292,7 +284,7 @@
                         <div class="col-3 mt-3">
                             <div class="form-group">
                               <span class="text-dark"><b>Temperature</b></span>
-                              <input type="text" class="form-control" placeholder="Enter Temperature" name="rr" required value="<?php echo $row['rr']; ?>">
+                              <input type="text" class="form-control" placeholder="Enter Temperature" name="temperature" required value="<?php echo $row['temperature']; ?>">
                             </div>
                         </div>
 
@@ -317,14 +309,6 @@
                               <textarea cols="30" rows="3" class="form-control" placeholder="Treatment/ Medical advised" name="medical_advised" required><?php echo $row['medical_advised']; ?></textarea>
                             </div>
                         </div>
-
-                        <div class="col-12">
-                            <div class="form-group">
-                              <span class="text-dark"><b>Date and Medical Personnel</b></span>
-                              <textarea cols="30" rows="3" class="form-control" placeholder="Date and Medical Personnel" name="medical_personnel" required><?php echo $row['medical_personnel']; ?></textarea>
-                            </div>
-                        </div>
-                        
 
                     </div>
                     <!-- END ROW -->

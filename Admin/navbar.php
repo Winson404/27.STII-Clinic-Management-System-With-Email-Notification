@@ -7,6 +7,7 @@
     $_SESSION['last_active'] = time();
 
     
+    
 ?>
 
 <!DOCTYPE html>
@@ -299,12 +300,17 @@
           <li class="nav-item">
             <a href="#" class="nav-link 
             <?php echo (
-              basename($_SERVER['PHP_SELF']) == 'dashboard.php' || 
-              basename($_SERVER['PHP_SELF']) == 'todays_patient.php' || 
-              basename($_SERVER['PHP_SELF']) == 'request_update.php' || 
-              basename($_SERVER['PHP_SELF']) == 'notification.php' ||
-              basename($_SERVER['PHP_SELF']) == 'dashboard_asking_med.php' || 
-              basename($_SERVER['PHP_SELF']) == 'dashboard_dental.php' || 
+                basename($_SERVER['PHP_SELF']) == 'list_patients.php' || 
+                basename($_SERVER['PHP_SELF']) == 'list_appointments.php' || 
+                basename($_SERVER['PHP_SELF']) == 'list_asking_med.php' || 
+                basename($_SERVER['PHP_SELF']) == 'list_consultation.php' || 
+                basename($_SERVER['PHP_SELF']) == 'list_consultaion.php' ||
+                basename($_SERVER['PHP_SELF']) == 'dashboard.php' || 
+                basename($_SERVER['PHP_SELF']) == 'todays_patient.php' || 
+                basename($_SERVER['PHP_SELF']) == 'request_update.php' || 
+                basename($_SERVER['PHP_SELF']) == 'notification.php' ||
+                basename($_SERVER['PHP_SELF']) == 'dashboard_asking_med.php' || 
+                basename($_SERVER['PHP_SELF']) == 'dashboard_dental.php' || 
                 basename($_SERVER['PHP_SELF']) == 'dashboard_medical.php' || 
                 basename($_SERVER['PHP_SELF']) == 'dashboard_physical.php' || 
                 basename($_SERVER['PHP_SELF']) == 'dashboard_consultaion.php'
@@ -314,6 +320,11 @@
             <i class="fa-solid fa-file"></i><p>&nbsp;&nbsp;Dashboard<i class="right fas fa-angle-left"></i></p></a>
             <ul class="nav nav-treeview" 
               <?php echo (
+                basename($_SERVER['PHP_SELF']) == 'list_patients.php' || 
+                basename($_SERVER['PHP_SELF']) == 'list_appointments.php' || 
+                basename($_SERVER['PHP_SELF']) == 'list_asking_med.php' || 
+                basename($_SERVER['PHP_SELF']) == 'list_consultation.php' || 
+                basename($_SERVER['PHP_SELF']) == 'list_consultaion.php' ||
                 basename($_SERVER['PHP_SELF']) == 'dashboard.php' || 
                 basename($_SERVER['PHP_SELF']) == 'todays_patient.php' || 
                 basename($_SERVER['PHP_SELF']) == 'request_update.php' || 
@@ -329,11 +340,55 @@
               <li class="nav-item">
                 <a href="dashboard.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'dashboard.php') ? 'active' : ''; ?>"><i class="fa-solid fa-gauge"></i><p>&nbsp;&nbsp; Main Dashboard</p></a>
               </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'reports.php') ? 'active' : ''; ?>">
+              <!-- <li class="nav-item">
+                <a href="#" class="nav-link <?php// echo (basename($_SERVER['PHP_SELF']) == 'reports.php') ? 'active' : ''; ?>">
                   <i class="fas fa-chart-bar"></i><p>&nbsp;&nbsp; Reports</p>
                 </a>
+              </li> -->
+
+
+
+              <li class="nav-item">
+                  <a href="#" class="nav-link
+                    <?php echo (
+                      basename($_SERVER['PHP_SELF']) == 'list_patients.php' || 
+                      basename($_SERVER['PHP_SELF']) == 'list_appointments.php' || 
+                      basename($_SERVER['PHP_SELF']) == 'list_asking_med.php' || 
+                      basename($_SERVER['PHP_SELF']) == 'list_consultation.php' || 
+                      basename($_SERVER['PHP_SELF']) == 'list_documents.php'
+                      ) ? 'active' : ''; 
+                    ?> 
+                  ">
+                      <i class="fas fa-chart-bar"></i><p>&nbsp;&nbsp; Daily Reports<i class="right fas fa-angle-left"></i></p>
+                  </a>
+                  <ul class="nav nav-treeview"
+                  <?php echo (
+                    basename($_SERVER['PHP_SELF']) == 'list_patients.php' || 
+                    basename($_SERVER['PHP_SELF']) == 'list_appointments.php' || 
+                    basename($_SERVER['PHP_SELF']) == 'list_asking_med.php' || 
+                    basename($_SERVER['PHP_SELF']) == 'list_consultation.php' || 
+                    basename($_SERVER['PHP_SELF']) == 'list_documents.php'
+                    ) ? 'style="display: block;"' : ''; 
+                  ?> 
+                  >
+                      <li class="nav-item">
+                          <a href="list_patients.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'list_patients.php') ? 'active' : ''; ?>"><i class="fas fa-chart-bar"></i><p>&nbsp;&nbsp; List of Patient</p></a>
+                      </li>
+                      <li class="nav-item">
+                          <a href="list_appointments.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'list_appointments.php') ? 'active' : ''; ?>"><i class="fas fa-chart-bar"></i><p>&nbsp;&nbsp; List of Appointment</p></a>
+                      </li>
+                      <li class="nav-item">
+                          <a href="list_asking_med.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'list_asking_med.php') ? 'active' : ''; ?>"><i class="fas fa-chart-bar"></i><p>&nbsp;&nbsp; List of Asking Medicine</p></a>
+                      </li>
+                      <li class="nav-item">
+                          <a href="list_consultation.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'list_consultation.php') ? 'active' : ''; ?>"><i class="fas fa-chart-bar"></i><p>&nbsp;&nbsp; List of Consultation</p></a>
+                      </li>
+                      <li class="nav-item">
+                          <a href="list_documents.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'list_documents.php') ? 'active' : ''; ?>"><i class="fas fa-chart-bar"></i><p>&nbsp;&nbsp; List of Requests Document</p></a>
+                      </li>
+                  </ul>
               </li>
+
 
 
               <li class="nav-item">
@@ -693,6 +748,7 @@
 
 
 
+ 
 
 
 

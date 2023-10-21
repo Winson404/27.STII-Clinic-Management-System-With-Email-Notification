@@ -1,5 +1,13 @@
 <title>STII Clinic Management System | Dashboard</title>
-<?php include 'navbar.php'; ?>
+<?php 
+    include 'navbar.php';  
+    $check_appt = mysqli_query($conn, "SELECT * FROM appointment WHERE appt_status=0 AND DATE(appt_date)='$date_today' AND seen_by_admin=0"); 
+    $result = mysqli_num_rows($check_appt);
+
+    $check_med_cert = mysqli_query($conn, "SELECT * FROM request_doc WHERE DATE(pick_up_date)='$date_today' AND seen_by_admin=0"); 
+    $result2 = mysqli_num_rows($check_med_cert);
+
+?>
   
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -539,4 +547,132 @@
 <br>
 <br>
 <br>
+
+  <div class="modal fade" id="announcement_today" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header bg-light">
+          <h5 class="modal-title" id="exampleModalLabel">Schedules today</h5>
+          <a type="button" class="close" href="process_update.php?seen=appointment">
+            <span aria-hidden="true"><i class="fa-solid fa-circle-xmark"></i></span>
+          </a>
+        </div>
+        <div class="modal-body">
+          <?php if($result > 0) { ?>
+            <h5 class="text-center">Appointment today</h5>
+            <hr>
+            <table id="example1" class="table table-bordered table-hover text-sm mb-3">
+              <thead>
+              <tr>  
+                <th>ID</th>
+                <th>PATIENT NAME</th>
+                <th>APPT DATE</th>
+                <th>APPT TIME</th>
+                <th>APPT STATUS</th>
+              </tr>
+              </thead>
+              <tbody id="users_data">
+                  <?php 
+                    $sql = mysqli_query($conn, "SELECT * FROM appointment JOIN patient ON appointment.appt_patient_Id=patient.user_Id WHERE appt_status=0 AND DATE(appt_date)='$date_today'");
+                    while ($row = mysqli_fetch_array($sql)) {
+                  ?>
+                <tr>
+                    <td><?= $row['appt_Id'] ?></td>
+                    <td><?php echo ucwords($row['name']); ?></td>
+                    <td>
+                      <?php if($row['appt_date'] == ""): ?>
+                        <span class="badge badge-warning pt-1">Waiting for approval</span>
+                      <?php else : ?>
+                        <span class="badge badge-success pt-1"><?php echo date("F d, Y", strtotime($row['appt_date'])); ?></span>
+                      <?php endif; ?>
+                    </td>
+                    <td>
+                      <?php if($row['appt_time'] == ""): ?>
+                        <span>Waiting for approval</span>
+                      <?php else : ?>
+                        <span><?php echo date("h:i A", strtotime($row['appt_time'])); ?></span>
+                      <?php endif; ?>
+                    </td>
+                    <td>
+                      <?php if($row['appt_status'] == 0): ?>
+                            <span class="badge badge-warning p-1">Pending</span>
+                      <?php elseif($row['appt_status'] == 1): ?>
+                            <span class="badge badge-success p-1">Approved</span>
+                      <?php elseif($row['appt_status'] == 2): ?>
+                            <span class="badge badge-danger p-1">Denied</span>
+                      <?php else: ?>
+                            <span class="badge badge-info p-1">Settled</span>
+                      <?php endif; ?>
+                    </td>
+                </tr>
+                <?php } ?>
+              </tbody>
+            </table>
+          <?php } ?>
+
+
+          <?php if($result2 > 0) { ?>
+            <h5 class="text-center">Document requests today</h5>
+            <hr>
+            <table id="example1" class="table table-bordered table-hover text-sm">
+              <thead>
+              <tr> 
+                <th>PATIENT NAME</th>
+                <th>TYPE</th>
+                <th>PICK UP DATE</th>
+                <th>DATE REQUESTED</th>
+                <th>STATUS</th>
+              </tr>
+              </thead>
+              <tbody id="users_data">
+                  <?php 
+                    $sql = mysqli_query($conn, "SELECT * FROM request_doc JOIN patient ON request_doc.patient_Id=patient.user_Id WHERE DATE(pick_up_date)='$date_today' AND seen_by_admin=0 AND req_status=0");
+                    while ($row = mysqli_fetch_array($sql)) {
+                  ?>
+                <tr>
+                    <td><?php echo ucwords($row['name']); ?></td>
+                    <td><?php echo $row['type']; ?></td>
+                    <td><?php echo date("F d, Y h:i A", strtotime($row['pick_up_date'])); ?></td>
+                    <td class="text-primary"><?php echo date("F d, Y h:i A", strtotime($row['date_created'])); ?></td>
+                    <td>
+                      <?php if($row['req_status'] == 0): ?>
+                        <span class="badge badge-warning pt-1">Pending</span>
+                      <?php elseif($row['req_status'] == 1): ?>
+                        <span class="badge badge-info pt-1">Processing</span>
+                      <?php elseif($row['req_status'] == 2): ?>
+                        <span class="badge badge-primary pt-1">Ready to pick-up</span>
+                      <?php else: ?>
+                        <span class="badge badge-success pt-1">Released</span>
+                      <?php endif; ?>
+                    </td>
+                </tr>
+                <?php } ?>
+              </tbody>
+            </table>
+          <?php } ?>
+        </div>
+        <div class="modal-footer alert-light">
+          <a type="button" class="btn bg-secondary" href="process_update.php?seen=appointment"><i class="fa-solid fa-ban"></i> Close</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 <?php include 'footer.php'; ?>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    <?php if ($result > 0 || $result2 > 0) { ?>
+        $(document).ready(function() {
+            $('#announcement_today').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
+        });
+    <?php } else {?>
+      $(document).ready(function() {
+            $('#announcement_today').modal('hide');
+        });
+    <?php } ?>
+});
+</script>

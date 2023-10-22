@@ -1,14 +1,13 @@
 <title>STII Clinic Management System | Dashboard</title>
 <?php 
     include 'navbar.php';  
-    $check_appt = mysqli_query($conn, "SELECT * FROM appointment WHERE appt_status=0 AND DATE(appt_date)='$date_today' AND seen_by_admin=0"); 
+    $check_appt = mysqli_query($conn, "SELECT * FROM appointment WHERE appt_status=0 AND DATE(date_added)='$date_today' AND seen_by_admin=0"); 
     $result = mysqli_num_rows($check_appt);
 
-    $check_med_cert = mysqli_query($conn, "SELECT * FROM request_doc WHERE DATE(pick_up_date)='$date_today' AND seen_by_admin=0"); 
+    $check_med_cert = mysqli_query($conn, "SELECT * FROM request_doc WHERE DATE(date_created)='$date_today' AND seen_by_admin=0"); 
     $result2 = mysqli_num_rows($check_med_cert);
 
 ?>
-  
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -93,7 +92,8 @@
               <div class="icon">
                 <i class="ion ion-person-add"></i>
               </div>
-              <a href="todays_patient.php" class="small-box-footer">More Info <i class="fas fa-arrow-circle-right"></i></a>
+              <br>
+              <a href="#" class="small-box-footer d-none">More Info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
 
@@ -474,15 +474,20 @@
           </div>
 
 
-          <div class="col-12"><hr><h3>Statistics</h3></div>
-          <div class="col-lg-3 col-6">
-            <div class="small-box bg-info">
-              <div class="inner">
-                <?php
+          
+
+         
+
+          <div class="col-12">
+              <hr><h3>Monthly Admission statistics</h3>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12 col-6">
+              <div class="small-box p-3">
+                  <?php
                   // Get the current month and year
                   $currentMonth = date('Y-m');
 
-                  // Modify your SQL queries to filter records for the current month
+                  // Fetch data for each label: Dental, Form2, Physical, Consultation, and Asking Med
                   $dental = mysqli_query($conn, "SELECT * FROM dental JOIN patient ON dental.patient_Id=patient.user_Id WHERE DATE_FORMAT(date_admitted, '%Y-%m') = '$currentMonth'");
                   $row_dental = mysqli_num_rows($dental);
 
@@ -498,35 +503,28 @@
                   $med = mysqli_query($conn, "SELECT * FROM asking_med JOIN patient ON asking_med.patient_Id=patient.user_Id WHERE DATE_FORMAT(date_admitted, '%Y-%m') = '$currentMonth'");
                   $row_med = mysqli_num_rows($med);
 
+                  // Prepare data for the chart
+                  $labels = ['Dental', 'Medical', 'Physical', 'Consultation', 'Asking Med'];
+                  $data = [$row_dental, $row_form2, $row_physical, $row_consult, $row_med];
 
-                  // $teacher_dental = mysqli_query($conn, "SELECT * FROM dental JOIN patient ON dental.patient_Id=patient.user_Id WHERE position='Teacher' AND DATE_FORMAT(date_admitted, '%Y-%m') = '$currentMonth'");
-                  // $row_teacher_dental = mysqli_num_rows($teacher_dental);
-
-                  // $teacher_form2 = mysqli_query($conn, "SELECT * FROM form2 JOIN patient ON form2.patient_Id=patient.user_Id WHERE position='Teacher' AND DATE_FORMAT(date_admitted, '%Y-%m') = '$currentMonth'");
-                  // $row_teacher_form2 = mysqli_num_rows($teacher_form2);
-
-                  // $teacher_physical = mysqli_query($conn, "SELECT * FROM physical JOIN patient ON physical.patient_Id=patient.user_Id WHERE position='Teacher' AND DATE_FORMAT(date_admitted, '%Y-%m') = '$currentMonth'");
-                  // $row_teacher_physical = mysqli_num_rows($teacher_physical);
-
-                  // $teacher_consult = mysqli_query($conn, "SELECT * FROM consultation JOIN patient ON consultation.patient_Id=patient.user_Id WHERE position='Teacher' AND DATE_FORMAT(date_admitted, '%Y-%m') = '$currentMonth'");
-                  // $row_teacher_consult = mysqli_num_rows($teacher_consult);
-
-                  // $teacher_med = mysqli_query($conn, "SELECT * FROM asking_med JOIN patient ON asking_med.patient_Id=patient.user_Id WHERE position='Teacher' AND DATE_FORMAT(date_admitted, '%Y-%m') = '$currentMonth'");
-                  // $row_teacher_med = mysqli_num_rows($teacher_med);
-                ?>
-                <h3><?php echo $total_student = $row_dental + $row_form2 + $row_physical + $row_consult + $row_med; ?></h3>
-
-                <p>Statistics</p>
+                  // Encode the chart data as a JSON string
+                  $chart_data = json_encode([
+                      'labels' => $labels,
+                      'datasets' => [
+                          [
+                              'label' => 'Monthly Admission statistics',
+                              'data' => $data,
+                              'backgroundColor' => ['green', 'blue', 'yellow', 'red', 'purple'],
+                          ],
+                      ],
+                  ]);
+                  ?>
+                  <div >
+                      <canvas id="barChart"></canvas>
+                  </div>
               </div>
-              <div class="icon">
-                <i class="fa-solid fa-tooth"></i>
-              </div>
-            </div>
           </div>
-
           
-
-
 
 
 
@@ -547,6 +545,17 @@
 <br>
 <br>
 <br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
 
   <div class="modal fade" id="announcement_today" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
@@ -573,7 +582,7 @@
               </thead>
               <tbody id="users_data">
                   <?php 
-                    $sql = mysqli_query($conn, "SELECT * FROM appointment JOIN patient ON appointment.appt_patient_Id=patient.user_Id WHERE appt_status=0 AND DATE(appt_date)='$date_today'");
+                    $sql = mysqli_query($conn, "SELECT * FROM appointment JOIN patient ON appointment.appt_patient_Id=patient.user_Id WHERE appt_status=0 AND DATE(date_added)='$date_today'");
                     while ($row = mysqli_fetch_array($sql)) {
                   ?>
                 <tr>
@@ -626,7 +635,7 @@
               </thead>
               <tbody id="users_data">
                   <?php 
-                    $sql = mysqli_query($conn, "SELECT * FROM request_doc JOIN patient ON request_doc.patient_Id=patient.user_Id WHERE DATE(pick_up_date)='$date_today' AND seen_by_admin=0 AND req_status=0");
+                    $sql = mysqli_query($conn, "SELECT * FROM request_doc JOIN patient ON request_doc.patient_Id=patient.user_Id WHERE DATE(date_created)='$date_today' AND seen_by_admin=0 AND req_status=0");
                     while ($row = mysqli_fetch_array($sql)) {
                   ?>
                 <tr>
@@ -675,4 +684,11 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     <?php } ?>
 });
+
+    var chartData = <?php echo $chart_data; ?>;
+    var ctx = document.getElementById('barChart').getContext('2d');
+    var examChart = new Chart(ctx, {
+        type: 'bar',
+        data: chartData,
+    });
 </script>

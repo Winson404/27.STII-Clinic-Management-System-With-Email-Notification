@@ -51,7 +51,7 @@
                   </thead>
                   <tbody id="users_data">
                       <?php 
-                        $sql = mysqli_query($conn, "SELECT * FROM appointment JOIN patient ON appointment.appt_patient_Id=patient.user_Id WHERE (appt_status=0 || appt_status=3)");
+                        $sql = mysqli_query($conn, "SELECT * FROM appointment JOIN patient ON appointment.appt_patient_Id=patient.user_Id WHERE (appt_status=0)");
                         while ($row = mysqli_fetch_array($sql)) {
                       ?>
                     <tr>

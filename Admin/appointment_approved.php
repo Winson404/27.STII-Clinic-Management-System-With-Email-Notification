@@ -45,11 +45,12 @@
                     <th>APPT DATE</th>
                     <th>APPT TIME</th>
                     <th>REASON</th>
+                    <th>TOOLS</th>
                   </tr>
                   </thead>
                   <tbody id="users_data">
                       <?php 
-                        $sql = mysqli_query($conn, "SELECT * FROM appointment JOIN patient ON appointment.appt_patient_Id=patient.user_Id WHERE appt_status=1");
+                        $sql = mysqli_query($conn, "SELECT * FROM appointment JOIN patient ON appointment.appt_patient_Id=patient.user_Id WHERE (appt_status=1 || appt_status=3)");
                         while ($row = mysqli_fetch_array($sql)) {
                       ?>
                     <tr>
@@ -70,6 +71,14 @@
                           <?php endif; ?>
                         </td>
                         <td><?php echo $row['appt_reason']; ?></td>
+                        <td>
+                          <?php if($row['appt_status'] == 1): ?>
+                            <button type="button" class="btn bg-info btn-sm" data-toggle="modal" data-target="#settled<?php echo $row['appt_Id']; ?>"><i class="fa-solid fa-circle-check"></i> Settled</button>
+                          <?php else: ?>
+                            <button type="button" class="btn bg-info btn-sm" data-toggle="modal" data-target="#settled<?php echo $row['appt_Id']; ?>" disabled><i class="fa-solid fa-circle-check"></i> Settled</button>
+                          <?php endif; ?>
+                          
+                        </td> 
                     </tr>
 
                     <?php include "appointment_update_delete.php"; } ?>

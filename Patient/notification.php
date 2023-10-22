@@ -71,36 +71,37 @@
                             <td class="text-primary"><?php if(!empty($row['date_sent'])) { echo date("F d, Y h:i A", strtotime($row['date_sent'])); } ?></td>
                             <td>
                                 <button type="button" class="btn bg-danger btn-sm" data-toggle="modal" data-target="#delete<?php echo $row['notif_Id']; ?>"><i class="fas fa-trash"></i> Delete</button>
+                                </form>
                             </td>
                         </tr>
                         <!-- DELETE -->
-<div class="modal fade" id="delete<?php echo $row['notif_Id']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-       <div class="modal-header bg-light">
-        <h5 class="modal-title" id="exampleModalLabel"><i class="fa-solid fa-bell"></i> Delete record</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true"><i class="fa-solid fa-circle-xmark"></i></span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form action="process_delete.php" method="POST">
-          <input type="hidden" class="form-control" value="<?php echo $row['notif_Id']; ?>" name="notif_Id">
-          <h6 class="text-center">Delete record?</h6>
-      </div>
-      <div class="modal-footer alert-light">
-        <button type="button" class="btn bg-secondary" data-dismiss="modal"><i class="fa-solid fa-ban"></i> Cancel</button>
-        <button type="submit" class="btn bg-danger" name="delete_notification"><i class="fas fa-trash"></i> Delete</button>
-      </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+                          <div class="modal fade" id="delete<?php echo $row['notif_Id']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                              <div class="modal-content">
+                                 <div class="modal-header bg-light">
+                                  <h5 class="modal-title" id="exampleModalLabel"><i class="fa-solid fa-bell"></i> Delete record</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true"><i class="fa-solid fa-circle-xmark"></i></span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                  <form action="process_delete.php" method="POST">
+                                    <input type="hidden" class="form-control" value="<?php echo $row['notif_Id']; ?>" name="notif_Id">
+                                    <h6 class="text-center">Delete record?</h6>
+                                </div>
+                                <div class="modal-footer alert-light">
+                                  <button type="button" class="btn bg-secondary" data-dismiss="modal"><i class="fa-solid fa-ban"></i> Cancel</button>
+                                  <button type="submit" class="btn bg-danger" name="delete_notification"><i class="fas fa-trash"></i> Delete</button>
+                                </div>
+                                  </form>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         <?php } ?>
                     </tbody>
                   </table>
-              </form>
+              
                 <br>
                 <hr>
                 <br>

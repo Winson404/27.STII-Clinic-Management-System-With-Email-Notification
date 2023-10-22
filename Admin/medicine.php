@@ -43,6 +43,7 @@
                   <tr> 
                     <th>BRAND NAME</th>
                     <th>MEDECINE NAME</th>
+                    <th>MILLIGRAMS</th>
                     <th>QTY AVAILABLE</th>
                     <th>QTY USED</th>
                     <th>EXP. DATE</th>
@@ -59,6 +60,7 @@
                        
                         <td><?php if($row['brand_name'] == 'Others') { echo ucwords($row['other_brand_name']); } else { echo $row['brand_name']; }; ?></td>
                         <td><?php echo ucwords($row['med_name']); ?></td>
+                        <td><?php echo $row['milligrams']; ?></td>
                         <td><?php echo $row['med_stock_in']; ?></td>
                         <td><?php echo $row['med_stock_out']; ?></td>
                         <td class="text-primary"><?php if(!empty($row['date_added'])) { echo date("F d, Y", strtotime($row['expiration_date'])); } ?></td>

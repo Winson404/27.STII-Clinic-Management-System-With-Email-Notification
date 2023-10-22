@@ -1940,12 +1940,12 @@
 	if(isset($_GET['seen'])) {
 		$type = $_GET['seen'];
 		if($type == 'appointment') {
-			$query = mysqli_query($conn, "UPDATE appointment SET seen_by_admin=1 WHERE appt_status=0 AND DATE(appt_date)='$date_today'");
+			$query = mysqli_query($conn, "UPDATE appointment SET seen_by_admin=1 WHERE appt_status=0 AND DATE(date_added)='$date_today'");
 			if($query) {
 
-				$sql = mysqli_query($conn, "SELECT * FROM request_doc JOIN patient ON request_doc.patient_Id=patient.user_Id WHERE DATE(pick_up_date)='$date_today' AND seen_by_admin=0 AND req_status=0");
+				$sql = mysqli_query($conn, "SELECT * FROM request_doc JOIN patient ON request_doc.patient_Id=patient.user_Id WHERE DATE(date_created)='$date_today' AND seen_by_admin=0 AND req_status=0");
 				if(mysqli_num_rows($sql) > 0) {
-					$query2 = mysqli_query($conn, "UPDATE request_doc SET seen_by_admin=1  WHERE DATE(pick_up_date)='$date_today' AND seen_by_admin=0 AND req_status=0");
+					$query2 = mysqli_query($conn, "UPDATE request_doc SET seen_by_admin=1  WHERE DATE(date_created)='$date_today' AND seen_by_admin=0 AND req_status=0");
 					if($query2) {
 						header("Location: dashboard.php");
 					} else {

@@ -51,11 +51,11 @@
                   </thead>
                   <tbody id="users_data">
                       <?php 
-                        $sql = mysqli_query($conn, "SELECT * FROM appointment JOIN patient ON appointment.appt_patient_Id=patient.user_Id WHERE (appt_status=0)");
+                        $sql = mysqli_query($conn, "SELECT * FROM appointment JOIN patient ON appointment.appt_patient_Id=patient.user_Id WHERE appt_status=0");
                         while ($row = mysqli_fetch_array($sql)) {
                       ?>
                     <tr>
-                        <!--<td><?php echo $row['position']; ?></td>-->
+                        <!--<td><?php //echo $row['position']; ?></td>-->
                         <td><?php echo ucwords($row['name']); ?></td>
                         <td>
                           <?php if($row['appt_date'] == ""): ?>
@@ -74,24 +74,35 @@
                         <td><?php echo $row['appt_reason']; ?></td>
                         <td>
                           <?php if($row['appt_status'] == 0): ?>
-                                <span class="badge badge-warning p-1">Pending</span>
+                                <?php if ($row['appt_date'] < date('Y-m-d')): ?>
+                                    <span class="badge badge-warning p-1">Pending / Missed</span>
+                                <?php else: ?>
+                                    <span class="badge badge-warning p-1">Pending</span>
+                                <?php endif; ?>
                           <?php elseif($row['appt_status'] == 1): ?>
                                 <span class="badge badge-success p-1">Approved</span>
                           <?php elseif($row['appt_status'] == 2): ?>
                                 <span class="badge badge-danger p-1">Denied</span>
-                          <?php else: ?>
+                          <?php elseif($row['appt_status'] == 3): ?>
                                 <span class="badge badge-info p-1">Settled</span>
+                          <?php else: ?>
+                                <span class="badge badge-dark p-1">Denied by patient</span>
                           <?php endif; ?>
                         </td>
                         <td>
                           <?php if($row['appt_status'] == 0): ?>
-                            
-                                <button type="button" class="btn bg-success btn-sm" data-toggle="modal" data-target="#approve<?php echo $row['appt_Id']; ?>"><i class="fa-solid fa-circle-check"></i> Approve/Update</button>
-                                <button type="button" class="btn bg-info btn-sm" data-toggle="modal" data-target="#settled<?php echo $row['appt_Id']; ?>"disabled><i class="fa-solid fa-circle-check"></i> Settled</button>
-                                <button type="button" class="btn bg-warning btn-sm" data-toggle="modal" data-target="#deny<?php echo $row['appt_Id']; ?>"><i class="fa-solid fa-circle-xmark"></i> Deny</button>
-
-                                <button type="button" class="btn bg-danger btn-sm" data-toggle="modal" data-target="#delete<?php echo $row['appt_Id']; ?>"><i class="fas fa-trash"></i> Delete</button>
-
+                                <?php if ($row['appt_date'] < date('Y-m-d')): ?>
+                                  <?php if($row['is_rescheduled'] == 1): ?>
+                                    <button type="button" class="btn bg-warning btn-sm" data-toggle="modal" data-target="#resched<?php echo $row['appt_Id']; ?>" disabled><i class="fa-solid fa-calendar-check"></i> Reschedule</button>
+                                  <?php else: ?>
+                                    <button type="button" class="btn bg-warning btn-sm" data-toggle="modal" data-target="#resched<?php echo $row['appt_Id']; ?>"><i class="fa-solid fa-calendar-check"></i> Reschedule</button>
+                                  <?php endif; ?>
+                                <?php else: ?>
+                                  <button type="button" class="btn bg-success btn-sm" data-toggle="modal" data-target="#approve<?php echo $row['appt_Id']; ?>"><i class="fa-solid fa-circle-check"></i> Approve/Update</button>
+                                  <button type="button" class="btn bg-info btn-sm" data-toggle="modal" data-target="#settled<?php echo $row['appt_Id']; ?>"disabled><i class="fa-solid fa-circle-check"></i> Settled</button>
+                                  <button type="button" class="btn bg-warning btn-sm" data-toggle="modal" data-target="#deny<?php echo $row['appt_Id']; ?>"><i class="fa-solid fa-circle-xmark"></i> Deny</button>
+                                  <button type="button" class="btn bg-danger btn-sm" data-toggle="modal" data-target="#delete<?php echo $row['appt_Id']; ?>"><i class="fas fa-trash"></i> Delete</button>
+                                <?php endif; ?>
                           <?php elseif($row['appt_status'] == 1): ?>
 
                                 <button type="button" class="btn bg-success btn-sm" data-toggle="modal" data-target="#approve<?php echo $row['appt_Id']; ?>"disabled><i class="fa-solid fa-circle-check"></i> Approve/Update</button>

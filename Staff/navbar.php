@@ -372,13 +372,13 @@
                           <a href="dashboard_asking_med.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'dashboard_asking_med.php') ? 'active' : ''; ?>"><i class="fa-solid fa-hospital"></i><p>&nbsp;&nbsp; Asking medicine</p></a>
                       </li>
                       <li class="nav-item">
-                          <a href="dashboard_dental.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'dashboard_dental.php') ? 'active' : ''; ?>"><i class="fa-solid fa-tooth"></i><p>&nbsp;&nbsp; Dental</p></a>
+                          <a href="dashboard_dental.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'dashboard_dental.php') ? 'active' : ''; ?>"><i class="fa-solid fa-tooth"></i><p>&nbsp;&nbsp; Dental Admission</p></a>
                       </li>
                       <li class="nav-item">
-                          <a href="dashboard_medical.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'dashboard_medical.php') ? 'active' : ''; ?>"><i class="fa-solid fa-hospital"></i><p>&nbsp;&nbsp; Medical</p></a>
+                          <a href="dashboard_medical.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'dashboard_medical.php') ? 'active' : ''; ?>"><i class="fa-solid fa-hospital"></i><p>&nbsp;&nbsp; Medical Admission</p></a>
                       </li>
                       <li class="nav-item">
-                          <a href="dashboard_physical.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'dashboard_physical.php') ? 'active' : ''; ?>"><i class="fa-solid fa-stethoscope"></i><p>&nbsp;&nbsp; Physical</p></a>
+                          <a href="dashboard_physical.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'dashboard_physical.php') ? 'active' : ''; ?>"><i class="fa-solid fa-stethoscope"></i><p>&nbsp;&nbsp; Physical Exam</p></a>
                       </li>
                       <li class="nav-item">
                           <a href="dashboard_consultaion.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'dashboard_consultaion.php') ? 'active' : ''; ?>"><i class="fa-solid fa-comments"></i><p>&nbsp;&nbsp; Consultation</p></a>
@@ -438,7 +438,34 @@
 
           <li class="nav-header text-secondary" style="margin-bottom: -14px;">MEDICINE MANAGEMENT</li>
           <li class="nav-item">
-            <a href="medicine.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'medicine.php' || basename($_SERVER['PHP_SELF']) == 'medicine_mgmt.php') ? 'active' : ''; ?>"><i class="fa-solid fa-house-chimney-medical"></i><p>&nbsp; Medicine </p></a>
+            <a href="#" class="nav-link 
+              <?php echo (
+                basename($_SERVER['PHP_SELF']) == 'medicine.php' || 
+                basename($_SERVER['PHP_SELF']) == 'medicine_mgmt.php' || 
+                basename($_SERVER['PHP_SELF']) == 'medicine_returned.php' || 
+                basename($_SERVER['PHP_SELF']) == 'medicine_expired.php'
+                ) ? 'active' : ''; 
+              ?>
+            "><i class="fa-solid fa-house-chimney-medical"></i><p>&nbsp;&nbsp;Medicine<i class="right fas fa-angle-left"></i></p></a>
+            <ul class="nav nav-treeview" 
+              <?php echo (
+                basename($_SERVER['PHP_SELF']) == 'medicine.php' || 
+                basename($_SERVER['PHP_SELF']) == 'medicine_mgmt.php' || 
+                basename($_SERVER['PHP_SELF']) == 'medicine_returned.php' || 
+                basename($_SERVER['PHP_SELF']) == 'medicine_expired.php'
+                ) ? 'style="display: block;"' : ''; 
+              ?>
+            >
+              <li class="nav-item">
+                <a href="medicine.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'medicine.php' || basename($_SERVER['PHP_SELF']) == 'medicine_mgmt.php') ? 'active' : ''; ?>"><i class="fa-solid fa-house-chimney-medical"></i><p>&nbsp; Medicine Inventory</p></a>
+              </li>
+              <li class="nav-item">
+               <a href="medicine_returned.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'medicine_returned.php') ? 'active' : ''; ?>"><i class="fa-solid fa-house-chimney-medical"></i><p>&nbsp;&nbsp; Medicine Returned</p></a>
+              </li>
+              <li class="nav-item">
+               <a href="medicine_expired.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'medicine_expired.php') ? 'active' : ''; ?>"><i class="fa-solid fa-house-chimney-medical"></i><p>&nbsp;&nbsp; Medicine Expired</p></a>
+              </li>
+            </ul>
           </li>
 
 
@@ -578,7 +605,7 @@
           </li>
 
           <li class="nav-item">
-           <a href="profile.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'profile.php') ? 'active' : ''; ?>"><i class="fa-solid fa-user-gear"></i><p>&nbsp;&nbsp;Settings</p></a>
+           <a href="profile.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'profile.php') ? 'active' : ''; ?>"><i class="fa-solid fa-user-gear"></i><p>&nbsp;&nbsp;Profile</p></a>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link" onclick="logout()"><i class="fa-solid fa-power-off"></i><p>&nbsp;&nbsp;Logout</p></a>

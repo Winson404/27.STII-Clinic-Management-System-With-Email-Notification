@@ -73,9 +73,14 @@
                         <td><?php echo $row['appt_reason']; ?></td>
                         <td>
                           <?php if($row['appt_status'] == 1): ?>
-                            <button type="button" class="btn bg-info btn-sm" data-toggle="modal" data-target="#settled<?php echo $row['appt_Id']; ?>"><i class="fa-solid fa-circle-check"></i> Settled</button>
+                            <button type="button" class="btn bg-info btn-sm" data-toggle="modal" data-target="#settled<?php echo $row['appt_Id']; ?>"><i class="fa-solid fa-circle-check"></i> Settle</button>
                           <?php else: ?>
                             <button type="button" class="btn bg-info btn-sm" data-toggle="modal" data-target="#settled<?php echo $row['appt_Id']; ?>" disabled><i class="fa-solid fa-circle-check"></i> Settled</button>
+                          <?php endif; ?>
+                          <?php if($row['is_rescheduled'] == 1): ?>
+                            <button type="button" class="btn bg-warning btn-sm" data-toggle="modal" data-target="#resched<?php echo $row['appt_Id']; ?>" disabled><i class="fa-solid fa-calendar-check"></i> Reschedule</button>
+                          <?php else: ?>
+                            <button type="button" class="btn bg-warning btn-sm" data-toggle="modal" data-target="#resched<?php echo $row['appt_Id']; ?>"><i class="fa-solid fa-calendar-check"></i> Reschedule</button>
                           <?php endif; ?>
                           
                         </td> 

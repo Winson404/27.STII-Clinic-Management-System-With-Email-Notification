@@ -61,6 +61,7 @@
 </div>
 <!-- ./wrapper -->
 
+<script src="print.js"></script> 
 <!-- GOOGLE PIE CHART -->
 <script type="text/javascript" src="../plugins/google-pie-chart/loader.js"></script>
 
@@ -115,7 +116,7 @@
 <script src="../plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <!-- Bootstrap Switch -->
-  <script src="../plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+<script src="../plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
 
 <!-- Page specific script -->
 <script>
@@ -188,6 +189,36 @@
       "responsive": true, "lengthChange": false, "autoWidth": false,
       // "buttons": ["excel", "pdf", "print"]
     }).buttons().container().appendTo('#example111111_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+
+
+    $("#askingMed").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      // "buttons": ["excel", "pdf", "print"]
+    }).buttons().container().appendTo('#askingMed_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+
+
+    $("#missedAppt").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      // "buttons": ["excel", "pdf", "print"]
+    }).buttons().container().appendTo('#missedAppt_wrapper .col-md-6:eq(0)');
     $('#example2').DataTable({
       "paging": true,
       "lengthChange": false,
@@ -408,7 +439,138 @@
     }
 }
  
-</script>
 
+ function showDateInputs() {
+  var sortBy = $('#sortBy').val();
+  var dateInputsContainer = $('#dateInputs');
+  dateInputsContainer.empty(); // Clear previous inputs
+
+  if (sortBy === 'daily') {
+    dateInputsContainer.append('<label for="dailyDate">Date:</label>' +
+      '<input type="date" class="form-control" id="dailyDate" name="dailyDate" required>');
+  } else if (sortBy === 'weekly') {
+    // Create a form row for horizontal layout
+    dateInputsContainer.append('<div class="form-row"></div>');
+
+    // Add start date input to the form row
+    dateInputsContainer.find('.form-row').append('<div class="form-group col-md-6">' +
+      '<label for="weeklyStartDate">Start Date:</label>' +
+      '<input type="date" class="form-control" id="weeklyStartDate" name="weeklyStartDate" required>' +
+      '</div>');
+
+    // Add end date input to the form row
+    dateInputsContainer.find('.form-row').append('<div class="form-group col-md-6">' +
+      '<label for="weeklyEndDate">End Date (7th day):</label>' +
+      '<input type="date" class="form-control" id="weeklyEndDate" name="weeklyEndDate" required readonly>' +
+      '</div>');
+
+    // Add an event listener to the start date input
+    $('#weeklyStartDate').on('change', function () {
+      // Calculate and set the value of the end date input to be the 7th day
+      var startDate = new Date($(this).val());
+      var endDate = new Date(startDate);
+      endDate.setDate(startDate.getDate() + 6);
+      
+      // Format the date as 'YYYY-MM-DD' and set the value of the end date input
+      var formattedEndDate = endDate.toISOString().split('T')[0];
+      $('#weeklyEndDate').val(formattedEndDate);
+    });
+  } else if (sortBy === 'monthly') {
+    // For simplicity, let's assume a fixed set of months
+    dateInputsContainer.append('<label for="monthlyMonth">Month:</label>' +
+      '<select class="form-control" id="monthlyMonth" name="monthlyMonth" required>' +
+      '<option value="" selected disabled>Select month</option>' +
+      '<option value="01">January</option>' +
+      '<option value="02">February</option>' +
+      '<option value="03">March</option>' +
+      '<option value="04">April</option>' +
+      '<option value="05">May</option>' +
+      '<option value="06">June</option>' +
+      '<option value="07">July</option>' +
+      '<option value="08">August</option>' +
+      '<option value="09">September</option>' +
+      '<option value="10">October</option>' +
+      '<option value="11">November</option>' +
+      '<option value="12">December</option>' +
+      '</select>');
+  } else if (sortBy === 'monthlyMedicine') {
+    // Create a form row for horizontal layout
+    dateInputsContainer.append('<div class="form-row"></div>');
+
+    // Add start date input to the form row
+    dateInputsContainer.find('.form-row').append('<div class="form-group col-md-6">' +
+      '<label for="weeklyStartDate">Start Month:</label>' +
+      '<input type="date" class="form-control" id="monthlyStartDate" name="monthlyStartDate" required>' +
+      '</div>');
+
+    // Add end date input to the form row
+    dateInputsContainer.find('.form-row').append('<div class="form-group col-md-6">' +
+      '<label for="weeklyEndDate">End Month:</label>' +
+      '<input type="date" class="form-control" id="monthlyEndDate" name="monthlyEndDate" required>' +
+      '</div>');
+
+    // Add an event listener to the start date input
+    $('#monthlyStartDate').on('change', function () {
+      // Calculate and set the value of the end date input to be the 7th day
+      var startDate = new Date($(this).val());
+      var endDate = new Date(startDate);
+      endDate.setDate(startDate.getDate() + 6);
+      
+      // Format the date as 'YYYY-MM-DD' and set the value of the end date input
+      var formattedEndDate = endDate.toISOString().split('T')[0];
+      $('#monthlyEndDate').val(formattedEndDate);
+    });
+  } else if (sortBy === 'yearly') {
+    dateInputsContainer.append('<label for="yearly">Date:</label>' +
+    '<input type="number" class="form-control" id="yearly" name="yearlyDate" required placeholder="2000" min="1000" step="1">');
+
+      // Add an input event listener to enforce the maximum length
+      $('#yearly').on('input', function() {
+        if ($(this).val().length > 4) {
+          $(this).val($(this).val().slice(0, 4));
+        }
+      });
+  } else if (sortBy === 'custom') {
+    // Create a form row for horizontal layout
+    dateInputsContainer.append('<div class="form-row"></div>');
+
+    // Add start date input to the form row
+    dateInputsContainer.find('.form-row').append('<div class="form-group col-md-6">' +
+      '<label for="StartDate">Start Date:</label>' +
+      '<input type="date" class="form-control" id="StartDate" name="StartDate" required>' +
+      '</div>');
+
+    // Add end date input to the form row
+    dateInputsContainer.find('.form-row').append('<div class="form-group col-md-6">' +
+      '<label for="EndDate">End Date:</label>' +
+      '<input type="date" class="form-control" id="EndDate" name="EndDate" required>' +
+      '</div>');
+  } 
+
+  // Update the name attribute of the submit button
+  var submitButton = $('#sortingForm button[type="submit"]');
+  submitButton.attr('name', sortBy);
+}
+
+
+
+
+  // function sortRecords() {
+  //   var sortBy = $('#sortBy').val();
+  //   // WHATEVER VALUE IS SELECTED FROM THE DROPDOWN (DAILY, WEEKLY, MONTHLY, YEARLY, CUSTOM DATE), THAT WILL BE THE NAME OF THE SUBMIT BUTTON
+  //   var sortBy = $('#sortingForm button[type="submit"]').attr('name');
+
+  //   if (sortBy === 'daily') {
+  //     var dailyDate = $('#dailyDate').val();
+  //   } else if (sortBy === 'custom') {
+  //     var StartDate = $('#StartDate').val();
+  //     var EndDate = $('#EndDate').val();
+  //   } else if (sortBy === 'monthly') {
+  //     var monthlyMonth = $('#monthlyMonth').val();
+  //   }
+  // }
+  
+
+</script>
 </body>
 </html>

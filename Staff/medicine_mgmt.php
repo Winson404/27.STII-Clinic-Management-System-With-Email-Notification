@@ -37,29 +37,45 @@
             <form action="process_save.php" method="POST" enctype="multipart/form-data">
               <div class="card">
                 <div class="card-body">
-                    <div class="form-group">
-                      <span class="text-dark"><b>Brand name</b></span>
-                      <select class="form-control" name="brand_name" id="brand_name" required>
-                        <option selected disabled value="">Select Brand Name</option>
-                        <option value="Generic">Generic</option>
-                        <option value="RiteMed">RiteMed</option>
-                        <option value="Biogesic">Biogesic</option>
-                        <option value="Others">Others</option>
-                      </select>
+                    <div class="row">
+                      <div class="col-lg-9 col-md-9 col-12">
+                        <div class="form-group">
+                          <span class="text-dark"><b>Brand name</b></span>
+                          <select class="form-control" name="brand_name" id="brand_name" required>
+                            <option selected disabled value="">Select Brand Name</option>
+                            <option value="RiteMed">RiteMed</option>
+                            <option value="Biogesic">Biogesic</option>
+                            <option value="Unilab">Unilab</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-12">
+                        <button type="button" class="btn btn-primary mt-4" id="Others" onclick="toggleBrand()">Input other brand</button>
+                      </div>
                     </div>        
-
                     <div class="form-group" id="otherBrand_name" style="display: none;">
                       <span class="text-dark"><b>Other brand name</b></span>
                       <input type="text" class="form-control" placeholder="Enter other brand name" name="other_brand_name" id="other_brand_name">
                     </div>
-
                     <div class="form-group">
                       <span class="text-dark"><b>Medicine name</b></span>
-                      <input type="text" class="form-control" placeholder="Enter medicine name" name="med_name" required>
+                      <input type="text" class="form-control" placeholder="Enter generic name" name="med_name" required>
+                    </div>
+                    <div class="form-group">
+                      <span class="text-dark"><b>Medicine Type</b></span>
+                      <select class="form-control" name="med_type" id="med_type" required>
+                        <option selected disabled value="">Select Medicine type</option>
+                        <option value="Branded">Branded</option>
+                        <option value="Generic">Generic</option>
+                      </select>
+                    </div> 
+                    <div class="form-group">
+                      <span class="text-dark"><b>Milligrams</b></span>
+                      <input type="text" class="form-control" placeholder="Enter Milligrams" name="milligrams" required>
                     </div>
                     <div class="form-group">
                       <span class="text-dark"><b>Quantity available</b></span>
-                      <input type="text" class="form-control" placeholder="Enter quantity available" name="med_stock_in" min="1" required>
+                      <input type="text" class="form-control" placeholder="Enter quantity  available" name="med_stock_in" min="1" required>
                     </div>
                     <div class="form-group">
                       <span class="text-dark"><b>Expiration date</b></span>
@@ -120,29 +136,42 @@
               <div class="card">
                 <div class="card-body">
                     
-
-                    <div class="form-group">
-                      <span class="text-dark"><b>Brand name</b></span>
-                      <select class="form-control" name="brand_name" id="brand_name" required>
-                        <option selected disabled value="">Select vaccine status</option>
-                        <option value="Generic" <?php if($row['brand_name'] == 'Generic') { echo 'selected'; } ?>>Generic</option>
-                        <option value="RiteMed" <?php if($row['brand_name'] == 'RiteMed') { echo 'selected'; } ?>>RiteMed</option>
-                        <option value="Biogesic" <?php if($row['brand_name'] == 'Biogesic') { echo 'selected'; } ?>>Biogesic</option>
-                        <option value="Others" <?php if($row['brand_name'] == 'Others') { echo 'selected'; } ?>>Others</option>
-                      </select>
-                    </div>        
+                    <div class="row">
+                      <div class="col-lg-9 col-md-9 col-12">
+                        <div class="form-group">
+                          <span class="text-dark"><b>Brand name</b></span>
+                          <select class="form-control" name="brand_name" id="brand_name">
+                            <option selected disabled value="">Select Brand Name</option>
+                            <option value="RiteMed" <?php if($row['brand_name'] == 'RiteMed') { echo 'selected'; } ?>>RiteMed</option>
+                            <option value="Biogesic" <?php if($row['brand_name'] == 'Biogesic') { echo 'selected'; } ?>>Biogesic</option>
+                            <option value="Unilab" <?php if($row['brand_name'] == 'Unilab') { echo 'selected'; } ?>>Unilab</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-12">
+                        <button type="button" class="btn btn-primary mt-4" id="Others" onclick="toggleBrand()">Input other brand</button>
+                      </div>
+                    </div>         
 
                     <div class="form-group" id="otherBrand_name" <?php if (!empty($row['other_brand_name'])) { echo "style='display: block;'"; } else { echo "style='display: none;'"; } ?>>
                       <span class="text-dark"><b>Other brand name</b></span>
                       <input type="text" class="form-control" placeholder="Enter other brand name" name="other_brand_name" id="other_brand_name" value="<?php echo $row['other_brand_name']; ?>">
                     </div>
-
-
-
-
                     <div class="form-group">
                       <span class="text-dark"><b>Medicine name</b></span>
-                      <input type="text" class="form-control" placeholder="Enter medicine name" name="med_name" required value="<?php echo $row['med_name']; ?>">
+                      <input type="text" class="form-control" placeholder="Enter generic name" name="med_name" required value="<?php echo $row['med_name']; ?>">
+                    </div>
+                    <div class="form-group">
+                      <span class="text-dark"><b>Medicine type</b></span>
+                      <select class="form-control" name="med_type" id="med_type" required>
+                        <option selected disabled value="">Select medicine Type </option>Medicine Type</option>
+                        <option value="Branded" <?php if($row['med_type'] == 'Branded') { echo 'selected'; } ?>>Branded</option>
+                        <option value="Generic" <?php if($row['med_type'] == 'Generic') { echo 'selected'; } ?>>Generic</option>
+                      </select>
+                    </div>  
+                    <div class="form-group">
+                      <span class="text-dark"><b>Milligrams</b></span>
+                      <input type="text" class="form-control" placeholder="Enter Milligrams" name="milligrams" required value="<?php echo $row['milligrams']; ?>">
                     </div>
                     <div class="form-group">
                       <span class="text-dark"><b>Quantity stock available</b></span>
@@ -205,6 +234,25 @@
 <script>  
 
    // MEDICINE_MGMT.PHP
+   function toggleBrand() {
+    var brandNameSelect = document.getElementById('brand_name');
+    var otherBrandNameInput = document.getElementById('other_brand_name');
+    var otherBrandDiv = document.getElementById("otherBrand_name");
+    if (otherBrandDiv.style.display === "none") {
+      otherBrandDiv.style.display = "block";
+      otherBrandNameInput.removeAttribute('readonly');
+      otherBrandNameInput.setAttribute('required', 'required');
+      brandNameSelect.removeAttribute('required');
+      brandNameSelect.value = '';
+    } else {
+      otherBrandDiv.style.display = "none";
+      otherBrandNameInput.removeAttribute('required');
+      brandNameSelect.setAttribute('required', 'required');
+      otherBrandNameInput.value = '';
+    }
+  }
+
+
   var brandNameSelect = document.getElementById('brand_name');
   var otherBrandNameInput = document.getElementById('other_brand_name');
 

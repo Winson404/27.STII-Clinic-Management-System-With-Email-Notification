@@ -26,8 +26,8 @@
                       <span class="text-dark"><b>Postion/User-type</b></span>
                       <select class="form-control" name="position" id="position-select" onchange="handlePositionChange()" required>
                         <option selected disabled value="">Select type</option>
-                        <option value="Student">Student</option>
-                        <option value="Teacher">School Staff</option>
+                        <option value="Student">Students</option>
+                        <option value="Teacher">School & Faculty Staff</option>
                       </select>
                     </div>
                   </div>
@@ -128,20 +128,22 @@
                   
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                     <div class="form-group">
-                      <span class="text-dark"><b>Parent's name</b></span>
+                      <span class="text-dark" id="parentsName"><b>Parent's name</b></span>
+                      <span class="text-dark" id="parentSpouseName" style="display: none;"><b>Parent's/Spouse name</b></span>
                       <input class="form-control" placeholder="Enter Parent's name" name="parentName" required>
                     </div>
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                     <div class="form-group">
-                      <span class="text-dark"><b>Parent's' contact #</b></span>
+                      <span class="text-dark" id="parentsContact"><b>Parent's' contact #</b></span>
+                      <span class="text-dark" id="parentSpouseContact" style="display: none;"><b>Parent's/Spouse contact #</b></span>
                       <div class="input-group">
                         <div class="input-group-text">+63</div>
                         <input type="tel" class="form-control" pattern="[7-9]{1}[0-9]{9}" id="contact" name="parentContact" placeholder = "9123456789" required maxlength="10">
                       </div>
                     </div>
                   </div>
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12" id="Guardian-Name" style="display: block;">
                     <div class="form-group">
                       <span class="text-dark"><b>Guardian name</b></span>
                       <input class="form-control" placeholder="Enter Guardian name" name="guardianName" required>
@@ -173,13 +175,13 @@
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-4 col-12">
                     <div class="form-group">
-                      <span class="text-dark"><b>Height</b></span>
+                      <span class="text-dark"><b>Height(klg)</b></span>
                       <input class="form-control" placeholder="Height" name="height" required>
                     </div>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-4 col-12">
                     <div class="form-group">
-                      <span class="text-dark"><b>Weight</b></span>
+                      <span class="text-dark"><b>Weight(ft)</b></span>
                       <input class="form-control" placeholder="Weight" name="weight" required>
                     </div>
                   </div>
@@ -196,14 +198,14 @@
                   <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                     <div class="form-group">
                       <span class="text-dark"><b>Password</b></span>
-                      <input type="password" class="form-control" name="password" placeholder="Password" id="password" required minlength="8" onkeypress="validate_password()" style="text-transform:none">
+                      <input type="password" class="form-control" name="password" placeholder="Password" id="password"  maxlength="8" onkeypress="validate_password()" style="text-transform:none">
                       <small id="length"></small>
                     </div>
                   </div>
                   <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                     <div class="form-group">
                       <span class="text-dark"><b>Confirm password</b></span>
-                      <input type="password" class="form-control" placeholder="Retype password" id="cpassword" onkeyup="validate_password_confirm_password()" required minlength="8" style="text-transform:none">
+                      <input type="password" class="form-control" placeholder="Password" id="cpassword" onkeyup="validate_password_confirm_password()"  maxlength="8"style="text-transform:none">
                       <small id="wrong_pass_alert"></small>
                     </div>
                   </div>

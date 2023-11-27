@@ -33,9 +33,6 @@
               // Set the minimum date for the input element
               document.getElementById('appt_date').setAttribute('min', nextDay);
           </script>
-
-         
-          
       </div>
       <div class="modal-footer alert-light">
         <button type="button" class="btn bg-secondary" data-dismiss="modal"><i class="fa-solid fa-ban"></i> Cancel</button>

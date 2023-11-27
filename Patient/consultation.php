@@ -47,7 +47,7 @@
                     <th>PR</th>
                     <th>RR</th>
                     <th>O2ZAT</th>
-                    <th>DATE ADMITTED</th>
+                    <th>DATE VISITED</th>
                     <th>TOOLS</th>
                   </tr>
                   </thead>

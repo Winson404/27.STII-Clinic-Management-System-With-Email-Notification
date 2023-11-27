@@ -78,6 +78,7 @@
                             <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false"> Print </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                               <a type="button" href="print_basic_info.php?patient_Id=<?php echo $row['patient_Id']; ?>" class="text-dark ml-2">Basic information</a>
+                              <a type="button" href="print_asking_medicine.php?patient_Id=<?php echo $row['patient_Id']; ?>" class="text-dark ml-2">Asking medicine</a>
                               <a type="button" href="print_dental.php?patient_Id=<?php echo $row['patient_Id']; ?>" class="text-dark ml-2">Dental record</a>
                               <a type="button" href="print_medical_admission.php?patient_Id=<?php echo $row['patient_Id']; ?>" class="text-dark ml-2">Medical admission</a>
                               <a type="button" href="print_physical_admission.php?patient_Id=<?php echo $row['patient_Id']; ?>" class="text-dark ml-2">Physical admission</a>

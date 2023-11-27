@@ -173,7 +173,7 @@
         $countRow = mysqli_fetch_assoc($countSql);
         $totalNotifications = $countRow['total'];
 
-        $getNotif = mysqli_query($conn, "SELECT * FROM notification WHERE (subject = 'Appointment request' || subject = 'Medical certificate request' || subject = 'Medical records request' || subject = 'Student records request to update' || subject = 'Dental records' || subject = 'Medicine records' || subject = 'Teacher records request to update' || subject = 'Teacher Consultation records' || subject = 'Student Consultation records' || subject = 'Teacher Physical Exam records' || subject = 'Student Physical Exam records') ORDER BY notif_Id DESC LIMIT 5");
+        $getNotif = mysqli_query($conn, "SELECT * FROM notification WHERE (subject = 'Appointment request' || subject = 'Medical certificate request' || subject = 'Medical records request' || subject = 'Student records request to update' || subject = 'Dental records' || subject = 'Medicine records' || subject = 'Teacher records request to update' || subject = 'Teacher Consultation records' || subject = 'Student Consultation records' || subject = 'Teacher Physical Exam records' || subject = 'Student Physical Exam records' || subject = 'Appointment denied by patient') ORDER BY notif_Id DESC LIMIT 5");
             // $sql = mysqli_query($conn, "SELECT *, patient.user_Id AS patient_userId FROM notification LEFT JOIN patient ON notification.receiver=patient.user_Id LEFT JOIN users ON notification.receiver=users.user_Id");
         ?>
         <a class="nav-link" data-toggle="dropdown" href="#">
@@ -304,7 +304,7 @@
                 basename($_SERVER['PHP_SELF']) == 'list_appointments.php' || 
                 basename($_SERVER['PHP_SELF']) == 'list_asking_med.php' || 
                 basename($_SERVER['PHP_SELF']) == 'list_consultation.php' || 
-                basename($_SERVER['PHP_SELF']) == 'list_consultaion.php' ||
+                basename($_SERVER['PHP_SELF']) == 'list_documents.php' ||
                 basename($_SERVER['PHP_SELF']) == 'dashboard.php' || 
                 basename($_SERVER['PHP_SELF']) == 'todays_patient.php' || 
                 basename($_SERVER['PHP_SELF']) == 'request_update.php' || 
@@ -324,7 +324,7 @@
                 basename($_SERVER['PHP_SELF']) == 'list_appointments.php' || 
                 basename($_SERVER['PHP_SELF']) == 'list_asking_med.php' || 
                 basename($_SERVER['PHP_SELF']) == 'list_consultation.php' || 
-                basename($_SERVER['PHP_SELF']) == 'list_consultaion.php' ||
+                basename($_SERVER['PHP_SELF']) == 'list_documents.php' ||
                 basename($_SERVER['PHP_SELF']) == 'dashboard.php' || 
                 basename($_SERVER['PHP_SELF']) == 'todays_patient.php' || 
                 basename($_SERVER['PHP_SELF']) == 'request_update.php' || 
@@ -359,7 +359,7 @@
                       ) ? 'active' : ''; 
                     ?> 
                   ">
-                      <i class="fas fa-chart-bar"></i><p>&nbsp;&nbsp; Daily Reports<i class="right fas fa-angle-left"></i></p>
+                      <i class="fas fa-chart-bar"></i><p>&nbsp;&nbsp; Reports<i class="right fas fa-angle-left"></i></p>
                   </a>
                   <ul class="nav nav-treeview"
                   <?php echo (
@@ -418,13 +418,13 @@
                           <a href="dashboard_asking_med.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'dashboard_asking_med.php') ? 'active' : ''; ?>"><i class="fa-solid fa-hospital"></i><p>&nbsp;&nbsp; Asking medicine</p></a>
                       </li>
                       <li class="nav-item">
-                          <a href="dashboard_dental.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'dashboard_dental.php') ? 'active' : ''; ?>"><i class="fa-solid fa-tooth"></i><p>&nbsp;&nbsp; Dental</p></a>
+                          <a href="dashboard_dental.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'dashboard_dental.php') ? 'active' : ''; ?>"><i class="fa-solid fa-tooth"></i><p>&nbsp;&nbsp; Dental Admisiion</p></a>
                       </li>
                       <li class="nav-item">
-                          <a href="dashboard_medical.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'dashboard_medical.php') ? 'active' : ''; ?>"><i class="fa-solid fa-hospital"></i><p>&nbsp;&nbsp; Medical</p></a>
+                          <a href="dashboard_medical.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'dashboard_medical.php') ? 'active' : ''; ?>"><i class="fa-solid fa-hospital"></i><p>&nbsp;&nbsp; Medical Admission</p></a>
                       </li>
                       <li class="nav-item">
-                          <a href="dashboard_physical.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'dashboard_physical.php') ? 'active' : ''; ?>"><i class="fa-solid fa-stethoscope"></i><p>&nbsp;&nbsp; Physical</p></a>
+                          <a href="dashboard_physical.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'dashboard_physical.php') ? 'active' : ''; ?>"><i class="fa-solid fa-stethoscope"></i><p>&nbsp;&nbsp; Physical Exam</p></a>
                       </li>
                       <li class="nav-item">
                           <a href="dashboard_consultaion.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'dashboard_consultaion.php') ? 'active' : ''; ?>"><i class="fa-solid fa-comments"></i><p>&nbsp;&nbsp; Consultation</p></a>
@@ -436,7 +436,7 @@
                 <a href="todays_patient.php" class="nav-link <?php //echo (basename($_SERVER['PHP_SELF']) == 'todays_patient.php') ? 'active' : ''; ?>"><i class="fa-solid fa-calendar-days"></i><p>&nbsp;&nbsp; Todays Patient</p></a>
               </li> -->
               <li class="nav-item">
-                <a href="request_update.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'request_update.php') ? 'active' : ''; ?>"><i class="fa-solid fa-hourglass-start"></i><p>&nbsp;&nbsp; Update Requests</p></a>
+                <a href="request_update.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'request_update.php') ? 'active' : ''; ?>"><i class="fa-solid fa-hourglass-start"></i><p>&nbsp;&nbsp; Approval Requests</p></a>
               </li>
               <li class="nav-item">
                <a href="notification.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'notification.php') ? 'active' : ''; ?>"><i class="fa-solid fa-bell"></i><p>&nbsp;&nbsp; Notification</p></a>
@@ -539,7 +539,34 @@
 
           <li class="nav-header text-secondary" style="margin-bottom: -14px;">MEDICINE MANAGEMENT</li>
           <li class="nav-item">
-            <a href="medicine.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'medicine.php' || basename($_SERVER['PHP_SELF']) == 'medicine_mgmt.php') ? 'active' : ''; ?>"><i class="fa-solid fa-house-chimney-medical"></i><p>&nbsp; Medicine </p></a>
+            <a href="#" class="nav-link 
+              <?php echo (
+                basename($_SERVER['PHP_SELF']) == 'medicine.php' || 
+                basename($_SERVER['PHP_SELF']) == 'medicine_mgmt.php' || 
+                basename($_SERVER['PHP_SELF']) == 'medicine_returned.php' || 
+                basename($_SERVER['PHP_SELF']) == 'medicine_expired.php'
+                ) ? 'active' : ''; 
+              ?>
+            "><i class="fa-solid fa-house-chimney-medical"></i><p>&nbsp;&nbsp;Medicine<i class="right fas fa-angle-left"></i></p></a>
+            <ul class="nav nav-treeview" 
+              <?php echo (
+                basename($_SERVER['PHP_SELF']) == 'medicine.php' || 
+                basename($_SERVER['PHP_SELF']) == 'medicine_mgmt.php' || 
+                basename($_SERVER['PHP_SELF']) == 'medicine_returned.php' || 
+                basename($_SERVER['PHP_SELF']) == 'medicine_expired.php'
+                ) ? 'style="display: block;"' : ''; 
+              ?>
+            >
+              <li class="nav-item">
+                <a href="medicine.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'medicine.php' || basename($_SERVER['PHP_SELF']) == 'medicine_mgmt.php') ? 'active' : ''; ?>"><i class="fa-solid fa-house-chimney-medical"></i><p>&nbsp; Medicine Inventory</p></a>
+              </li>
+              <li class="nav-item">
+               <a href="medicine_returned.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'medicine_returned.php') ? 'active' : ''; ?>"><i class="fa-solid fa-house-chimney-medical"></i><p>&nbsp;&nbsp; Medicine Returned</p></a>
+              </li>
+              <li class="nav-item">
+               <a href="medicine_expired.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'medicine_expired.php') ? 'active' : ''; ?>"><i class="fa-solid fa-house-chimney-medical"></i><p>&nbsp;&nbsp; Medicine Expired</p></a>
+              </li>
+            </ul>
           </li>
 
           
@@ -683,18 +710,23 @@
           <li class="nav-item">
             <a href="#" class="nav-link 
               <?php echo (
-                basename($_SERVER['PHP_SELF']) == 'medical_certificate.php' || 
+                basename($_SERVER['PHP_SELF']) == 'medical_new_request.php' || 
+                basename($_SERVER['PHP_SELF']) == 'medical_certificate.php' ||
                 basename($_SERVER['PHP_SELF']) == 'medical_records.php'
                 ) ? 'active' : ''; 
               ?>
             "><i class="fa-solid fa-file"></i><p>&nbsp;&nbsp;Document Requests<i class="right fas fa-angle-left"></i></p></a>
             <ul class="nav nav-treeview" 
               <?php echo (
-                basename($_SERVER['PHP_SELF']) == 'medical_certificate.php' || 
+                basename($_SERVER['PHP_SELF']) == 'medical_new_request.php' || 
+                basename($_SERVER['PHP_SELF']) == 'medical_certificate.php' ||
                 basename($_SERVER['PHP_SELF']) == 'medical_records.php'
                 ) ? 'style="display: block;"' : ''; 
               ?>
             >
+              <li class="nav-item">
+               <a data-toggle="modal" data-target="#newRequest" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'medical_new_request.php') ? 'active' : ''; ?>"><i class="fa-sharp fa-solid fa-square-plus"></i><p>&nbsp;&nbsp; New request</p></a>
+              </li>
               <li class="nav-item">
                <a href="medical_certificate.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'medical_certificate.php') ? 'active' : ''; ?>"><i class="fa-solid fa-certificate"></i><p>&nbsp;&nbsp; Medical Certification</p></a>
               </li>
@@ -720,7 +752,7 @@
            <a href="admin.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'admin.php' || basename($_SERVER['PHP_SELF']) == 'admin_mgmt.php' || basename($_SERVER['PHP_SELF']) == 'admin_view.php') ? 'active' : ''; ?>"><i class="fa-solid fa-users-gear"></i><p>&nbsp;&nbsp;System Users</p></a>
           </li>
           <li class="nav-item">
-           <a href="profile.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'profile.php') ? 'active' : ''; ?>"><i class="fa-solid fa-user-gear"></i><p>&nbsp;&nbsp;Settings</p></a>
+           <a href="profile.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'profile.php') ? 'active' : ''; ?>"><i class="fa-solid fa-user-gear"></i><p>&nbsp;&nbsp;Profile</p></a>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link" onclick="logout()"><i class="fa-solid fa-power-off"></i><p>&nbsp;&nbsp;Logout</p></a>
@@ -750,6 +782,72 @@
 
  
 
+  <!-- APPROVE -->
+<div class="modal fade" id="newRequest" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+       <div class="modal-header bg-light">
+        <h5 class="modal-title" id="exampleModalLabel"><i class="fa-solid fa-certificate"></i> Request medical document</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true"><i class="fa-solid fa-circle-xmark"></i></span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="process_save.php" method="POST">
+          <div class="form-group">
+            <label for="">Patient name</label>
+            <select name="patient_Id" id="" class="form-control" required>
+              <option value="" selected disabled>Select patient</option>
+              <?php 
+                $get = mysqli_query($conn, "SELECT * FROM patient");
+                if(mysqli_num_rows($get) > 0) {
+                  while($row_get = mysqli_fetch_array($get)) { ?>
+                    <option value="<?= $row_get['user_Id'] ?>"><?= ucwords($row_get['name']) ?></option>
+              <?php }
+                } else { ?> 
+                  <option value="">No patient record found</option>
+              <?php } ?>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="">Type of document</label>
+            <select name="type" id="" class="form-control" required>
+              <option value="" selected disabled>Select type</option>
+              <option value="Medical Certificate">Medical Certificate</option>
+              <option value="Medical Records">Medical Records</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="">Reason</label>
+            <textarea class="form-control" name="purpose" placeholder="Enter for purpose" id="" cols="30" rows="3" required></textarea>
+          </div>
+          <div class="form-group">
+              <label for="appt_date">Pick desired appointment date</label>
+              <input type="date" class="form-control" id="appt_date" name="pick_up_date" required>
+          </div>
+
+          <script>
+              // Get the current date
+              const currentDate = new Date();
+              
+              // Calculate the next day
+              currentDate.setDate(currentDate.getDate() + 1);
+              
+              // Format the next day in the YYYY-MM-DD format
+              const nextDay = currentDate.toISOString().split('T')[0];
+              
+              // Set the minimum date for the input element
+              document.getElementById('appt_date').setAttribute('min', nextDay);
+          </script>
+      </div>
+      <div class="modal-footer alert-light">
+        <button type="button" class="btn bg-secondary" data-dismiss="modal"><i class="fa-solid fa-ban"></i> Cancel</button>
+        <button type="submit" class="btn bg-primary" name="personal_request"><i class="fa-solid fa-floppy-disk"></i> Confirm</button>
+      </div>
+        </form>
+    </div>
+  </div>
+</div>
 
 
 

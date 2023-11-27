@@ -187,7 +187,25 @@
           <div class="col-lg-3 col-6">
             <div class="small-box bg-info">
               <div class="inner">
-                <h3 class="text-info">Hidden text</h3>
+                <?php
+                  $medicine = mysqli_query($conn, "SELECT asking_med_Id from asking_med WHERE patient_Id ='$id'");
+                  $row_medicine = mysqli_num_rows($medicine);
+                ?>
+                <h3><?php echo $row_medicine; ?></h3>
+
+                <p>Asking Medicine</p>
+              </div>
+              <div class="icon">
+                <i class="fa-solid fa-bell"></i>
+              </div>
+              <a href="asking_med.php" class="small-box-footer">More Info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-6">
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3 class="text-warning">Hidden text</h3>
 
                 <p>All records</p>
               </div>

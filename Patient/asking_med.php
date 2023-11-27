@@ -44,7 +44,7 @@
                     <th>VITAL SIGN</th>
                     <th>MEDICAL ADVISED</th>
                     <th>MEDICINE GIVEN</th>
-                    <th>DATE ADMITTED</th>
+                    <th>DATE VISITED</th>
                     <th>TOOLS</th>
                   </tr>
                   </thead>

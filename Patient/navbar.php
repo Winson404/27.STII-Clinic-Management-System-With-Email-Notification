@@ -415,7 +415,7 @@
           </li>
 
           <li class="nav-item">
-            <a href="appointment.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'appointment.php') ? 'active' : ''; ?>"><i class="fa-solid fa-calendar"></i><p>&nbsp;&nbsp; Appointment </p></a>
+            <a href="appointment.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'appointment.php' || basename($_SERVER['PHP_SELF']) == 'appointment_mgmt.php') ? 'active' : ''; ?>"><i class="fa-solid fa-calendar"></i><p>&nbsp;&nbsp; Appointment </p></a>
           </li>
 
           <li class="nav-item">
@@ -452,7 +452,7 @@
           </li>
           
           <li class="nav-item">
-           <a href="profile.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'profile.php') ? 'active' : ''; ?>"><i class="fa-solid fa-user-gear"></i><p>&nbsp;&nbsp;Settings</p></a>
+           <a href="profile.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'profile.php') ? 'active' : ''; ?>"><i class="fa-solid fa-user-gear"></i><p>&nbsp;&nbsp;Profile</p></a>
           </li>
           
           <li class="nav-item">

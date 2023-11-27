@@ -32,7 +32,7 @@
                 <h6 class="text-primary text-bold">DENTAL RECORDS</h6>
               </div>
               <div class="card-body p-3">
-                 <table id="example111" class="table table-bordered table-hover text-sm">
+                 <table id="example111" class="table table-bordered table-hover text-sm table-sm">
                   <thead>
                   <tr> 
                     <th>USERTYPE</th>
@@ -69,7 +69,7 @@
                 <h6 class="text-primary text-bold">MEDICAL ADMISSION RECORDS</h6>
               </div>
               <div class="card-body p-3">
-                 <table id="example1111" class="table table-bordered table-hover text-sm">
+                 <table id="example1111" class="table table-bordered table-hover text-sm table-sm">
                   <thead>
                   <tr> 
                     <th>USERTYPE</th>
@@ -108,7 +108,7 @@
                 <h6 class="text-primary text-bold">PHYSICAL EXAM RECORDS</h6>
               </div>
               <div class="card-body p-3">
-                 <table id="example11111" class="table table-bordered table-hover text-sm">
+                 <table id="example11111" class="table table-bordered table-hover text-sm table-sm">
                   <thead>
                   <tr> 
                     <th>USERTYPE</th>
@@ -147,17 +147,53 @@
                 <h6 class="text-primary text-bold">CONSULTATION RECORDS</h6>
               </div>
               <div class="card-body p-3">
-                 <table id="example111111" class="table table-bordered table-hover text-sm">
+                 <table id="example111111" class="table table-bordered table-hover text-sm table-sm">
                   <thead>
                   <tr> 
                     <th>USERTYPE</th>
                     <th>PATIENT NAME</th>
-                    <th>DATE ADMITTED</th>
+                    <th>DATE VISITED</th>
                   </tr>
                   </thead>
                   <tbody id="users_data">
                       <?php 
                         $sql = mysqli_query($conn, "SELECT * FROM consultation JOIN patient ON consultation.patient_Id=patient.user_Id WHERE DATE(date_admitted) = '$date_today' ");
+                        while ($row = mysqli_fetch_array($sql)) {
+                          $dateString = $row['date_admitted'];
+                          $timezone = new DateTimeZone('Asia/Manila'); // Replace 'Your_Timezone' with your desired timezone
+                          $datetime = new DateTime($dateString, $timezone);
+                          $formattedDate = $datetime->format("F d, Y h:i A");
+                      ?>
+                    <tr>
+                        <td><?php echo $row['position']; ?></td>
+                        <td><?php echo $row['name']; ?></td>
+                        <td class="text-primary"><?php echo $formattedDate; ?></td>
+                    </tr>
+                    <?php } ?>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header text-center">
+                <h6 class="text-primary text-bold">ASKING MEDICINE RECORDS</h6>
+              </div>
+              <div class="card-body p-3">
+                 <table id="askingMed" class="table table-bordered table-hover text-sm table-sm">
+                  <thead>
+                  <tr> 
+                    <th>USERTYPE</th>
+                    <th>PATIENT NAME</th>
+                    <th>DATE VISITED</th>
+                  </tr>
+                  </thead>
+                  <tbody id="users_data">
+                      <?php 
+                        $sql = mysqli_query($conn, "SELECT * FROM asking_med JOIN patient ON asking_med.patient_Id=patient.user_Id WHERE DATE(date_admitted) = '$date_today' ");
                         while ($row = mysqli_fetch_array($sql)) {
                           $dateString = $row['date_admitted'];
                           $timezone = new DateTimeZone('Asia/Manila'); // Replace 'Your_Timezone' with your desired timezone

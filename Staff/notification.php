@@ -57,7 +57,35 @@
                       ?>
                     <tr class="<?php echo $rowClass; ?>">
                         <td><input type="checkbox" class="notificationCheckbox" name="notification_ids[]" value="<?php echo $row['notif_Id']; ?>"></td>
-                        <td><?php echo $row['type']; ?></td>
+                        <td>
+                          <?php if($row['type'] == 'Medicine'): ?>
+                          <a href="medicine.php"><?php echo $row['type']; ?></a>
+                          <?php elseif($row['type'] == 'Student update'): ?>
+                          <a href="student.php"><?php echo $row['type']; ?></a>
+                          <?php elseif($row['type'] == 'Teacher update'): ?>
+                          <a href="teacher.php"><?php echo $row['type']; ?></a>
+                          <?php elseif($row['type'] == 'Consultation Teacher'): ?>
+                          <a href="consultation_teacher.php"><?php echo $row['type']; ?></a>
+                          <?php elseif($row['type'] == 'Consultation Student'): ?>
+                          <a href="consultation_student.php"><?php echo $row['type']; ?></a>
+                          <?php elseif($row['type'] == 'Physical Teacher'): ?>
+                          <a href="physical_teacher.php"><?php echo $row['type']; ?></a>
+                          <?php elseif($row['type'] == 'Physical Student'): ?>
+                          <a href="physical_student.php"><?php echo $row['type']; ?></a>
+                          <?php elseif($row['type'] == 'Asking Med Student'): ?>
+                          <a href="asking_student.php"><?php echo $row['type']; ?></a>
+                          <?php elseif($row['type'] == 'Asking Med Teacher'): ?>
+                          <a href="asking_teacher.php"><?php echo $row['type']; ?></a>
+                          <?php elseif($row['type'] == 'Medical Teacher'): ?>
+                          <a href="form2_teacher.php"><?php echo $row['type']; ?></a>
+                          <?php elseif($row['type'] == 'Medical Student'): ?>
+                          <a href="form2_student.php"><?php echo $row['type']; ?></a>
+                          <?php elseif($row['type'] == 'Dental Teacher'): ?>
+                          <a href="dental_teacher.php"><?php echo $row['type']; ?></a>
+                          <?php else: ?>
+                          <a href="dental_student.php"><?php echo $row['type']; ?></a>
+                          <?php endif; ?>
+                        </td>
                         <td><?php echo $row['subject']; ?></td>
                         <td><?php echo $row['message']; ?></td>
                         <td class="text-primary"><?php if(!empty($row['date_sent'])) { echo date("F d, Y h:i A", strtotime($row['date_sent'])); } ?></td>
@@ -65,12 +93,12 @@
                           <button type="button" class="btn bg-danger btn-sm" data-toggle="modal" data-target="#delete<?php echo $row['notif_Id']; ?>"><i class="fas fa-trash"></i> Delete</button>
                         </td>
                     </tr>
-
+                    </form>
                     <?php include 'notification_delete.php'; } ?>
 
                   </tbody>
                 </table>
-                </form>
+                
               </div>
             </div>
           </div>

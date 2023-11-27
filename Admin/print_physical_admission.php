@@ -110,7 +110,8 @@
 
 
                     <div class="col-12 mt-3">
-                      <p>Issued upon the request of the above named for school purposes only it may serve her/him best.</p>
+                      <!-- <p>Issued upon the request of the above named for school purposes only it may serve her/him best.</p> -->
+                      <p>Issued upon the request of <b><?= ucwords($row['name']) ?></b> for school purposes only it may serve her/him best.</p>
                       <?php
                         function getDaySuffix($day) {
                             if ($day >= 11 && $day <= 13) {

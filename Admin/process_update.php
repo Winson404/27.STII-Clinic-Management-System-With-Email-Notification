@@ -1044,13 +1044,16 @@
 		$name       = $row['name'];
 		$email      = $row['email'];
 
+		$gender = "";
+		if($row['sex'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
 
-		$delete = mysqli_query($conn, "UPDATE appointment SET appt_date='', appt_time='', appt_status=2 WHERE appt_Id='$appt_Id'");
+
+		$delete = mysqli_query($conn, "UPDATE appointment SET appt_status=2 WHERE appt_Id='$appt_Id'");
 		 if($delete) {
 
 		 	
 			  $subject = 'Appointment denied';
-		      $message = '<p>Good day sir/maam '.$name.', your appointment has been denied.</p>
+		      $message = '<p>Good day '.$gender.' '.$name.', your appointment has been denied.</p>
 		      <p><b>NOTE:</b> This is a system generated email. Please do not reply.</p> ';
 
 		      $mail = new PHPMailer(true);                            
@@ -1086,7 +1089,7 @@
 		        $mail->send();
 
 		        	// SAVE NOTIFICATION
-		        	$message2 = 'Good day sir/maam '.$name.', your appointment has been denied.';
+		        	$message2 = 'Good day '.$gender.' '.$name.', your appointment has been denied.';
 		        	$notif = mysqli_query($conn, "INSERT INTO notification (type, subject, message, sender) VALUES ('Appointment', '$subject', '$message2', '$patient_Id') ");
 		        	if($notif) {
 		        		$_SESSION['message'] = "Appointment has been denied!";
@@ -1132,11 +1135,15 @@
 		$name       = $row['name'];
 		$email      = $row['email'];
 
+		$gender = "";
+		if($row['sex'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+
+
 		$delete = mysqli_query($conn, "UPDATE appointment SET appt_status=3 WHERE appt_Id='$appt_Id'");
 		 if($delete) {
 
 	      	  $subject = 'Appointment settled';
-		      $message = '<p>Good day sir/maam '.$name.', your appointment has been settled.</p>
+		      $message = '<p>Good day '.$gender.' '.$name.', your appointment has been settled.</p>
 		      <p><b>NOTE:</b> This is a system generated email. Please do not reply.</p> ';
 
 		      $mail = new PHPMailer(true);                            
@@ -1172,7 +1179,7 @@
 		        $mail->send();
 
 		        	// SAVE NOTIFICATION
-		        	$message2 = 'Good day sir/maam '.$name.', your appointment has been settled.';
+		        	$message2 = 'Good day '.$gender.' '.$name.', your appointment has been settled.';
 		        	$notif = mysqli_query($conn, "INSERT INTO notification (type, subject, message, sender) VALUES ('Appointment', '$subject', '$message2', '$patient_Id') ");
 		        	if($notif) {
 		        		$_SESSION['message'] = "Appointment has been settled!";
@@ -1220,6 +1227,8 @@
 		$appt_date  = $row['appt_date'];
 		$appt_time  = $row['appt_time'];
 
+		$gender = "";
+		if($row['sex'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
 
 		
 		    
@@ -1228,7 +1237,7 @@
 			 if($delete) {
 
 			 	  $subject = 'Appointment approved';
-			      $message = '<p>Good day sir/maam '.$name.', your appointment has been approved. Your schedule will be on '.$appt_date.' at exactly '.$appt_time.'.</p>
+			      $message = '<p>Good day '.$gender.' '.$name.', your appointment has been approved. Your schedule will be on '.$appt_date.' at exactly '.$appt_time.'.</p>
 			      <p><b>NOTE:</b> This is a system generated email. Please do not reply.</p> ';
 
 			      $mail = new PHPMailer(true);                            
@@ -1264,7 +1273,7 @@
 			        $mail->send();
 
 			        	// SAVE NOTIFICATION
-			        	$message2 = 'Good day sir/maam '.$name.', your appointment has been approved. Your schedule will be on '.$appt_date.' at exactly '.$appt_time.'.';
+			        	$message2 = 'Good day '.$gender.' '.$name.', your appointment has been approved. Your schedule will be on '.$appt_date.' at exactly '.$appt_time.'.';
 			        	$notif = mysqli_query($conn, "INSERT INTO notification (type, subject, message, sender) VALUES ('Appointment', '$subject', '$message2', '$patient_Id') ");
 			        	if($notif) {
 			        		$_SESSION['message'] = "Appointment has been approved!";
@@ -1289,6 +1298,97 @@
 		      	
 		      } else {
 		        $_SESSION['message'] = "Something went wrong while approving the record";
+		        $_SESSION['text'] = "Please try again.";
+		        $_SESSION['status'] = "error";
+				header("Location: appointment.php");
+		      }
+	}
+
+
+
+
+
+	// RESCHEDULE APPOINTMENT - APPOINTMENT_UPDATE_DELETE.PHP
+	if(isset($_POST['reschedule_appointment'])) {
+		$appt_Id   = $_POST['appt_Id'];
+
+		// GET PATIENT NAME
+		$patient = mysqli_query($conn, "SELECT * FROM appointment JOIN patient ON appointment.appt_patient_Id=patient.user_Id WHERE appointment.appt_Id='$appt_Id' ");
+		$row        = mysqli_fetch_array($patient);
+		$patient_Id = $row['appt_patient_Id'];
+		$name       = $row['name'];
+		$email      = $row['email'];
+		$appt_date  = $row['appt_date'];
+		$appt_time  = $row['appt_time'];
+
+		$gender = "";
+		if($row['sex'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+		
+			$delete = mysqli_query($conn, "UPDATE appointment SET is_rescheduled=1 WHERE appt_Id='$appt_Id'");
+			 if($delete) {
+
+			 	  $subject = 'Rescheduled appointment';
+			      $message = '<p>Good day '.$gender.' '.$name.', your appointment has been rescheduled. Please confirm this message by clicking <b>YES</b> button in your appointment page after you login.</p>
+			      <p><b>NOTE:</b> This is a system generated email. Please do not reply.</p> ';
+
+			      $mail = new PHPMailer(true);                            
+			      try {
+			        //Server settings
+			        $mail->isSMTP();                                     
+			        $mail->Host = 'smtp.gmail.com';                      
+			        $mail->SMTPAuth = true;                             
+			        $mail->Username = 'tatakmedellin@gmail.com';     
+			        $mail->Password = 'nzctaagwhqlcgbqq';              
+			        $mail->SMTPOptions = array(
+			        'ssl' => array(
+			        'verify_peer' => false,
+			        'verify_peer_name' => false,
+			        'allow_self_signed' => true
+			        )
+			        );                         
+			        $mail->SMTPSecure = 'ssl';                           
+			        $mail->Port = 465;                                   
+
+			        //Send Email
+			        $mail->setFrom('tatakmedellin@gmail.com');
+
+			        //Recipients
+			        $mail->addAddress($email);              
+			        $mail->addReplyTo('tatakmedellin@gmail.com');
+
+			        //Content
+			        $mail->isHTML(true);                                  
+			        $mail->Subject = $subject;
+			        $mail->Body    = $message;
+
+			        $mail->send();
+
+			        	// SAVE NOTIFICATION
+			        	$message2 = 'Good day '.$gender.' '.$name.', your appointment has been rescheduled. Please confirm this message by clicking <b>YES</b> button in your appointment page after you login.';
+			        	$notif = mysqli_query($conn, "INSERT INTO notification (type, subject, message, sender) VALUES ('Appointment', '$subject', '$message2', '$patient_Id') ");
+			        	if($notif) {
+			        		$_SESSION['message'] = "Reschedule suggestion has been sent to patient!";
+					        $_SESSION['text'] = "Rescheduled";
+					        $_SESSION['status'] = "success";
+							header("Location: appointment.php");
+			        	} else {
+			        		$_SESSION['message'] = "Rescheduled successfully but insertion to notif error.";
+					        $_SESSION['text'] = "Denied";
+					        $_SESSION['status'] = "success";
+							header("Location: appointment.php");
+			        	}
+
+			        	
+
+				  } catch (Exception $e) { 
+				  	$_SESSION['message'] = "Email not sent.";
+				    $_SESSION['text'] = "Please try again.";
+				    $_SESSION['status'] = "error";
+					header("Location: appointment.php");
+				  } 
+		      	
+		      } else {
+		        $_SESSION['message'] = "Something went wrong while rescheduling the record";
 		        $_SESSION['text'] = "Please try again.";
 		        $_SESSION['status'] = "error";
 				header("Location: appointment.php");
@@ -1371,19 +1471,64 @@
 		$medicine_given    = mysqli_real_escape_string($conn, $_POST['medicine_given']);
 		$chief_complaints  = mysqli_real_escape_string($conn, $_POST['chief_complaints']);
 
-		$save = mysqli_query($conn, "UPDATE asking_med SET patient_Id='$patient_Id', pr='$pr', temperature='$temperature', vital_sign='$vital_sign', medical_advised='$medical_advised', medicine_given='$medicine_given', chief_complaints='$chief_complaints' WHERE asking_med_Id='$asking_med_Id' ");
+		$fetch = mysqli_query($conn, "SELECT * FROM medicine WHERE med_Id='$medicine_given'");
+		$row = mysqli_fetch_array($fetch);
+		$med_name = $row['med_name'];
 
-		  if($save) {
-		  	$_SESSION['message'] = "Record has been updated.";
-		    $_SESSION['text'] = "Updated successfully!";
-		    $_SESSION['status'] = "success";
-			header("Location: asking_med_mgmt.php?page=".$asking_med_Id);
-		  } else {
-		    $_SESSION['message'] = "Something went wrong while saving the information.";
-		    $_SESSION['text'] = "Please try again.";
-		    $_SESSION['status'] = "error";
-			header("Location: asking_med_mgmt.php?page=".$asking_med_Id);
-		  }
+		// GET MEDICINE GIVEN
+		$fetch2 = mysqli_query($conn, "SELECT * FROM asking_med WHERE asking_med_Id='$asking_med_Id'");
+		$row2 = mysqli_fetch_array($fetch2);
+		$row2_medicine_given = $row2['medicine_given'];
+
+		if($row2_medicine_given == $med_name) {
+			$save = mysqli_query($conn, "UPDATE asking_med SET patient_Id='$patient_Id', pr='$pr', temperature='$temperature', vital_sign='$vital_sign', medical_advised='$medical_advised', medicine_given='$med_name', chief_complaints='$chief_complaints' WHERE asking_med_Id='$asking_med_Id' ");
+
+			  if($save) {
+			  	$_SESSION['message'] = "Record has been updated.";
+			    $_SESSION['text'] = "Updated successfully!";
+			    $_SESSION['status'] = "success";
+				header("Location: asking_med_mgmt.php?page=".$asking_med_Id);
+			  } else {
+			    $_SESSION['message'] = "Something went wrong while saving the information.";
+			    $_SESSION['text'] = "Please try again.";
+			    $_SESSION['status'] = "error";
+				header("Location: asking_med_mgmt.php?page=".$asking_med_Id);
+			  }
+		} else {
+			$save = mysqli_query($conn, "UPDATE asking_med SET patient_Id='$patient_Id', pr='$pr', temperature='$temperature', vital_sign='$vital_sign', medical_advised='$medical_advised', medicine_given='$med_name', chief_complaints='$chief_complaints' WHERE asking_med_Id='$asking_med_Id' ");
+
+			  if($save) {
+			  	$update = mysqli_query($conn, "UPDATE medicine SET med_stock_in=med_stock_in+1 WHERE med_name='$row2_medicine_given'");
+			  	if($update) {
+			  		$update2 = mysqli_query($conn, "UPDATE medicine SET med_stock_in=med_stock_in-1 WHERE med_Id='$medicine_given'");
+			  		if($update2) {
+			  			$_SESSION['message'] = "Record has been updated.";
+					    $_SESSION['text'] = "Updated successfully!";
+					    $_SESSION['status'] = "success";
+						header("Location: asking_med_mgmt.php?page=".$asking_med_Id);
+			  		} else {
+			  			$_SESSION['message'] = "Cannot update stock.";
+					    $_SESSION['text'] = "Please try again.";
+					    $_SESSION['status'] = "error";
+						header("Location: asking_med_mgmt.php?page=".$asking_med_Id);
+			  		}
+			  	} else {
+			  		$_SESSION['message'] = "Cannot update stock.";
+				    $_SESSION['text'] = "Please try again.";
+				    $_SESSION['status'] = "error";
+					header("Location: asking_med_mgmt.php?page=".$asking_med_Id);
+			  	}
+			  	
+			  } else {
+			    $_SESSION['message'] = "Something went wrong while saving the information.";
+			    $_SESSION['text'] = "Please try again.";
+			    $_SESSION['status'] = "error";
+				header("Location: asking_med_mgmt.php?page=".$asking_med_Id);
+			  }
+
+		}
+
+		
 	}
 
 	
@@ -1539,6 +1684,7 @@
 		$brand_name       = mysqli_real_escape_string($conn, $_POST['brand_name']);
 		$other_brand_name = mysqli_real_escape_string($conn, $_POST['other_brand_name']);
 		$med_name         = mysqli_real_escape_string($conn, $_POST['med_name']);
+		$med_type        = mysqli_real_escape_string($conn, $_POST['med_type']);
 		$milligrams       = mysqli_real_escape_string($conn, $_POST['milligrams']);
 		$med_stock_in     = mysqli_real_escape_string($conn, $_POST['med_stock_in']);
 		$expiration_date  = mysqli_real_escape_string($conn, $_POST['expiration_date']);
@@ -1557,7 +1703,7 @@
 			    $_SESSION['status'] = "error";
 			    header("Location: medicine_mgmt.php?page=".$med_Id);
 			} else {
-				  $update = mysqli_query($conn, "UPDATE medicine SeT brand_name='$brand_name', other_brand_name='$other_brand_name', med_name='$med_name', milligrams='$milligrams', med_stock_in='$med_stock_in', med_stock_in_orig='$med_stock_in', expiration_date='$expiration_date' WHERE med_Id='$med_Id' ");
+				  $update = mysqli_query($conn, "UPDATE medicine SeT brand_name='$brand_name', other_brand_name='$other_brand_name', med_name='$med_name', med_type='$med_type', milligrams='$milligrams', med_stock_in='$med_stock_in', med_stock_in_orig='$med_stock_in', expiration_date='$expiration_date' WHERE med_Id='$med_Id' ");
 
 				  if($update) {
 				  	$_SESSION['message'] = "Record has been updated.";
@@ -1655,12 +1801,16 @@
 		$email   = $row['email'];
 		$type    = $row['req_type'];
 
+		$gender = "";
+		if($row['sex'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+
+
 	    $update = mysqli_query($conn, "UPDATE request_update SET req_status=2 WHERE req_Id='$req_Id' ");
 
 		  if($update) {
 
  				  $subject = 'Request update denied';
-			      $message = '<p>Good day sir/maam '.$name.', a request to update '.$type.' records has been denied.</p>
+			      $message = '<p>Good day '.$gender.' '.$name.', a request to update '.$type.' records has been denied.</p>
 			      <p><b>NOTE:</b> This is a system generated email. Please do not reply.</p> ';
 
 			      $mail = new PHPMailer(true);                            
@@ -1696,7 +1846,7 @@
 			        $mail->send();
 
 			        	// SAVE NOTIFICATION
-			        	$message2 = 'Good day sir/maam '.$name.', a request to update '.$type.' records has been denied.';
+			        	$message2 = 'Good day '.$gender.' '.$name.', a request to update '.$type.' records has been denied.';
 			        	$notif = mysqli_query($conn, "INSERT INTO notification (type, subject, message, sender) VALUES ('Request to edit', '$subject', '$message2', '$name') ");
 			        	if($notif) {
 			        		$_SESSION['message'] = "Request denied";
@@ -1745,12 +1895,16 @@
 		$email   = $row['email'];
 		$type    = $row['req_type'];
 
+		$gender = "";
+		if($row['sex'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+
+
 	    $update = mysqli_query($conn, "UPDATE request_update SET req_status=1 WHERE req_Id='$req_Id' ");
 
 		  if($update) {
 
  				  $subject = 'Request update approved';
-			      $message = '<p>Good day sir/maam '.$name.', a request to update '.$type.' records has been approved.</p>
+			      $message = '<p>Good day '.$gender.' '.$name.', a request to update '.$type.' records has been approved.</p>
 			      <p><b>NOTE:</b> This is a system generated email. Please do not reply.</p> ';
 
 			      $mail = new PHPMailer(true);                            
@@ -1787,8 +1941,8 @@
 
 			        	
 						// SAVE NOTIFICATION
-			        	$message2 = 'Good day sir/maam '.$name.', a request to update '.$type.' records has been approved.';
-			        	$notif = mysqli_query($conn, "INSERT INTO notification (type, subject, message, sender) VALUES ('Request to edit', '$subject', '$message2', '$sender_Id') ");
+			        	$message2 = 'Good day '.$gender.' '.$name.', a request to update '.$type.' records has been approved.';
+			        	$notif = mysqli_query($conn, "INSERT INTO notification (type, subject, message, sender) VALUES ('$type', '$subject', '$message2', '$sender_Id') ");
 			        	if($notif) {
 			        		$_SESSION['message'] = "Request approved";
 						    $_SESSION['text'] = "Approved";
@@ -1840,6 +1994,10 @@
 		$email   = $row['email'];
 		$senderId = $row['patient_Id'];
 
+		$gender = "";
+		if($row['sex'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+
+
 		$update = mysqli_query($conn, "UPDATE request_doc SET req_status='$req_status' WHERE req_Id='$req_Id'");
 		 if($update) {	
 
@@ -1847,7 +2005,7 @@
 
 
 			  $subject = 'Request status: '.$stat;
-		      $message = '<p>Good day sir/maam '.$name.', your requested document, '.$type.' status has been set to '.$stat.'.</p>
+		      $message = '<p>Good day '.$gender.' '.$name.', your requested document, '.$type.' status has been set to '.$stat.'.</p>
 		      <p><b>NOTE:</b> This is a system generated email. Please do not reply.</p> ';
 
 		      $mail = new PHPMailer(true);                            
@@ -1884,7 +2042,7 @@
 
 		        	
 					// SAVE NOTIFICATION
-		        	$message2 = 'Good day sir/maam '.$name.', your requested document, '.$type.' status has been set to '.$stat.'.';
+		        	$message2 = 'Good day '.$gender.' '.$name.', your requested document, '.$type.' status has been set to '.$stat.'.';
 		        	$notif = mysqli_query($conn, "INSERT INTO notification (type, subject, message, sender) VALUES ('$type', '$subject', '$message2', '$senderId') ");
 		        	if($notif) {
 		        		$_SESSION['message'] = "Record has been updated!";
@@ -1936,26 +2094,34 @@
 
 	
 
-
 	if(isset($_GET['seen'])) {
 		$type = $_GET['seen'];
 		if($type == 'appointment') {
 			$query = mysqli_query($conn, "UPDATE appointment SET seen_by_admin=1 WHERE appt_status=0 AND DATE(date_added)='$date_today'");
 			if($query) {
-
-				$sql = mysqli_query($conn, "SELECT * FROM request_doc JOIN patient ON request_doc.patient_Id=patient.user_Id WHERE DATE(date_created)='$date_today' AND seen_by_admin=0 AND req_status=0");
-				if(mysqli_num_rows($sql) > 0) {
-					$query2 = mysqli_query($conn, "UPDATE request_doc SET seen_by_admin=1  WHERE DATE(date_created)='$date_today' AND seen_by_admin=0 AND req_status=0");
-					if($query2) {
-						header("Location: dashboard.php");
+				$query2 = mysqli_query($conn, "UPDATE request_doc SET seen_by_admin=1 WHERE DATE(date_created)='$date_today' AND seen_by_admin=0 AND req_status=0");
+				if($query2) {
+					$query3 = mysqli_query($conn, "UPDATE medicine SET seen_by_admin=1 WHERE DATE(expiration_date)>CURDATE() AND is_returned=0  AND med_stock_in<20 AND seen_by_admin=0");
+					if($query3) {
+						$query4 = mysqli_query($conn, "UPDATE appointment SET seen_by_admin=1 WHERE DATE(appt_date)<CURDATE() AND (appt_status != 3 AND appt_status != 2 AND appt_status !=4) AND seen_by_admin=0 ");
+						if($query4) {
+							header("Location: dashboard.php");
+						} else {
+							$_SESSION['message'] = "Something went wrong while updating the record";
+					        $_SESSION['text'] = "Please try again.";
+					        $_SESSION['status'] = "error";
+							header("Location: dashboard.php");
+						}
 					} else {
 						$_SESSION['message'] = "Something went wrong while updating the record";
 				        $_SESSION['text'] = "Please try again.";
 				        $_SESSION['status'] = "error";
 						header("Location: dashboard.php");
 					}
-
 				} else {
+					$_SESSION['message'] = "Something went wrong while updating the record";
+			        $_SESSION['text'] = "Please try again.";
+			        $_SESSION['status'] = "error";
 					header("Location: dashboard.php");
 				}
 			} else {
@@ -1968,4 +2134,27 @@
 
 		}
 	}
+
+
+	if(isset($_POST['return_medicine'])) {
+		$med_Id = $_POST['med_Id'];
+
+		$sql = mysqli_query($conn, "UPDATE medicine SET is_returned=1 WHERE med_Id='$med_Id'");
+		if($sql) {
+			$_SESSION['message'] = "Medicine has been returned!";
+	        $_SESSION['text'] = "Returned successfully!";
+	        $_SESSION['status'] = "success";
+			header("Location: medicine_expired.php");
+		} else {
+			$_SESSION['message'] = "Something went wrong while returning the record";
+	        $_SESSION['text'] = "Please try again.";
+	        $_SESSION['status'] = "error";
+			header("Location: medicine_expired.php");
+		}
+	}
+
+
+
+	
+
 ?>

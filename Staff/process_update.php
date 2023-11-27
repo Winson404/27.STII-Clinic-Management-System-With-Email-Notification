@@ -1099,6 +1099,9 @@
 		$row_admin  = mysqli_fetch_array($admin);
 		$admin_name = $row_admin['firstname'].' '.$row_admin['middlename'].' '.$row_admin['lastname'].' '.$row_admin['suffix'];
 		$email      = $row_admin['email'];
+		$gender = "";
+		if($row_admin['gender'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+
 
 		$check = mysqli_query($conn, "SELECT * FROM request_update WHERE user_Id='$user_Id' AND req_type= '$req_type' AND req_status=0 ");
 		if(mysqli_num_rows($check) > 0) {
@@ -1112,12 +1115,12 @@
 
 		  if($save) {
 
-		  			$mess = 'Good day sir/maam '.$admin_name.', a request to update dental student records has been set by your staff named, '.$name.'.';
+		  			$mess = 'Good day '.$gender.' '.$admin_name.', a request to update dental student records has been set by your staff named, '.$name.'.';
 		  		    $save2 = mysqli_query($conn, "INSERT INTO notification (type, subject, message, sender) VALUES ('Dental student update', 'Dental records', '$mess', '$user_Id')");
 
 			  		if($save2) {
 			  			  $subject = 'Request Student Dental Update';
-					      $message = '<p>Good day sir/maam '.$admin_name.', a request to update dental student records has been set by your staff named, '.$name.'.</p>
+					      $message = '<p>Good day '.$gender.' '.$admin_name.', a request to update dental student records has been set by your staff named, '.$name.'.</p>
 					      <p><b>NOTE:</b> This is a system generated email. Please do not reply.</p> ';
 
 					      $mail = new PHPMailer(true);                            
@@ -1202,6 +1205,9 @@
 		$row_admin  = mysqli_fetch_array($admin);
 		$admin_name = $row_admin['firstname'].' '.$row_admin['middlename'].' '.$row_admin['lastname'].' '.$row_admin['suffix'];
 		$email      = $row_admin['email'];
+		$gender = "";
+		if($row_admin['gender'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+
 
 		$check = mysqli_query($conn, "SELECT * FROM request_update WHERE user_Id='$user_Id' AND req_type= '$req_type' AND req_status=0 ");
 		if(mysqli_num_rows($check) > 0) {
@@ -1215,12 +1221,12 @@
 
 		  if($save) {
 
-		  		$mess = 'Good day sir/maam '.$admin_name.', a request to update dental teacher records has been set by your staff named, '.$name.'.';
+		  		$mess = 'Good day '.$gender.' '.$admin_name.', a request to update dental teacher records has been set by your staff named, '.$name.'.';
 		  		$save2 = mysqli_query($conn, "INSERT INTO notification (type, subject, message, sender) VALUES ('Dental teacher update', 'Dental records', '$mess', '$user_Id')");
 
 		  		if($save2) {
 		  			$subject = 'Request Teacher Dental Update';
-				      $message = '<p>Good day sir/maam '.$admin_name.', a request to update dental teacher records has been set by your staff named, '.$name.'.</p>
+				      $message = '<p>Good day '.$gender.' '.$admin_name.', a request to update dental teacher records has been set by your staff named, '.$name.'.</p>
 				      <p><b>NOTE:</b> This is a system generated email. Please do not reply.</p> ';
 
 				      $mail = new PHPMailer(true);                            
@@ -1338,6 +1344,8 @@
 		$row_admin  = mysqli_fetch_array($admin);
 		$admin_name = $row_admin['firstname'].' '.$row_admin['middlename'].' '.$row_admin['lastname'].' '.$row_admin['suffix'];
 		$email      = $row_admin['email'];
+		$gender = "";
+		if($row_admin['gender'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
 
 		$check = mysqli_query($conn, "SELECT * FROM request_update WHERE user_Id='$user_Id' AND req_type= '$req_type' AND req_status=0 ");
 		if(mysqli_num_rows($check) > 0) {
@@ -1351,12 +1359,12 @@
 
 		  if($save) {	
 
-		  		$mess = 'Good day sir/maam '.$admin_name.', a request to update student medical records has been set by your staff named, '.$name.'.';
+		  		$mess = 'Good day '.$gender.' '.$admin_name.', a request to update student medical records has been set by your staff named, '.$name.'.';
 	  		    $save2 = mysqli_query($conn, "INSERT INTO notification (type, subject, message, sender) VALUES ('Medical student update', 'Medical records', '$mess', '$user_Id')");
 
 		  		if($save2) {
 		  			  $subject = 'Request Student Medical Update';
-				      $message = '<p>Good day sir/maam '.$admin_name.', a request to update student medical records has been set by your staff named, '.$name.'.</p>
+				      $message = '<p>Good day '.$gender.' '.$admin_name.', a request to update student medical records has been set by your staff named, '.$name.'.</p>
 				      <p><b>NOTE:</b> This is a system generated email. Please do not reply.</p> ';
 
 				      $mail = new PHPMailer(true);                            
@@ -1441,6 +1449,8 @@
 		$row_admin  = mysqli_fetch_array($admin);
 		$admin_name = $row_admin['firstname'].' '.$row_admin['middlename'].' '.$row_admin['lastname'].' '.$row_admin['suffix'];
 		$email      = $row_admin['email'];
+		$gender = "";
+		if($row_admin['gender'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
 
 		$check = mysqli_query($conn, "SELECT * FROM request_update WHERE user_Id='$user_Id' AND req_type= '$req_type' AND req_status=0 ");
 		if(mysqli_num_rows($check) > 0) {
@@ -1454,13 +1464,13 @@
 
 		  if($save) {
 
-		  		$mess = 'Good day sir/maam '.$admin_name.', a request to update teacher medical records has been set by your staff named, '.$name.'.';
+		  		$mess = 'Good day '.$gender.' '.$admin_name.', a request to update teacher medical records has been set by your staff named, '.$name.'.';
 	  		    $save2 = mysqli_query($conn, "INSERT INTO notification (type, subject, message, sender) VALUES ('Medical teacher update', 'Medical records', '$mess', '$user_Id')");
 
 		  		if($save2) {
 
 		  			$subject = 'Request Teacher Medical Update';
-				      $message = '<p>Good day sir/maam '.$admin_name.', a request to update teacher medical records has been set by your staff named, '.$name.'.</p>
+				      $message = '<p>Good day '.$gender.' '.$admin_name.', a request to update teacher medical records has been set by your staff named, '.$name.'.</p>
 				      <p><b>NOTE:</b> This is a system generated email. Please do not reply.</p> ';
 
 				      $mail = new PHPMailer(true);                            
@@ -1539,19 +1549,64 @@
 		$medicine_given    = mysqli_real_escape_string($conn, $_POST['medicine_given']);
 		$chief_complaints  = mysqli_real_escape_string($conn, $_POST['chief_complaints']);
 
-		$save = mysqli_query($conn, "UPDATE asking_med SET patient_Id='$patient_Id', pr='$pr', temperature='$temperature', vital_sign='$vital_sign', medical_advised='$medical_advised', medicine_given='$medicine_given', chief_complaints='$chief_complaints' WHERE asking_med_Id='$asking_med_Id' ");
+		$fetch = mysqli_query($conn, "SELECT * FROM medicine WHERE med_Id='$medicine_given'");
+		$row = mysqli_fetch_array($fetch);
+		$med_name = $row['med_name'];
 
-		  if($save) {
-		  	$_SESSION['message'] = "Record has been updated.";
-		    $_SESSION['text'] = "Updated successfully!";
-		    $_SESSION['status'] = "success";
-			header("Location: asking_med_mgmt.php?page=".$asking_med_Id);
-		  } else {
-		    $_SESSION['message'] = "Something went wrong while saving the information.";
-		    $_SESSION['text'] = "Please try again.";
-		    $_SESSION['status'] = "error";
-			header("Location: asking_med_mgmt.php?page=".$asking_med_Id);
-		  }
+		// GET MEDICINE GIVEN
+		$fetch2 = mysqli_query($conn, "SELECT * FROM asking_med WHERE asking_med_Id='$asking_med_Id'");
+		$row2 = mysqli_fetch_array($fetch2);
+		$row2_medicine_given = $row2['medicine_given'];
+
+		if($row2_medicine_given == $med_name) {
+			$save = mysqli_query($conn, "UPDATE asking_med SET patient_Id='$patient_Id', pr='$pr', temperature='$temperature', vital_sign='$vital_sign', medical_advised='$medical_advised', medicine_given='$med_name', chief_complaints='$chief_complaints' WHERE asking_med_Id='$asking_med_Id' ");
+
+			  if($save) {
+			  	$_SESSION['message'] = "Record has been updated.";
+			    $_SESSION['text'] = "Updated successfully!";
+			    $_SESSION['status'] = "success";
+				header("Location: asking_med_mgmt.php?page=".$asking_med_Id);
+			  } else {
+			    $_SESSION['message'] = "Something went wrong while saving the information.";
+			    $_SESSION['text'] = "Please try again.";
+			    $_SESSION['status'] = "error";
+				header("Location: asking_med_mgmt.php?page=".$asking_med_Id);
+			  }
+		} else {
+			$save = mysqli_query($conn, "UPDATE asking_med SET patient_Id='$patient_Id', pr='$pr', temperature='$temperature', vital_sign='$vital_sign', medical_advised='$medical_advised', medicine_given='$med_name', chief_complaints='$chief_complaints' WHERE asking_med_Id='$asking_med_Id' ");
+
+			  if($save) {
+			  	$update = mysqli_query($conn, "UPDATE medicine SET med_stock_in=med_stock_in+1 WHERE med_name='$row2_medicine_given'");
+			  	if($update) {
+			  		$update2 = mysqli_query($conn, "UPDATE medicine SET med_stock_in=med_stock_in-1 WHERE med_Id='$medicine_given'");
+			  		if($update2) {
+			  			$_SESSION['message'] = "Record has been updated.";
+					    $_SESSION['text'] = "Updated successfully!";
+					    $_SESSION['status'] = "success";
+						header("Location: asking_med_mgmt.php?page=".$asking_med_Id);
+			  		} else {
+			  			$_SESSION['message'] = "Cannot update stock.";
+					    $_SESSION['text'] = "Please try again.";
+					    $_SESSION['status'] = "error";
+						header("Location: asking_med_mgmt.php?page=".$asking_med_Id);
+			  		}
+			  	} else {
+			  		$_SESSION['message'] = "Cannot update stock.";
+				    $_SESSION['text'] = "Please try again.";
+				    $_SESSION['status'] = "error";
+					header("Location: asking_med_mgmt.php?page=".$asking_med_Id);
+			  	}
+			  	
+			  } else {
+			    $_SESSION['message'] = "Something went wrong while saving the information.";
+			    $_SESSION['text'] = "Please try again.";
+			    $_SESSION['status'] = "error";
+				header("Location: asking_med_mgmt.php?page=".$asking_med_Id);
+			  }
+
+		}
+
+		
 	}
 
 
@@ -1676,6 +1731,9 @@
 		$row_admin  = mysqli_fetch_array($admin);
 		$admin_name = $row_admin['firstname'].' '.$row_admin['middlename'].' '.$row_admin['lastname'].' '.$row_admin['suffix'];
 		$email      = $row_admin['email'];
+		$gender = "";
+		if($row_admin['gender'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+
 
 		$check = mysqli_query($conn, "SELECT * FROM request_update WHERE user_Id='$user_Id' AND req_type= '$req_type' AND req_status=0 ");
 		if(mysqli_num_rows($check) > 0) {
@@ -1689,12 +1747,12 @@
 
 		  if($save) {
 
-		  	$mess = 'Good day sir/maam '.$admin_name.', a request to update student physical examination records has been set by your staff named, '.$name.'.';
+		  	$mess = 'Good day '.$gender.' '.$admin_name.', a request to update student physical examination records has been set by your staff named, '.$name.'.';
 		  	$save2 = mysqli_query($conn, "INSERT INTO notification (type, subject, message, sender) VALUES ('Student Physical Exam update', 'Student Physical Exam records', '$mess', '$user_Id')");
 
 	  		if($save2) {
 	  			$subject = 'Request Teacher Medical Update';
-			      $message = '<p>Good day sir/maam '.$admin_name.', a request to update student physical examination records has been set by your staff named, '.$name.'.</p>
+			      $message = '<p>Good day '.$gender.' '.$admin_name.', a request to update student physical examination records has been set by your staff named, '.$name.'.</p>
 			      <p><b>NOTE:</b> This is a system generated email. Please do not reply.</p> ';
 
 			      $mail = new PHPMailer(true);                            
@@ -1780,6 +1838,9 @@
 		$row_admin  = mysqli_fetch_array($admin);
 		$admin_name = $row_admin['firstname'].' '.$row_admin['middlename'].' '.$row_admin['lastname'].' '.$row_admin['suffix'];
 		$email      = $row_admin['email'];
+		$gender = "";
+		if($row_admin['gender'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+
 
 		$check = mysqli_query($conn, "SELECT * FROM request_update WHERE user_Id='$user_Id' AND req_type= '$req_type' AND req_status=0 ");
 		if(mysqli_num_rows($check) > 0) {
@@ -1793,12 +1854,12 @@
 
 		  if($save) {
 
-		  	$mess = 'Good day sir/maam '.$admin_name.', a request to update asking medicine records for teachers has been set by your staff named, '.$name.'.';
+		  	$mess = 'Good day '.$gender.' '.$admin_name.', a request to update asking medicine records for teachers has been set by your staff named, '.$name.'.';
 		  	$save2 = mysqli_query($conn, "INSERT INTO notification (type, subject, message, sender) VALUES ('Asking Medicine update', 'Teacher Asking Medicine records', '$mess', '$user_Id')");
 
 	  		if($save2) {
 	  			$subject = 'Teacher Asking Medicine Update';
-			      $message = '<p>Good day sir/maam '.$admin_name.', a request to update asking medicine records for teachers has been set by your staff named, '.$name.'.</p>
+			      $message = '<p>Good day '.$gender.' '.$admin_name.', a request to update asking medicine records for teachers has been set by your staff named, '.$name.'.</p>
 			      <p><b>NOTE:</b> This is a system generated email. Please do not reply.</p> ';
 
 			      $mail = new PHPMailer(true);                            
@@ -1883,6 +1944,9 @@
 		$row_admin  = mysqli_fetch_array($admin);
 		$admin_name = $row_admin['firstname'].' '.$row_admin['middlename'].' '.$row_admin['lastname'].' '.$row_admin['suffix'];
 		$email      = $row_admin['email'];
+		$gender = "";
+		if($row_admin['gender'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+
 
 		$check = mysqli_query($conn, "SELECT * FROM request_update WHERE user_Id='$user_Id' AND req_type= '$req_type' AND req_status=0 ");
 		if(mysqli_num_rows($check) > 0) {
@@ -1896,12 +1960,12 @@
 
 		  if($save) {
 
-		  	$mess = 'Good day sir/maam '.$admin_name.', a request to update asking medicine records for students has been set by your staff named, '.$name.'.';
+		  	$mess = 'Good day '.$gender.' '.$admin_name.', a request to update asking medicine records for students has been set by your staff named, '.$name.'.';
 		  	$save2 = mysqli_query($conn, "INSERT INTO notification (type, subject, message, sender) VALUES ('Asking Medicine update', 'Student Asking Medicine records', '$mess', '$user_Id')");
 
 	  		if($save2) {
 	  			$subject = 'Student Asking Medicine Update';
-			      $message = '<p>Good day sir/maam '.$admin_name.', a request to update asking medicine records for students has been set by your staff named, '.$name.'.</p>
+			      $message = '<p>Good day '.$gender.' '.$admin_name.', a request to update asking medicine records for students has been set by your staff named, '.$name.'.</p>
 			      <p><b>NOTE:</b> This is a system generated email. Please do not reply.</p> ';
 
 			      $mail = new PHPMailer(true);                            
@@ -1982,6 +2046,9 @@
 		$row_admin  = mysqli_fetch_array($admin);
 		$admin_name = $row_admin['firstname'].' '.$row_admin['middlename'].' '.$row_admin['lastname'].' '.$row_admin['suffix'];
 		$email      = $row_admin['email'];
+		$gender = "";
+		if($row_admin['gender'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+
 
 		$check = mysqli_query($conn, "SELECT * FROM request_update WHERE user_Id='$user_Id' AND req_type= '$req_type' AND req_status=0 ");
 		if(mysqli_num_rows($check) > 0) {
@@ -1995,12 +2062,12 @@
 
 		  if($save) {
 
-		  	$mess = 'Good day sir/maam '.$admin_name.', a request to update teacher physical examination records has been set by your staff named, '.$name.'.';
+		  	$mess = 'Good day '.$gender.' '.$admin_name.', a request to update teacher physical examination records has been set by your staff named, '.$name.'.';
 	  		$save2 = mysqli_query($conn, "INSERT INTO notification (type, subject, message, sender) VALUES ('Teacher Physical Exam update', 'Teacher Physical Exam records', '$mess', '$user_Id')");
 
 	  		if($save2) {
   			  $subject = 'Request Teacher Medical Update';
-		      $message = '<p>Good day sir/maam '.$admin_name.', a request to update teacher physical examination records has been set by your staff named, '.$name.'.</p>
+		      $message = '<p>Good day '.$gender.' '.$admin_name.', a request to update teacher physical examination records has been set by your staff named, '.$name.'.</p>
 		      <p><b>NOTE:</b> This is a system generated email. Please do not reply.</p> ';
 
 		      $mail = new PHPMailer(true);                            
@@ -2129,6 +2196,9 @@
 		$row_admin  = mysqli_fetch_array($admin);
 		$admin_name = $row_admin['firstname'].' '.$row_admin['middlename'].' '.$row_admin['lastname'].' '.$row_admin['suffix'];
 		$email      = $row_admin['email'];
+		$gender = "";
+		if($row_admin['gender'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+
 
 		$check = mysqli_query($conn, "SELECT * FROM request_update WHERE user_Id='$user_Id' AND req_type= '$req_type' AND req_status=0 ");
 		if(mysqli_num_rows($check) > 0) {
@@ -2142,12 +2212,12 @@
 
 		  if($save) {
 
-		  	$mess = 'Good day sir/maam '.$admin_name.', a request to update student consultation records has been set by your staff named, '.$name.'.';
+		  	$mess = 'Good day '.$gender.' '.$admin_name.', a request to update student consultation records has been set by your staff named, '.$name.'.';
 	  		$save2 = mysqli_query($conn, "INSERT INTO notification (type, subject, message, sender) VALUES ('Student Consultation update', 'Student Consultation records', '$mess', '$user_Id')");
 
 	  		if($save2) {
   			  $subject = 'Request Student Consultation Update';
-		      $message = '<p>Good day sir/maam '.$admin_name.', a request to update student consultation records has been set by your staff named, '.$name.'.</p>
+		      $message = '<p>Good day '.$gender.' '.$admin_name.', a request to update student consultation records has been set by your staff named, '.$name.'.</p>
 		      <p><b>NOTE:</b> This is a system generated email. Please do not reply.</p> ';
 
 		      $mail = new PHPMailer(true);                            
@@ -2233,6 +2303,9 @@
 		$row_admin  = mysqli_fetch_array($admin);
 		$admin_name = $row_admin['firstname'].' '.$row_admin['middlename'].' '.$row_admin['lastname'].' '.$row_admin['suffix'];
 		$email      = $row_admin['email'];
+		$gender = "";
+		if($row_admin['gender'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+
 
 		$check = mysqli_query($conn, "SELECT * FROM request_update WHERE user_Id='$user_Id' AND req_type= '$req_type' AND req_status=0 ");
 		if(mysqli_num_rows($check) > 0) {
@@ -2246,14 +2319,14 @@
 
 		  if($save) {
 
-		  	$mess = 'Good day sir/maam '.$admin_name.', a request to update teacher consultation records has been set by your staff named, '.$name.'.';
+		  	$mess = 'Good day '.$gender.' '.$admin_name.', a request to update teacher consultation records has been set by your staff named, '.$name.'.';
 	  		$save2 = mysqli_query($conn, "INSERT INTO notification (type, subject, message, sender) VALUES ('Teacher Consultation update', 'Teacher Consultation records', '$mess', '$user_Id')");
 
 	  		if($save2) {
 			
 
  				  $subject = 'Request Teacher Consultation Update';
-			      $message = '<p>Good day sir/maam '.$admin_name.', a request to update teacher consultation records has been set by your staff named, '.$name.'.</p>
+			      $message = '<p>Good day '.$gender.' '.$admin_name.', a request to update teacher consultation records has been set by your staff named, '.$name.'.</p>
 			      <p><b>NOTE:</b> This is a system generated email. Please do not reply.</p> ';
 
 			      $mail = new PHPMailer(true);                            
@@ -2327,6 +2400,8 @@
 		$brand_name       = mysqli_real_escape_string($conn, $_POST['brand_name']);
 		$other_brand_name = mysqli_real_escape_string($conn, $_POST['other_brand_name']);
 		$med_name         = mysqli_real_escape_string($conn, $_POST['med_name']);
+		$med_type         = mysqli_real_escape_string($conn, $_POST['med_type']);
+		$milligrams       = mysqli_real_escape_string($conn, $_POST['milligrams']);
 		$med_stock_in     = mysqli_real_escape_string($conn, $_POST['med_stock_in']);
 		$expiration_date  = mysqli_real_escape_string($conn, $_POST['expiration_date']);
 
@@ -2344,7 +2419,7 @@
 			    $_SESSION['status'] = "error";
 			    header("Location: medicine_mgmt.php?page=".$med_Id);
 			} else {
-				  $update = mysqli_query($conn, "UPDATE medicine SeT brand_name='$brand_name', other_brand_name='$other_brand_name', med_name='$med_name', med_stock_in='$med_stock_in', med_stock_in_orig='$med_stock_in', expiration_date='$expiration_date' WHERE med_Id='$med_Id' ");
+				  $update = mysqli_query($conn, "UPDATE medicine SeT brand_name='$brand_name', other_brand_name='$other_brand_name', med_name='$med_name',  med_type='$med_type',  milligrams='$milligrams', med_stock_in='$med_stock_in', med_stock_in_orig='$med_stock_in', expiration_date='$expiration_date' WHERE med_Id='$med_Id' ");
 
 				  if($update) {
 				  	$_SESSION['message'] = "Record has been updated.";
@@ -2360,7 +2435,6 @@
 			}
 		}
 	}
-
 
 
 
@@ -2382,6 +2456,9 @@
 		$row_admin  = mysqli_fetch_array($admin);
 		$admin_name = $row_admin['firstname'].' '.$row_admin['middlename'].' '.$row_admin['lastname'].' '.$row_admin['suffix'];
 		$email      = $row_admin['email'];
+		$gender = "";
+		if($row_admin['gender'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+
 
 		$check = mysqli_query($conn, "SELECT * FROM request_update WHERE user_Id='$user_Id' AND req_type= '$req_type' AND req_status=0 ");
 		if(mysqli_num_rows($check) > 0) {
@@ -2395,12 +2472,12 @@
 
 		  if($save) {
 
-		  	$mess = 'Good day sir/maam '.$admin_name.', a request to update medicine records has been set by your staff named, '.$name.'.';
+		  	$mess = 'Good day '.$gender.' '.$admin_name.', a request to update medicine records has been set by your staff named, '.$name.'.';
 	  		$save2 = mysqli_query($conn, "INSERT INTO notification (type, subject, message, sender) VALUES ('Medicine update', 'Medicine records', '$mess', '$user_Id')");
 
 	  		if($save2) {
 	  			 $subject = 'Medicine request update';
-			      $message = '<p>Good day sir/maam '.$admin_name.', a request to update medicine records has been set by your staff named, '.$name.'.</p>
+			      $message = '<p>Good day '.$gender.' '.$admin_name.', a request to update medicine records has been set by your staff named, '.$name.'.</p>
 			      <p><b>NOTE:</b> This is a system generated email. Please do not reply.</p> ';
 
 			      $mail = new PHPMailer(true);                            
@@ -2486,6 +2563,9 @@
 		$row_admin  = mysqli_fetch_array($admin);
 		$admin_name = $row_admin['firstname'].' '.$row_admin['middlename'].' '.$row_admin['lastname'].' '.$row_admin['suffix'];
 		$email      = $row_admin['email'];
+		$gender = "";
+		if($row_admin['gender'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+
 
 		$check = mysqli_query($conn, "SELECT * FROM request_update WHERE user_Id='$user_Id' AND req_type= '$req_type' AND req_status=0 ");
 		if(mysqli_num_rows($check) > 0) {
@@ -2499,12 +2579,12 @@
 
 		  if($save) {
 
-		  	$mess = 'Good day sir/maam '.$admin_name.', a request to update student records has been set by your staff named, '.$name.'.';
+		  	$mess = 'Good day '.$gender.' '.$admin_name.', a request to update student records has been set by your staff named, '.$name.'.';
 	  		$save2 = mysqli_query($conn, "INSERT INTO notification (type, subject, message, sender) VALUES ('Student records update', 'Student records request to update', '$mess', '$user_Id')");
 
 	  		if($save2) {
 	  			$subject = 'Student records request to update';
-			      $message = '<p>Good day sir/maam '.$admin_name.', a request to update student records has been set by your staff named, '.$name.'.</p>
+			      $message = '<p>Good day '.$gender.' '.$admin_name.', a request to update student records has been set by your staff named, '.$name.'.</p>
 			      <p><b>NOTE:</b> This is a system generated email. Please do not reply.</p> ';
 
 			      $mail = new PHPMailer(true);                            
@@ -2591,6 +2671,9 @@
 		$row_admin  = mysqli_fetch_array($admin);
 		$admin_name = $row_admin['firstname'].' '.$row_admin['middlename'].' '.$row_admin['lastname'].' '.$row_admin['suffix'];
 		$email      = $row_admin['email'];
+		$gender = "";
+		if($row_admin['gender'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+
 
 		$check = mysqli_query($conn, "SELECT * FROM request_update WHERE user_Id='$user_Id' AND req_type= '$req_type' AND req_status=0 ");
 		if(mysqli_num_rows($check) > 0) {
@@ -2604,13 +2687,13 @@
 
 		  if($save) {
 
-		  	$mess = 'Good day sir/maam '.$admin_name.', a request to update teacher records has been set by your staff named, '.$name.'.';
+		  	$mess = 'Good day '.$gender.' '.$admin_name.', a request to update teacher records has been set by your staff named, '.$name.'.';
 	  		$save2 = mysqli_query($conn, "INSERT INTO notification (type, subject, message, sender) VALUES ('Teacher records update', 'Teacher records request to update', '$mess', '$user_Id')");
 
 	  		if($save2) {
 
 	  			  $subject = 'Teacher records request to update';
-			      $message = '<p>Good day sir/maam '.$admin_name.', a request to update teacher records has been set by your staff named, '.$name.'.</p>
+			      $message = '<p>Good day '.$gender.' '.$admin_name.', a request to update teacher records has been set by your staff named, '.$name.'.</p>
 			      <p><b>NOTE:</b> This is a system generated email. Please do not reply.</p>';
 
 			      $mail = new PHPMailer(true);                            

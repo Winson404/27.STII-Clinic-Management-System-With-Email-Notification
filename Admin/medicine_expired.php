@@ -28,7 +28,7 @@
           <div class="col-md-12">
             <div class="card">
               <div class="card-header p-2">
-                <a href="medicine_mgmt.php?page=create" class="btn btn-sm bg-primary ml-2"><i class="fa-sharp fa-solid fa-square-plus"></i> New record</a>
+                <!-- <a href="form2_mgmt.php?page=create" class="btn btn-sm bg-primary ml-2"><i class="fa-sharp fa-solid fa-square-plus"></i> New record</a> -->
 
                 <div class="card-tools mr-1 mt-3">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -69,7 +69,7 @@
                 $startDate = date('Y-m-d', strtotime($weeklyStartDate));
                 $endDate = date('Y-m-d', strtotime($weeklyEndDate));
 
-                $sql = mysqli_query($conn, "SELECT * FROM medicine WHERE is_returned=0 AND (DATE(date_added) BETWEEN '$startDate' AND '$endDate') ORDER BY date_added DESC");
+                $sql = mysqli_query($conn, "SELECT * FROM medicine WHERE DATE(expiration_date)<CURDATE() AND is_returned=0 AND (DATE(expiration_date) BETWEEN '$startDate' AND '$endDate') ORDER BY expiration_date DESC");
 
               ?>
 
@@ -91,69 +91,69 @@
                     </div> -->
                   </div>
                   <hr>
-                  <p class="text-center"><b>MEDICINE RECORDS BETWEEN <?= strtoupper(date("F d, Y", strtotime($weeklyStartDate))).' - '.strtoupper(date("F d, Y", strtotime($weeklyEndDate))); ?></b></p>
+                  <p class="text-center"><b>EXPIRED MEDICINE RECORDS BETWEEN <?= strtoupper(date("F d, Y", strtotime($weeklyStartDate))).' - '.strtoupper(date("F d, Y", strtotime($weeklyEndDate))); ?></b></p>
                   <table id="" class="table table-bordered table-hover table-sm text-sm">
                     <thead>
-                    <tr> 
-                      <th>BRAND NAME</th>
-                      <th>MEDICINE NAME</th>
-                      <th>MEDICINE TYPE</th>                    
-                      <th>MILLIGRAMS</th>
-                      <th>AVAILABLE</th>
-                      <th>RELEASED</th>
-                      <th>EXP. DATE</th>
-                      <th>DATE ADDED</th>
-                    </tr>
-                    </thead>
-                    <tbody id="users_data">
-                        <?php 
-                          while ($row = mysqli_fetch_array($sql)) {
-                        ?>
-                      <tr>
-                          <td><?php if($row['brand_name'] == 'Others') { echo ucwords($row['other_brand_name']); } else { echo $row['brand_name']; }; ?></td>
-                          <td><?php echo ucwords($row['med_name']); ?></td>
-                          <td><?php echo ucwords($row['med_type']); ?></td>
-                          <td><?php echo $row['milligrams']; ?></td>
-                          <td><?php echo $row['med_stock_in']; ?></td>
-                          <td><?php echo $row['med_stock_out']; ?></td>
-                          <td class="text-primary"><?php if($row['expiration_date'] < date('Y-m-d')) { echo 'Expired'; } else { echo date("F d, Y", strtotime($row['expiration_date'])); } ?></td>
-                          <td class="text-primary"><?php if(!empty($row['date_added'])) { echo date("F d, Y", strtotime($row['date_added'])); } ?></td>
+                      <tr> 
+                        <th>BRAND NAME</th>
+                        <th>MEDICINE NAME</th>
+                        <th>MEDICINE TYPE</th>                    
+                        <th>MILLIGRAMS</th>
+                        <th>AVAILABLE</th>
+                        <th>RELEASED</th>
+                        <th>EXP. DATE</th>
+                        <th>DATE ADDED</th>
                       </tr>
-                      <?php include 'medicine_delete.php'; } ?>
-                    </tbody>
-                  </table>
-                </div>
+                      </thead>
+                      <tbody id="users_data">
+                          <?php 
+                            while ($row = mysqli_fetch_array($sql)) {
+                          ?>
+                        <tr>
+                            <td><?php if($row['brand_name'] == 'Others') { echo ucwords($row['other_brand_name']); } else { echo $row['brand_name']; }; ?></td>
+                            <td><?php echo ucwords($row['med_name']); ?></td>
+                            <td><?php echo ucwords($row['med_type']); ?></td>
+                            <td><?php echo $row['milligrams']; ?></td>
+                            <td><?php echo $row['med_stock_in']; ?></td>
+                            <td><?php echo $row['med_stock_out']; ?></td>
+                            <td class="text-primary"><?php if(!empty($row['date_added'])) { echo date("F d, Y", strtotime($row['expiration_date'])); } ?></td>
+                            <td class="text-primary"><?php if(!empty($row['date_added'])) { echo date("F d, Y", strtotime($row['date_added'])); } ?></td>
+                        </tr>
+                        <?php include 'medicine_delete.php'; } ?>
+                      </tbody>
+                    </table>
+                  </div>
               <?php } else { ?>
-                  <table id="example1" class="table table-bordered table-hover text-sm">
+                  <table id="example1" class="table table-bordered table-hover table-sm text-sm">
                     <thead>
-                    <tr> 
-                      <th>BRAND NAME</th>
-                      <th>MEDICINE NAME</th>
-                      <th>MEDICINE TYPE</th>                    
-                      <th>MILLIGRAMS</th>
-                      <th>AVAILABLE</th>
-                      <th>RELEASED</th>
-                      <th>EXP. DATE</th>
-                      <th>DATE ADDED</th>
-                    </tr>
-                    </thead>
-                    <tbody id="users_data">
-                        <?php 
-                          while ($row = mysqli_fetch_array($sql)) {
-                        ?>
-                      <tr>
-                          <td><?php if($row['brand_name'] == 'Others') { echo ucwords($row['other_brand_name']); } else { echo $row['brand_name']; }; ?></td>
-                          <td><?php echo ucwords($row['med_name']); ?></td>
-                          <td><?php echo ucwords($row['med_type']); ?></td>
-                          <td><?php echo $row['milligrams']; ?></td>
-                          <td><?php echo $row['med_stock_in']; ?></td>
-                          <td><?php echo $row['med_stock_out']; ?></td>
-                          <td class="text-primary"><?php if($row['expiration_date'] < date('Y-m-d')) { echo 'Expired'; } else { echo date("F d, Y", strtotime($row['expiration_date'])); } ?></td>
-                          <td class="text-primary"><?php if(!empty($row['date_added'])) { echo date("F d, Y", strtotime($row['date_added'])); } ?></td>
+                      <tr> 
+                        <th>BRAND NAME</th>
+                        <th>MEDICINE NAME</th>
+                        <th>MEDICINE TYPE</th>                    
+                        <th>MILLIGRAMS</th>
+                        <th>AVAILABLE</th>
+                        <th>RELEASED</th>
+                        <th>EXP. DATE</th>
+                        <th>DATE ADDED</th>
                       </tr>
-                      <?php include 'medicine_delete.php'; } ?>
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody id="users_data">
+                          <?php 
+                            while ($row = mysqli_fetch_array($sql)) {
+                          ?>
+                        <tr>
+                            <td><?php if($row['brand_name'] == 'Others') { echo ucwords($row['other_brand_name']); } else { echo $row['brand_name']; }; ?></td>
+                            <td><?php echo ucwords($row['med_name']); ?></td>
+                            <td><?php echo ucwords($row['med_type']); ?></td>
+                            <td><?php echo $row['milligrams']; ?></td>
+                            <td><?php echo $row['med_stock_in']; ?></td>
+                            <td><?php echo $row['med_stock_out']; ?></td>
+                            <td class="text-primary"><?php if(!empty($row['date_added'])) { echo date("F d, Y", strtotime($row['expiration_date'])); } ?></td>
+                            <td class="text-primary"><?php if(!empty($row['date_added'])) { echo date("F d, Y", strtotime($row['date_added'])); } ?></td>
+                        </tr>
+                        <?php include 'medicine_delete.php'; } ?>
+                      </tbody>
+                    </table>
               <?php } } elseif(isset($_POST['monthlyMedicine'])) { 
 
                 $monthlyStartDate = $_POST['monthlyStartDate'];
@@ -163,8 +163,9 @@
                 $startDate = date('Y-m-d', strtotime($monthlyStartDate));
                 $endDate = date('Y-m-d', strtotime($monthlyEndDate));
                 $currentYear = date('Y');
-                $sql = mysqli_query($conn, "SELECT * FROM medicine WHERE is_returned=0 AND (DATE(date_added) BETWEEN '$startDate' AND '$endDate') ORDER BY date_added DESC");
 
+                $sql = mysqli_query($conn, "SELECT * FROM medicine WHERE DATE(expiration_date)<CURDATE() AND is_returned=0 AND (DATE(expiration_date) BETWEEN '$startDate' AND '$endDate') ORDER BY expiration_date DESC");
+                
               ?>
               <?php if(mysqli_num_rows($sql) > 0) { ?>
                 <button id="printButton" class="btn btn-success btn-sm float-sm-right mr-3"><i class="fa-solid fa-print"></i> Print</button>
@@ -184,37 +185,37 @@
                     </div> -->
                   </div>
                   <hr>
-                  <p class="text-center"><b>MEDICINE RECORDS BETWEEN <?= strtoupper(date("F", strtotime($monthlyStartDate))).' - '.strtoupper(date("F", strtotime($monthlyEndDate))).' '.$currentYear ?> </b></p>
+                  <p class="text-center"><b>EXPIRED MEDICINE RECORDS BETWEEN <?= strtoupper(date("F", strtotime($monthlyStartDate))).' - '.strtoupper(date("F", strtotime($monthlyEndDate))).' '.$currentYear ?> </b></p>
                   <table id="" class="table table-bordered table-hover table-sm text-sm">
                     <thead>
-                    <tr> 
-                      <th>BRAND NAME</th>
-                      <th>MEDICINE NAME</th>
-                      <th>MEDICINE TYPE</th>                    
-                      <th>MILLIGRAMS</th>
-                      <th>AVAILABLE</th>
-                      <th>RELEASED</th>
-                      <th>EXP. DATE</th>
-                      <th>DATE ADDED</th>
-                    </tr>
-                    </thead>
-                    <tbody id="users_data">
-                        <?php 
-                          while ($row = mysqli_fetch_array($sql)) {
-                        ?>
-                      <tr>
-                          <td><?php if($row['brand_name'] == 'Others') { echo ucwords($row['other_brand_name']); } else { echo $row['brand_name']; }; ?></td>
-                          <td><?php echo ucwords($row['med_name']); ?></td>
-                          <td><?php echo ucwords($row['med_type']); ?></td>
-                          <td><?php echo $row['milligrams']; ?></td>
-                          <td><?php echo $row['med_stock_in']; ?></td>
-                          <td><?php echo $row['med_stock_out']; ?></td>
-                          <td class="text-primary"><?php if($row['expiration_date'] < date('Y-m-d')) { echo 'Expired'; } else { echo date("F d, Y", strtotime($row['expiration_date'])); } ?></td>
-                          <td class="text-primary"><?php if(!empty($row['date_added'])) { echo date("F d, Y", strtotime($row['date_added'])); } ?></td>
+                      <tr> 
+                        <th>BRAND NAME</th>
+                        <th>MEDICINE NAME</th>
+                        <th>MEDICINE TYPE</th>                    
+                        <th>MILLIGRAMS</th>
+                        <th>AVAILABLE</th>
+                        <th>RELEASED</th>
+                        <th>EXP. DATE</th>
+                        <th>DATE ADDED</th>
                       </tr>
-                      <?php include 'medicine_delete.php'; } ?>
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody id="users_data">
+                          <?php 
+                            while ($row = mysqli_fetch_array($sql)) {
+                          ?>
+                        <tr>
+                            <td><?php if($row['brand_name'] == 'Others') { echo ucwords($row['other_brand_name']); } else { echo $row['brand_name']; }; ?></td>
+                            <td><?php echo ucwords($row['med_name']); ?></td>
+                            <td><?php echo ucwords($row['med_type']); ?></td>
+                            <td><?php echo $row['milligrams']; ?></td>
+                            <td><?php echo $row['med_stock_in']; ?></td>
+                            <td><?php echo $row['med_stock_out']; ?></td>
+                            <td class="text-primary"><?php if(!empty($row['date_added'])) { echo date("F d, Y", strtotime($row['expiration_date'])); } ?></td>
+                            <td class="text-primary"><?php if(!empty($row['date_added'])) { echo date("F d, Y", strtotime($row['date_added'])); } ?></td>
+                        </tr>
+                        <?php include 'medicine_delete.php'; } ?>
+                      </tbody>
+                    </table>
                 </div>
               <?php } else { ?>
                   <table id="example1" class="table table-bordered table-hover text-sm">
@@ -250,48 +251,38 @@
               <?php } } else { ?>
                  <table id="example1" class="table table-bordered table-hover text-sm">
                   <thead>
-                  <tr> 
-                    <th>BRAND NAME</th>
-                    <th>MEDICINE NAME</th>
-                    <th>MEDICINE TYPE</th>                    
-                    <th>MILLIGRAMS</th>
-                    <th>AVAILABLE</th>
-                    <th>RELEASED</th>
-                    <th>EXP. DATE</th>
-                    <th>DATE ADDED</th>
-                    <th>TOOLS</th>
-                  </tr>
-                  </thead>
-                  <tbody id="users_data">
-                      <?php 
-                        $sql = mysqli_query($conn, "SELECT * FROM medicine WHERE DATE(expiration_date)>CURDATE() AND is_returned=0 ");
-                        while ($row = mysqli_fetch_array($sql)) {
-                          $expirationDate = $row['expiration_date'];
-                          $currentDate = date('Y-m-d');
-                      ?>
-                    <tr>
-                       
-                        <td><?php if($row['brand_name'] == 'Others') { echo ucwords($row['other_brand_name']); } else { echo $row['brand_name']; }; ?></td>
-                        <td><?php echo ucwords($row['med_name']); ?></td>
-                        <td><?php echo ucwords($row['med_type']); ?></td>
-                        <td><?php echo $row['milligrams']; ?></td>
-                        <td><?php echo $row['med_stock_in']; ?></td>
-                        <td><?php echo $row['med_stock_out']; ?></td>
-                        <td class="text-primary"><?php if($row['expiration_date'] < date('Y-m-d')) { echo 'Expired'; } else { echo date("F d, Y", strtotime($row['expiration_date'])); } ?></td>
-                        <td class="text-primary"><?php if(!empty($row['date_added'])) { echo date("F d, Y", strtotime($row['date_added'])); } ?></td>
-                        <td>
-                          <a href="medicine_mgmt.php?page=<?php echo $row['med_Id']; ?>" class="btn bg-info btn-sm" ><i class="fas fa-pencil-alt"></i> Edit</a>
-                          <?php if($row['med_stock_in'] != 0): ?>
-                            <button type="button" class="btn bg-success btn-sm" data-toggle="modal" data-target="#stockUsed<?php echo $row['med_Id']; ?>"><i class="fas fa-pencil-alt"></i> Update Qty used</button>
-                          <?php else: ?>
-                            <button type="button" class="btn bg-success btn-sm" data-toggle="modal" data-target="#stockUsed<?php echo $row['med_Id']; ?>" disabled><i class="fas fa-pencil-alt"></i> Update Qty used</button>
-                          <?php endif; ?>
-                          <button type="button" class="btn bg-danger btn-sm" data-toggle="modal" data-target="#delete<?php echo $row['med_Id']; ?>"><i class="fas fa-trash"></i> Delete</button>
-
-                        </td> 
+                    <tr> 
+                      <th>BRAND NAME</th>
+                      <th>MEDICINE NAME</th>
+                      <th>MEDICINE TYPE</th>                    
+                      <th>MILLIGRAMS</th>
+                      <th>AVAILABLE</th>
+                      <th>RELEASED</th>
+                      <th>EXP. DATE</th>
+                      <th>DATE ADDED</th>
+                      <th>TOOLS</th>
                     </tr>
-                    <?php include 'medicine_delete.php'; } ?>
-                  </tbody>
+                    </thead>
+                    <tbody id="users_data">
+                        <?php 
+                          $sql = mysqli_query($conn, "SELECT * FROM medicine WHERE DATE(expiration_date)<CURDATE() AND is_returned=0 ");
+                          while ($row = mysqli_fetch_array($sql)) {
+                        ?>
+                      <tr>
+                          <td><?php if($row['brand_name'] == 'Others') { echo ucwords($row['other_brand_name']); } else { echo $row['brand_name']; }; ?></td>
+                          <td><?php echo ucwords($row['med_name']); ?></td>
+                          <td><?php echo ucwords($row['med_type']); ?></td>
+                          <td><?php echo $row['milligrams']; ?></td>
+                          <td><?php echo $row['med_stock_in']; ?></td>
+                          <td><?php echo $row['med_stock_out']; ?></td>
+                          <td class="text-primary"><?php if(!empty($row['date_added'])) { echo date("F d, Y", strtotime($row['expiration_date'])); } ?></td>
+                          <td class="text-primary"><?php if(!empty($row['date_added'])) { echo date("F d, Y", strtotime($row['date_added'])); } ?></td>
+                          <td>
+                            <button type="button" class="btn bg-success btn-sm" data-toggle="modal" data-target="#return<?php echo $row['med_Id']; ?>"><i class="fas fa-pencil-alt"></i> Return</button>
+                          </td> 
+                      </tr>
+                      <?php include 'medicine_delete.php'; } ?>
+                    </tbody>
                 </table>
               <?php } ?>
               </div>

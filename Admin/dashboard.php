@@ -4,8 +4,14 @@
     $check_appt = mysqli_query($conn, "SELECT * FROM appointment WHERE appt_status=0 AND DATE(date_added)='$date_today' AND seen_by_admin=0"); 
     $result = mysqli_num_rows($check_appt);
 
-    $check_med_cert = mysqli_query($conn, "SELECT * FROM request_doc WHERE DATE(date_created)='$date_today' AND seen_by_admin=0"); 
+    $check_med_cert = mysqli_query($conn, "SELECT * FROM request_doc JOIN patient ON request_doc.patient_Id=patient.user_Id WHERE DATE(date_created)='$date_today' AND seen_by_admin=0 AND req_status=0"); 
     $result2 = mysqli_num_rows($check_med_cert);
+
+    $check_med_stock = mysqli_query($conn, "SELECT * FROM medicine WHERE DATE(expiration_date)>CURDATE() AND is_returned=0  AND med_stock_in<20 AND seen_by_admin=0"); 
+    $result3 = mysqli_num_rows($check_med_stock);
+
+    $check_unsettled = mysqli_query($conn, "SELECT * FROM appointment WHERE DATE(appt_date)<CURDATE() AND (appt_status != 3 AND appt_status != 2 AND appt_status !=4) AND seen_by_admin=0"); 
+    $result4 = mysqli_num_rows($check_unsettled);
 
 ?>
   <!-- Content Wrapper. Contains page content -->
@@ -92,8 +98,7 @@
               <div class="icon">
                 <i class="ion ion-person-add"></i>
               </div>
-              <br>
-              <a href="#" class="small-box-footer d-none">More Info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="todays_patient.php" class="small-box-footer">More Info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
 
@@ -107,7 +112,7 @@
                 ?>
                 <h3><?php echo $request_count; ?></h3>
 
-                <p>Update Requests</p>
+                <p>Approval Requests</p>
               </div>
               <div class="icon">
                 <i class="fa-solid fa-hourglass-start"></i>
@@ -272,7 +277,7 @@
                 ?>
                 <h3><?php echo $row_medicine; ?></h3>
 
-                <p>Medicine</p>
+                <p>Medicine Inventory</p>
               </div>
               <div class="icon">
                 <i class="fa-solid fa-house-chimney-medical"></i>
@@ -478,46 +483,50 @@
 
          
 
-          <div class="col-12">
-              <hr><h3>Monthly Admission statistics</h3>
+          <div class="col-12 mt-5">
+              <!-- <hr><h3>Current Month Admission statistics</h3> -->
+              <hr><h3>Admission statistics</h3>
           </div>
-          <div class="col-lg-6 col-md-6 col-sm-12 col-6">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-6 d-block m-auto">
               <div class="small-box p-3">
                   <?php
-                  // Get the current month and year
-                  $currentMonth = date('Y-m');
+                    // Get the current month and year
+                    $currentMonth = date('Y-m');
 
-                  // Fetch data for each label: Dental, Form2, Physical, Consultation, and Asking Med
-                  $dental = mysqli_query($conn, "SELECT * FROM dental JOIN patient ON dental.patient_Id=patient.user_Id WHERE DATE_FORMAT(date_admitted, '%Y-%m') = '$currentMonth'");
-                  $row_dental = mysqli_num_rows($dental);
+                    // Calculate the start date for the last 6 months
+                    $startDate = date('Y-m', strtotime('-6 months'));
 
-                  $form2 = mysqli_query($conn, "SELECT * FROM form2 JOIN patient ON form2.patient_Id=patient.user_Id WHERE DATE_FORMAT(date_admitted, '%Y-%m') = '$currentMonth'");
-                  $row_form2 = mysqli_num_rows($form2);
+                    // Fetch data for each label: Dental, Form2, Physical, Consultation, and Asking Med
+                    $dental = mysqli_query($conn, "SELECT * FROM dental JOIN patient ON dental.patient_Id=patient.user_Id WHERE DATE_FORMAT(date_admitted, '%Y-%m') BETWEEN '$startDate' AND '$currentMonth'");
+                    $row_dental = mysqli_num_rows($dental);
 
-                  $physical = mysqli_query($conn, "SELECT * FROM physical JOIN patient ON physical.patient_Id=patient.user_Id WHERE DATE_FORMAT(date_admitted, '%Y-%m') = '$currentMonth'");
-                  $row_physical = mysqli_num_rows($physical);
+                    $form2 = mysqli_query($conn, "SELECT * FROM form2 JOIN patient ON form2.patient_Id=patient.user_Id WHERE DATE_FORMAT(date_admitted, '%Y-%m') BETWEEN '$startDate' AND '$currentMonth'");
+                    $row_form2 = mysqli_num_rows($form2);
 
-                  $consult = mysqli_query($conn, "SELECT * FROM consultation JOIN patient ON consultation.patient_Id=patient.user_Id WHERE DATE_FORMAT(date_admitted, '%Y-%m') = '$currentMonth'");
-                  $row_consult = mysqli_num_rows($consult);
+                    $physical = mysqli_query($conn, "SELECT * FROM physical JOIN patient ON physical.patient_Id=patient.user_Id WHERE DATE_FORMAT(date_admitted, '%Y-%m') BETWEEN '$startDate' AND '$currentMonth'");
+                    $row_physical = mysqli_num_rows($physical);
 
-                  $med = mysqli_query($conn, "SELECT * FROM asking_med JOIN patient ON asking_med.patient_Id=patient.user_Id WHERE DATE_FORMAT(date_admitted, '%Y-%m') = '$currentMonth'");
-                  $row_med = mysqli_num_rows($med);
+                    $consult = mysqli_query($conn, "SELECT * FROM consultation JOIN patient ON consultation.patient_Id=patient.user_Id WHERE DATE_FORMAT(date_admitted, '%Y-%m') BETWEEN '$startDate' AND '$currentMonth'");
+                    $row_consult = mysqli_num_rows($consult);
 
-                  // Prepare data for the chart
-                  $labels = ['Dental', 'Medical', 'Physical', 'Consultation', 'Asking Med'];
-                  $data = [$row_dental, $row_form2, $row_physical, $row_consult, $row_med];
+                    $med = mysqli_query($conn, "SELECT * FROM asking_med JOIN patient ON asking_med.patient_Id=patient.user_Id WHERE DATE_FORMAT(date_admitted, '%Y-%m') BETWEEN '$startDate' AND '$currentMonth'");
+                    $row_med = mysqli_num_rows($med);
 
-                  // Encode the chart data as a JSON string
-                  $chart_data = json_encode([
-                      'labels' => $labels,
-                      'datasets' => [
-                          [
-                              'label' => 'Monthly Admission statistics',
-                              'data' => $data,
-                              'backgroundColor' => ['green', 'blue', 'yellow', 'red', 'purple'],
-                          ],
-                      ],
-                  ]);
+                    // Prepare data for the chart
+                    $labels = ['Dental', 'Medical', 'Physical', 'Consultation', 'Asking Med'];
+                    $data = [$row_dental, $row_form2, $row_physical, $row_consult, $row_med];
+
+                    // Encode the chart data as a JSON string
+                    $chart_data = json_encode([
+                        'labels' => $labels,
+                        'datasets' => [
+                            [
+                                'label' => 'Last 6 Months Admission Statistics',
+                                'data' => $data,
+                                'backgroundColor' => ['green', 'blue', 'yellow', 'red', 'purple'],
+                            ],
+                        ],
+                    ]);
                   ?>
                   <div >
                       <canvas id="barChart"></canvas>
@@ -570,7 +579,7 @@
           <?php if($result > 0) { ?>
             <h5 class="text-center">Appointment today</h5>
             <hr>
-            <table id="example1" class="table table-bordered table-hover text-sm mb-3">
+            <table id="example111" class="table table-bordered table-hover text-sm mb-3">
               <thead>
               <tr>  
                 <th>ID</th>
@@ -582,7 +591,7 @@
               </thead>
               <tbody id="users_data">
                   <?php 
-                    $sql = mysqli_query($conn, "SELECT * FROM appointment JOIN patient ON appointment.appt_patient_Id=patient.user_Id WHERE appt_status=0 AND DATE(date_added)='$date_today'");
+                    $sql = mysqli_query($conn, "SELECT * FROM appointment JOIN patient ON appointment.appt_patient_Id=patient.user_Id WHERE appt_status=0 AND DATE(date_added)='$date_today' AND seen_by_admin=0");
                     while ($row = mysqli_fetch_array($sql)) {
                   ?>
                 <tr>
@@ -659,6 +668,100 @@
               </tbody>
             </table>
           <?php } ?>
+
+          <?php if($result3 > 0) { ?>
+            <h5 class="text-center">Low Stock Medicines</h5>
+            <hr>
+            <table id="example11" class="table table-bordered table-hover text-sm">
+                  <thead>
+                  <tr> 
+                    <th>BRAND NAME</th>
+                    <th>MEDICINE NAME</th>
+                    <th>MEDICINE TYPE</th>                    
+                    <th>MILLIGRAMS</th>
+                    <th>AVAILABLE</th>
+                    <th>RELEASED</th>
+                    <th>EXP. DATE</th>
+                    <th>DATE ADDED</th>
+                  </tr>
+                  </thead>
+                  <tbody id="users_data">
+                      <?php 
+                        $sql = mysqli_query($conn, "SELECT * FROM medicine WHERE DATE(expiration_date)>CURDATE() AND is_returned=0  AND med_stock_in<20 AND seen_by_admin=0");
+                        while ($row = mysqli_fetch_array($sql)) {
+                          $expirationDate = $row['expiration_date'];
+                          $currentDate = date('Y-m-d');
+                      ?>
+                    <tr>
+                        <td><?php if($row['brand_name'] == 'Others') { echo ucwords($row['other_brand_name']); } else { echo $row['brand_name']; }; ?></td>
+                        <td><?php echo ucwords($row['med_name']); ?></td>
+                        <td><?php echo ucwords($row['med_type']); ?></td>
+                        <td><?php echo $row['milligrams']; ?></td>
+                        <td><?php echo $row['med_stock_in']; ?></td>
+                        <td><?php echo $row['med_stock_out']; ?></td>
+                        <td class="text-primary"><?php if($row['expiration_date'] < date('Y-m-d')) { echo 'Expired'; } else { echo date("F d, Y", strtotime($row['expiration_date'])); } ?></td>
+                        <td class="text-primary"><?php if(!empty($row['date_added'])) { echo date("F d, Y", strtotime($row['date_added'])); } ?></td>
+                    </tr>
+                    <?php } ?>
+                  </tbody>
+                </table>
+          <?php } ?>
+
+
+          <?php if($result4 > 0) { ?>
+            <h5 class="text-center">Missed Appointments</h5>
+            <hr>
+            <table id="missedAppt" class="table table-bordered table-hover text-sm">
+                  <thead>
+                  <tr>  
+                    <th>APPOINTMENT DATE</th>
+                    <th>APPOINTMENT TIME</th>
+                    <th>REASON</th>
+                    <th>APPT STATUS</th>
+                  </tr>
+                  </thead>
+                  <tbody id="users_data">
+                      <?php 
+                        $sql = mysqli_query($conn, "SELECT * FROM appointment WHERE DATE(appt_date)<CURDATE() AND (appt_status != 3 AND appt_status != 2 AND appt_status !=4) AND seen_by_admin=0 ");
+                        while ($row = mysqli_fetch_array($sql)) {
+                      ?>
+                    <tr>
+                        <td>
+                          <?php if($row['appt_date'] == ""): ?>
+                            <span class="badge badge-warning pt-1">Waiting for approval</span>
+                          <?php else : ?>
+                            <span class="badge badge-success pt-1"><?php echo date("F d, Y", strtotime($row['appt_date'])); ?></span>
+                          <?php endif; ?>
+                        </td>
+                        <td>
+                          <?php if($row['appt_time'] == ""): ?>
+                            <span class="badge badge-warning pt-1">Waiting for approval</span>
+                          <?php else : ?>
+                            <span><?php echo date("h:i A", strtotime($row['appt_time'])); ?></span>
+                          <?php endif; ?>
+                        </td>
+                        <td><?php echo $row['appt_reason']; ?></td>
+                        <td>
+                          <?php if($row['appt_status'] == 0): ?>
+                                <span class="badge badge-warning p-1">Pending</span>
+                          <?php elseif($row['appt_status'] == 1): ?>
+                                <span class="badge badge-success p-1">Approved</span>
+                          <?php elseif($row['appt_status'] == 2): ?>
+                                <span class="badge badge-danger p-1">Denied</span>
+                          <?php elseif($row['appt_status'] == 3): ?>
+                                <span class="badge badge-info p-1">Settled</span>
+                          <?php else: ?>
+                                <span class="badge badge-dark p-1">Denied by patient</span>
+                          <?php endif; ?>
+                        </td>
+                    </tr>
+
+                    <?php } ?>
+
+                  </tbody>
+                </table>
+          <?php } ?>
+          
         </div>
         <div class="modal-footer alert-light">
           <a type="button" class="btn bg-secondary" href="process_update.php?seen=appointment"><i class="fa-solid fa-ban"></i> Close</a>
@@ -670,25 +773,32 @@
 
 <?php include 'footer.php'; ?>
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    <?php if ($result > 0 || $result2 > 0) { ?>
-        $(document).ready(function() {
-            $('#announcement_today').modal({
-                backdrop: 'static',
-                keyboard: false
-            });
-        });
-    <?php } else {?>
-      $(document).ready(function() {
-            $('#announcement_today').modal('hide');
-        });
-    <?php } ?>
-});
+  document.addEventListener("DOMContentLoaded", function() {
+      <?php if ($result > 0 || $result2 > 0 || $result3 > 0 || $result4 > 0) { ?>
+          $(document).ready(function() {
+              $('#announcement_today').modal({
+                  backdrop: 'static',
+                  keyboard: false
+              });
+          });
+      <?php } else {?>
+          $(document).ready(function() {
+              $('#announcement_today').modal('hide');
+          });
+      <?php } ?>
+  });
 
-    var chartData = <?php echo $chart_data; ?>;
-    var ctx = document.getElementById('barChart').getContext('2d');
-    var examChart = new Chart(ctx, {
-        type: 'bar',
-        data: chartData,
-    });
+  var chartData = <?php echo $chart_data; ?>;
+  var ctx = document.getElementById('barChart').getContext('2d');
+  var examChart = new Chart(ctx, {
+      type: 'line',
+      data: chartData,
+      options: {
+          elements: {
+              line: {
+                  tension: 0,
+              }
+          }
+      }
+  });
 </script>

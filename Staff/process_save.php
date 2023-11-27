@@ -734,7 +734,6 @@
 
 
 
-
 	// CREATE/SAVE ASKING MEDICINE PATIENT - ASKING_MED_MGMT.PHP
 	if(isset($_POST['create_asking_med'])) {
 
@@ -747,13 +746,25 @@
 		$chief_complaints  = mysqli_real_escape_string($conn, $_POST['chief_complaints']);
 		$date_admitted     = date('Y-m-d H:i:s');
 
-		$save = mysqli_query($conn, "INSERT INTO asking_med (patient_Id, pr, temperature, vital_sign, medical_advised, medicine_given, chief_complaints, date_admitted) VALUES ('$patient_Id', '$pr', '$temperature', '$vital_sign', '$medical_advised', '$medicine_given', '$chief_complaints', '$date_admitted')");
+		$fetch = mysqli_query($conn, "SELECT * FROM medicine WHERE med_Id='$medicine_given'");
+		$row = mysqli_fetch_array($fetch);
+		$med_name = $row['med_name'];
+
+		$save = mysqli_query($conn, "INSERT INTO asking_med (patient_Id, pr, temperature, vital_sign, medical_advised, medicine_given, chief_complaints, date_admitted) VALUES ('$patient_Id', '$pr', '$temperature', '$vital_sign', '$medical_advised', '$med_name', '$chief_complaints', '$date_admitted')");
 
 		  if($save) {
-		  	$_SESSION['message'] = "Record has been added.";
-		    $_SESSION['text'] = "Saved successfully!";
-		    $_SESSION['status'] = "success";
-			header("Location: asking_med_mgmt.php?page=create");
+		  	$update = mysqli_query($conn, "UPDATE medicine SET med_stock_in=med_stock_in-1 WHERE med_Id='$medicine_given'");
+		  	if($update) {
+		  		$_SESSION['message'] = "Record has been added.";
+			    $_SESSION['text'] = "Saved successfully!";
+			    $_SESSION['status'] = "success";
+				header("Location: asking_med_mgmt.php?page=create");
+		  	} else {
+		  		$_SESSION['message'] = "Cannot update medicine stock.";
+			    $_SESSION['text'] = "Please try again.";
+			    $_SESSION['status'] = "error";
+			    header("Location: asking_med_mgmt.php?page=create");
+		  	}
 		  } else {
 		    $_SESSION['message'] = "Something went wrong while saving the information.";
 		    $_SESSION['text'] = "Please try again.";
@@ -761,6 +772,7 @@
 		    header("Location: asking_med_mgmt.php?page=create");
 		  }
 	}
+	
 
 	
 
@@ -987,6 +999,8 @@
 		$brand_name       = mysqli_real_escape_string($conn, $_POST['brand_name']);
 		$other_brand_name = mysqli_real_escape_string($conn, $_POST['other_brand_name']);
 		$med_name         = mysqli_real_escape_string($conn, $_POST['med_name']);
+		$med_type       = mysqli_real_escape_string($conn, $_POST['med_type']);
+		$milligrams       = mysqli_real_escape_string($conn, $_POST['milligrams']);
 		$med_stock_in     = mysqli_real_escape_string($conn, $_POST['med_stock_in']);
 		$expiration_date  = mysqli_real_escape_string($conn, $_POST['expiration_date']);
 		$date_added       = date('Y-m-d h:i A');
@@ -1006,7 +1020,7 @@
 			    header("Location: medicine_mgmt.php?page=create");
 			} else {
 
-			  $save = mysqli_query($conn, "INSERT INTO medicine (brand_name, other_brand_name, med_name, med_stock_in, med_stock_in_orig, expiration_date, date_added) VALUES ('$brand_name', '$other_brand_name', '$med_name', '$med_stock_in', '$med_stock_in', '$expiration_date', '$date_added')");
+			  $save = mysqli_query($conn, "INSERT INTO medicine (brand_name, other_brand_name, med_name,med_type milligrams, med_stock_in, med_stock_in_orig, expiration_date, date_added) VALUES ('$brand_name', '$other_brand_name', '$med_name', '$med_type', '$milligrams', '$med_stock_in', '$med_stock_in', '$expiration_date', '$date_added')");
 
 			  if($save) {
 			  	$_SESSION['message'] = "Record has been added.";

@@ -124,7 +124,17 @@
                         <div class="col-12">
                             <div class="form-group">
                               <span class="text-dark"><b>Medicine given</b></span>
-                              <textarea cols="30" rows="3" class="form-control" placeholder="Medicine given" name="medicine_given" required></textarea>
+                              <select class="form-control" name="medicine_given" id="" required>
+                                <option value="" selected disabled>Select medicine</option>
+                                <?php 
+                                  $sql_med = mysqli_query($conn, "SELECT * FROM medicine WHERE DATE(expiration_date)>CURDATE() AND is_returned=0 ");
+                                  if(mysqli_num_rows($sql_med) > 0) {
+                                    while ($r_med = mysqli_fetch_array($sql_med)) { ?>
+                                      <option value="<?= $r_med['med_Id'] ?>"><?= ucwords($r_med['med_name']) ?></option>
+                                <?php } } else { ?>
+                                    <option value="" selected disabled>No medicine available</option>
+                                <?php } ?>
+                              </select>
                             </div>
                         </div>
                         <div class="col-12">
@@ -279,7 +289,18 @@
                         <div class="col-12">
                             <div class="form-group">
                               <span class="text-dark"><b>Medicine given</b></span>
-                              <textarea cols="30" rows="3" class="form-control" placeholder="Medicine given" name="medicine_given" required><?php echo $row['medicine_given']; ?></textarea>
+                              <select class="form-control" name="medicine_given" id="" required>
+                                <option value="" selected disabled>Select medicine</option>
+                                <?php 
+                                  $med_name = $row['medicine_given'];
+                                  $sql_med = mysqli_query($conn, "SELECT * FROM medicine WHERE DATE(expiration_date)>CURDATE() AND is_returned=0 ");
+                                  if(mysqli_num_rows($sql_med) > 0) {
+                                    while ($r_med = mysqli_fetch_array($sql_med)) { ?>
+                                      <option value="<?= $r_med['med_Id'] ?>" <?php if($r_med['med_name'] == $med_name) { echo 'selected'; } ?>><?= ucwords($r_med['med_name']) ?></option>
+                                <?php } } else { ?>
+                                    <option value="" selected disabled>No medicine available</option>
+                                <?php } ?>
+                              </select>
                             </div>
                         </div>
                         <div class="col-12">

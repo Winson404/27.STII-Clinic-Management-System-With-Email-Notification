@@ -50,7 +50,7 @@
 
 <script>
 
-
+s
   // GRADE / POSITION
    function handlePositionChange() {
     var selectedValue = document.getElementById("position-select").value;
@@ -58,6 +58,12 @@
     var positionDiv = document.getElementById("position");
     var positionInput = document.querySelector("#position input[name='position']");
     var gradeInput = document.querySelector("#grade input[name='grade']");
+    var parentsName = document.getElementById("parentsName");
+    var parentSpouseName = document.getElementById("parentSpouseName");
+    var parentsContact = document.getElementById("parentsContact");
+    var parentSpouseContact = document.getElementById("parentSpouseContact");
+    var guardianName = document.getElementById("Guardian-Name");
+
 
     if (selectedValue === "Student") {
         // Show gradeDiv and make gradeInput required
@@ -66,15 +72,26 @@
 
         // Hide positionDiv and remove required attribute from positionInput
         positionDiv.style.display = "none";
+        parentsName.style.display = "block";
+        parentSpouseName.style.display = "none";
+        parentsContact.style.display = "block";
+        parentSpouseContact.style.display = "none";
+        guardianName.style.display = "block";
+        guardianName.required = true;
         positionInput.removeAttribute("required");
     } else if (selectedValue === "Teacher") {
         // Hide gradeDiv and remove required attribute from gradeInput
         gradeDiv.style.display = "none";
         gradeInput.removeAttribute("required");
-
+        parentsName.style.display = "none";
+        parentSpouseName.style.display = "block";
+        parentsContact.style.display = "none";
+        parentSpouseContact.style.display = "block";
         // Show positionDiv and make positionInput required
         positionDiv.style.display = "block";
+        guardianName.style.display = "none";
         positionInput.required = true;
+        guardianName.removeAttribute("required");
     }
 }
 

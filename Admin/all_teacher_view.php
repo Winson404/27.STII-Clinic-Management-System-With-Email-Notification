@@ -2287,7 +2287,7 @@
                           <hr>
                           <a class="h5 text-primary"><b>CONSULTATION RECORDS </b> </a>
                           <br>
-                          Date admitted: <?php echo date("F d, Y",strtotime($row['date_admitted'])); ?>
+                          Date visited: <?php echo date("F d, Y",strtotime($row['date_admitted'])); ?>
                           <div class="dropdown-divider"></div>
                         </div>
                         <div class="col-12">
@@ -2370,7 +2370,7 @@
                           <hr>
                           <a class="h5 text-primary"><b>CONSULTATION RECORDS </b> </a>
                           <br>
-                          Date admitted: <?php echo date("F d, Y",strtotime($row['date_admitted'])); ?>
+                          Date visited: <?php echo date("F d, Y",strtotime($row['date_admitted'])); ?>
                           <div class="dropdown-divider"></div>
                         </div>
                         <div class="col-12">
@@ -2464,7 +2464,7 @@
                           <hr>
                           <a class="h5 text-primary"><b>ASKING MEDICINE RECORDS </b> </a>
                           <br>
-                          Date admitted: <?php echo date("F d, Y",strtotime($row['date_admitted'])); ?>
+                          Date visited: <?php echo date("F d, Y",strtotime($row['date_admitted'])); ?>
                           <div class="dropdown-divider"></div>
                         </div>
                         <div class="col-3 mt-3">
@@ -2515,7 +2515,7 @@
                           <hr>
                           <a class="h5 text-primary"><b>ASKING MEDICINE RECORDS </b> </a>
                           <br>
-                          Date admitted: <?php echo date("F d, Y",strtotime($row['date_admitted'])); ?>
+                          Date visited: <?php echo date("F d, Y",strtotime($row['date_admitted'])); ?>
                           <div class="dropdown-divider"></div>
                         </div>
                         <div class="col-3 mt-3">

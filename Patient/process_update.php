@@ -466,6 +466,9 @@
 		$row_admin  = mysqli_fetch_array($admin);
 		$admin_name = $row_admin['firstname'].' '.$row_admin['middlename'].' '.$row_admin['lastname'].' '.$row_admin['suffix'];
 		$email      = $row_admin['email'];
+		$gender = "";
+		if($row_admin['gender'] == 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+
 
 		if($pick_up_date < $date_today) {
 			$_SESSION['message'] = "Selected date must be onward/later.";
@@ -486,7 +489,7 @@
 			  if($update) {
 
 			  	  $subject = 'Request Medical certification';
-			      $message = '<p>Good day sir/maam '.$admin_name.', a request for medical certification has been set by new patient named, '.$name.'.</p>
+			      $message = '<p>Good day '.$gender.' '.$admin_name.', a request for medical certification has been set by new patient named, '.$name.'.</p>
 			      <p><b>NOTE:</b> This is a system generated email. Please do not reply.</p> ';
 
 			      $mail = new PHPMailer(true);                            
@@ -570,6 +573,8 @@
 		$row_admin  = mysqli_fetch_array($admin);
 		$admin_name = $row_admin['firstname'].' '.$row_admin['middlename'].' '.$row_admin['lastname'].' '.$row_admin['suffix'];
 		$email      = $row_admin['email'];
+		$gender = "";
+		if($row_admin['gender'] == 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
 
 		if($pick_up_date < $date_today) {
 			$_SESSION['message'] = "Selected date must be onward/later.";
@@ -590,7 +595,7 @@
 			  if($update) {
 
 			  	  $subject = 'Request Medical certification';
-			      $message = '<p>Good day sir/maam '.$admin_name.', a request for medical records has been set by new patient named, '.$name.'.</p>
+			      $message = '<p>Good day '.$gender.' '.$admin_name.', a request for medical records has been set by new patient named, '.$name.'.</p>
 			      <p><b>NOTE:</b> This is a system generated email. Please do not reply.</p> ';
 
 			      $mail = new PHPMailer(true);                            
@@ -679,6 +684,131 @@ if (isset($_POST['mark_as_read'])) {
         }
     }
 }
+
+
+
+
+
+// DENY APPOINTMENT - APPOINTMENT_UPDATE_DELETE.PHP
+	if(isset($_POST['deny_appointment'])) {
+		$appt_Id = $_POST['appt_Id'];
+		// GET PATIENT NAME
+		$patient = mysqli_query($conn, "SELECT * FROM appointment JOIN patient ON appointment.appt_patient_Id=patient.user_Id WHERE appointment.appt_Id='$appt_Id' ");
+		$row        = mysqli_fetch_array($patient);
+		$patient_Id = $row['appt_patient_Id'];
+
+		// GET ADMIN NAME
+		$admin      = mysqli_query($conn, "SELECT * FROM users WHERE user_type='Admin' LIMIT 1");
+		$row_admin  = mysqli_fetch_array($admin);
+		$admin_name = $row_admin['firstname'].' '.$row_admin['middlename'].' '.$row_admin['lastname'].' '.$row_admin['suffix'];
+		$email      = $row_admin['email'];
+		$gender = "";
+		if($row_admin['gender'] == 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+
+
+
+		$delete = mysqli_query($conn, "UPDATE appointment SET appt_status=4, is_rescheduled=2 WHERE appt_Id='$appt_Id'");
+		 if($delete) {
+
+		 	
+			  $subject = 'Appointment denied by patient';
+		      $message = '<p>Good day '.$gender.' '.$admin_name.', your reschedule for appointment has been denied by the patient.</p>
+		      <p><b>NOTE:</b> This is a system generated email. Please do not reply.</p> ';
+
+		      $mail = new PHPMailer(true);                            
+		      try {
+		        //Server settings
+		        $mail->isSMTP();                                     
+		        $mail->Host = 'smtp.gmail.com';                      
+		        $mail->SMTPAuth = true;                             
+		        $mail->Username = 'tatakmedellin@gmail.com';     
+		        $mail->Password = 'nzctaagwhqlcgbqq';              
+		        $mail->SMTPOptions = array(
+		        'ssl' => array(
+		        'verify_peer' => false,
+		        'verify_peer_name' => false,
+		        'allow_self_signed' => true
+		        )
+		        );                         
+		        $mail->SMTPSecure = 'ssl';                           
+		        $mail->Port = 465;                                   
+
+		        //Send Email
+		        $mail->setFrom('tatakmedellin@gmail.com');
+
+		        //Recipients
+		        $mail->addAddress($email);              
+		        $mail->addReplyTo('tatakmedellin@gmail.com');
+
+		        //Content
+		        $mail->isHTML(true);                                  
+		        $mail->Subject = $subject;
+		        $mail->Body    = $message;
+
+		        $mail->send();
+
+		        	// SAVE NOTIFICATION
+		        	$message2 = 'Good day '.$gender.' '.$admin_name.', your reschedule for appointment has been denied by the patient.';
+		        	$notif = mysqli_query($conn, "INSERT INTO notification (type, subject, message, sender) VALUES ('Appointment', '$subject', '$message2', '$patient_Id') ");
+		        	if($notif) {
+		        		$_SESSION['message'] = "Appointment has been denied!";
+				        $_SESSION['text'] = "Denied";
+				        $_SESSION['status'] = "success";
+						header("Location: appointment.php");
+		        	} else {
+		        		$_SESSION['message'] = "Denied successfully but insertion to notif error.";
+				        $_SESSION['text'] = "Denied";
+				        $_SESSION['status'] = "success";
+						header("Location: appointment.php");
+		        	}
+
+		        	
+
+			  } catch (Exception $e) { 
+			  	$_SESSION['message'] = "Email not sent.";
+			    $_SESSION['text'] = "Please try again.";
+			    $_SESSION['status'] = "error";
+				header("Location: appointment.php");
+			  } 
+
+	      	
+	      } else {
+	        $_SESSION['message'] = "Something went wrong while rejecting the record";
+	        $_SESSION['text'] = "Please try again.";
+	        $_SESSION['status'] = "error";
+			header("Location: appointment.php");
+	      }
+	}
+
+
+
+
+	// UPDATE APPOINTMENT - APPOINTMENT_MGMT.PHP
+	if (isset($_POST['update_appointment'])) {
+	    $appt_Id     = $_POST['appt_Id'];
+	    $appt_date   = $_POST['appt_date'];
+	    $appt_time   = $_POST['appt_time'];
+	    $appt_reason = $_POST['appt_reason'];
+
+        $update = mysqli_query($conn, "UPDATE appointment SET appt_status=0, seen_by_admin=0, is_rescheduled=0, appt_date='$appt_date', appt_time='$appt_time', appt_reason='$appt_reason' WHERE appt_Id='$appt_Id'");
+        if ($update) {
+            $_SESSION['message'] = "Appointment has been updated";
+            $_SESSION['text'] = "Updated successfully";
+            $_SESSION['status'] = "success";
+            header("Location: appointment.php");
+            exit();
+            exit();
+        } else {
+            $_SESSION['message'] = "Something went wrong while updating the record.";
+            $_SESSION['text'] = "Please try again.";
+            $_SESSION['status'] = "error";
+            header("Location: appointment.php");
+            exit();
+        }
+	}
+	
+
+
 
 
 

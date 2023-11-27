@@ -85,11 +85,12 @@
               <div class="icon">
                 <i class="ion ion-person-add"></i>
               </div>
-              <a href="todays_patient.php" class="small-box-footer">More Info <i class="fas fa-arrow-circle-right"></i></a>
+              <br>
+              <a href="#" class="small-box-footer d-none">More Info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
 
-          <div class="col-lg-3 col-6">
+          <!--<div class="col-lg-3 col-6">
             <div class="small-box bg-success">
               <div class="inner">
                 <?php
@@ -105,8 +106,8 @@
               </div>
               <a href="#" class="small-box-footer" style="opacity:0">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
-          </div>
-          <div class="col-lg-3 col-6">
+          </div>-->
+          <!--<div class="col-lg-3 col-6">
             <div class="small-box bg-danger">
               <div class="inner">
                 <?php
@@ -122,7 +123,7 @@
               </div>
               <a href="admin.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
-          </div>
+          </div>-->
 
           <div class="col-lg-3 col-6">
             <div class="small-box bg-warning">
@@ -161,24 +162,6 @@
           </div>
 
           <div class="col-lg-3 col-6">
-            <div class="small-box bg-success">
-              <div class="inner">
-                <?php
-                  $notif = mysqli_query($conn, "SELECT notif_Id from notification ");
-                  $row_notif = mysqli_num_rows($notif);
-                ?>
-                <h3><?php echo $row_notif; ?></h3>
-
-                <p>Notifications</p>
-              </div>
-              <div class="icon">
-               <i class="fa-solid fa-bell"></i>
-              </div>
-              <a href="notification.php" class="small-box-footer">More Info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-6">
             <div class="small-box bg-danger">
               <div class="inner">
                 <?php
@@ -187,7 +170,7 @@
                 ?>
                 <h3><?php echo $row_medicine; ?></h3>
 
-                <p>Medecine</p>
+                <p>Medicine Inventory</p>
               </div>
               <div class="icon">
                 <i class="fa-solid fa-house-chimney-medical"></i>
@@ -386,16 +369,16 @@
           </div>
 
 
-          <div class="col-12">
-              <hr><h3>Monthly Admission statistics</h3>
-          </div>
-          <div class="col-lg-6 col-md-6 col-sm-12 col-6">
-              <div class="small-box p-3">
-                  <?php
+          <!--<div class="col-12"><hr><h3>Statistics</h3></div>
+
+          <div class="col-lg-3 col-6">
+            <div class="small-box bg-info">
+              <div class="inner">
+                <?php
                   // Get the current month and year
                   $currentMonth = date('Y-m');
 
-                  // Fetch data for each label: Dental, Form2, Physical, Consultation, and Asking Med
+                  // Modify your SQL queries to filter records for the current month
                   $dental = mysqli_query($conn, "SELECT * FROM dental JOIN patient ON dental.patient_Id=patient.user_Id WHERE DATE_FORMAT(date_admitted, '%Y-%m') = '$currentMonth'");
                   $row_dental = mysqli_num_rows($dental);
 
@@ -411,27 +394,31 @@
                   $med = mysqli_query($conn, "SELECT * FROM asking_med JOIN patient ON asking_med.patient_Id=patient.user_Id WHERE DATE_FORMAT(date_admitted, '%Y-%m') = '$currentMonth'");
                   $row_med = mysqli_num_rows($med);
 
-                  // Prepare data for the chart
-                  $labels = ['Dental', 'Medical', 'Physical', 'Consultation', 'Asking Med'];
-                  $data = [$row_dental, $row_form2, $row_physical, $row_consult, $row_med];
 
-                  // Encode the chart data as a JSON string
-                  $chart_data = json_encode([
-                      'labels' => $labels,
-                      'datasets' => [
-                          [
-                              'label' => 'Monthly Admission statistics',
-                              'data' => $data,
-                              'backgroundColor' => ['green', 'blue', 'yellow', 'red', 'purple'],
-                          ],
-                      ],
-                  ]);
-                  ?>
-                  <div >
-                      <canvas id="barChart"></canvas>
-                  </div>
+                  // $teacher_dental = mysqli_query($conn, "SELECT * FROM dental JOIN patient ON dental.patient_Id=patient.user_Id WHERE position='Teacher' AND DATE_FORMAT(date_admitted, '%Y-%m') = '$currentMonth'");
+                  // $row_teacher_dental = mysqli_num_rows($teacher_dental);
+
+                  // $teacher_form2 = mysqli_query($conn, "SELECT * FROM form2 JOIN patient ON form2.patient_Id=patient.user_Id WHERE position='Teacher' AND DATE_FORMAT(date_admitted, '%Y-%m') = '$currentMonth'");
+                  // $row_teacher_form2 = mysqli_num_rows($teacher_form2);
+
+                  // $teacher_physical = mysqli_query($conn, "SELECT * FROM physical JOIN patient ON physical.patient_Id=patient.user_Id WHERE position='Teacher' AND DATE_FORMAT(date_admitted, '%Y-%m') = '$currentMonth'");
+                  // $row_teacher_physical = mysqli_num_rows($teacher_physical);
+
+                  // $teacher_consult = mysqli_query($conn, "SELECT * FROM consultation JOIN patient ON consultation.patient_Id=patient.user_Id WHERE position='Teacher' AND DATE_FORMAT(date_admitted, '%Y-%m') = '$currentMonth'");
+                  // $row_teacher_consult = mysqli_num_rows($teacher_consult);
+
+                  // $teacher_med = mysqli_query($conn, "SELECT * FROM asking_med JOIN patient ON asking_med.patient_Id=patient.user_Id WHERE position='Teacher' AND DATE_FORMAT(date_admitted, '%Y-%m') = '$currentMonth'");
+                  // $row_teacher_med = mysqli_num_rows($teacher_med);
+                ?>
+                <h3><?php echo $total_student = $row_dental + $row_form2 + $row_physical + $row_consult + $row_med; ?></h3>
+
+                <p>Statistics</p>
               </div>
-          </div>
+              <div class="icon">
+                <i class="fa-solid fa-tooth"></i>
+              </div>
+            </div>
+          </div>-->
           
 
         </div>
@@ -452,11 +439,3 @@
 <br>
 <br>
 <?php include 'footer.php'; ?>
-<script>
-   var chartData = <?php echo $chart_data; ?>;
-    var ctx = document.getElementById('barChart').getContext('2d');
-    var examChart = new Chart(ctx, {
-        type: 'bar',
-        data: chartData,
-    });
-</script>

@@ -39,7 +39,7 @@
                  <table id="example1111" class="table table-bordered table-hover text-sm">
                   <thead>
                   <tr> 
-                    <th>USERTYPE</th>
+                    <th>YEAR&COURSE / POSITION</th>
                     <th>PATIENT NAME</th>
                     <th>DATE ADMITTED</th>
                   </tr>
@@ -54,7 +54,7 @@
                           $formattedDate = $datetime->format("F d, Y h:i A");
                       ?>
                     <tr>
-                        <td><?php echo $row['position']; ?></td>
+                        <td><?php if($row['position'] == 'Student') { echo $row['grade']; } else { echo $row['teacher_position']; }; ?></td>
                         <td><?php echo $row['name']; ?></td>
                         <td class="text-primary"><?php echo $formattedDate; ?></td>
                     </tr>

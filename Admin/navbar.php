@@ -710,7 +710,7 @@
           <li class="nav-item">
             <a href="#" class="nav-link 
               <?php echo (
-                basename($_SERVER['PHP_SELF']) == 'medical_new_request.php' || 
+                basename($_SERVER['PHP_SELF']) == 'personal_request.php' || 
                 basename($_SERVER['PHP_SELF']) == 'medical_certificate.php' ||
                 basename($_SERVER['PHP_SELF']) == 'medical_records.php'
                 ) ? 'active' : ''; 
@@ -718,14 +718,14 @@
             "><i class="fa-solid fa-file"></i><p>&nbsp;&nbsp;Document Requests<i class="right fas fa-angle-left"></i></p></a>
             <ul class="nav nav-treeview" 
               <?php echo (
-                basename($_SERVER['PHP_SELF']) == 'medical_new_request.php' || 
+                basename($_SERVER['PHP_SELF']) == 'personal_request.php' || 
                 basename($_SERVER['PHP_SELF']) == 'medical_certificate.php' ||
                 basename($_SERVER['PHP_SELF']) == 'medical_records.php'
                 ) ? 'style="display: block;"' : ''; 
               ?>
             >
               <li class="nav-item">
-               <a data-toggle="modal" data-target="#newRequest" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'medical_new_request.php') ? 'active' : ''; ?>"><i class="fa-sharp fa-solid fa-square-plus"></i><p>&nbsp;&nbsp; New request</p></a>
+               <a href="personal_request.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'personal_request.php') ? 'active' : ''; ?>"><i class="fa-sharp fa-solid fa-square-plus"></i><p>&nbsp;&nbsp; New request</p></a>
               </li>
               <li class="nav-item">
                <a href="medical_certificate.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'medical_certificate.php') ? 'active' : ''; ?>"><i class="fa-solid fa-certificate"></i><p>&nbsp;&nbsp; Medical Certification</p></a>
@@ -779,75 +779,6 @@
   </aside>
 
 
-
- 
-
-  <!-- APPROVE -->
-<div class="modal fade" id="newRequest" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-       <div class="modal-header bg-light">
-        <h5 class="modal-title" id="exampleModalLabel"><i class="fa-solid fa-certificate"></i> Request medical document</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true"><i class="fa-solid fa-circle-xmark"></i></span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form action="process_save.php" method="POST">
-          <div class="form-group">
-            <label for="">Patient name</label>
-            <select name="patient_Id" id="" class="form-control" required>
-              <option value="" selected disabled>Select patient</option>
-              <?php 
-                $get = mysqli_query($conn, "SELECT * FROM patient");
-                if(mysqli_num_rows($get) > 0) {
-                  while($row_get = mysqli_fetch_array($get)) { ?>
-                    <option value="<?= $row_get['user_Id'] ?>"><?= ucwords($row_get['name']) ?></option>
-              <?php }
-                } else { ?> 
-                  <option value="">No patient record found</option>
-              <?php } ?>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="">Type of document</label>
-            <select name="type" id="" class="form-control" required>
-              <option value="" selected disabled>Select type</option>
-              <option value="Medical Certificate">Medical Certificate</option>
-              <option value="Medical Records">Medical Records</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="">Reason</label>
-            <textarea class="form-control" name="purpose" placeholder="Enter for purpose" id="" cols="30" rows="3" required></textarea>
-          </div>
-          <div class="form-group">
-              <label for="appt_date">Pick desired appointment date</label>
-              <input type="date" class="form-control" id="appt_date" name="pick_up_date" required>
-          </div>
-
-          <script>
-              // Get the current date
-              const currentDate = new Date();
-              
-              // Calculate the next day
-              currentDate.setDate(currentDate.getDate() + 1);
-              
-              // Format the next day in the YYYY-MM-DD format
-              const nextDay = currentDate.toISOString().split('T')[0];
-              
-              // Set the minimum date for the input element
-              document.getElementById('appt_date').setAttribute('min', nextDay);
-          </script>
-      </div>
-      <div class="modal-footer alert-light">
-        <button type="button" class="btn bg-secondary" data-dismiss="modal"><i class="fa-solid fa-ban"></i> Cancel</button>
-        <button type="submit" class="btn bg-primary" name="personal_request"><i class="fa-solid fa-floppy-disk"></i> Confirm</button>
-      </div>
-        </form>
-    </div>
-  </div>
-</div>
 
 
 

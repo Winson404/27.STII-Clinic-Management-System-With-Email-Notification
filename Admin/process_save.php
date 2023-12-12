@@ -738,45 +738,68 @@
 
 
 
-
 	// CREATE/SAVE ASKING MEDICINE PATIENT - ASKING_MED_MGMT.PHP
-	if(isset($_POST['create_asking_med'])) {
+	if (isset($_POST['create_asking_med'])) {
 
-		$patient_Id        = mysqli_real_escape_string($conn, $_POST['patient_Id']);
-		$pr                = mysqli_real_escape_string($conn, $_POST['pr']);
-		$temperature       = mysqli_real_escape_string($conn, $_POST['temperature']);
-		$vital_sign        = mysqli_real_escape_string($conn, $_POST['vital_sign']);
-		$medical_advised   = mysqli_real_escape_string($conn, $_POST['medical_advised']);
-		$medicine_given    = mysqli_real_escape_string($conn, $_POST['medicine_given']);
-		$chief_complaints  = mysqli_real_escape_string($conn, $_POST['chief_complaints']);
-		$date_admitted     = date('Y-m-d H:i:s');
+	    $patient_Id       = mysqli_real_escape_string($conn, $_POST['patient_Id']);
+	    $pr               = mysqli_real_escape_string($conn, $_POST['pr']);
+	    $temperature      = mysqli_real_escape_string($conn, $_POST['temperature']);
+	    $vital_sign       = mysqli_real_escape_string($conn, $_POST['vital_sign']);
+	    $medical_advised  = mysqli_real_escape_string($conn, $_POST['medical_advised']);
+	    $chief_complaints = mysqli_real_escape_string($conn, $_POST['chief_complaints']);
+	    $date_admitted    = date('Y-m-d H:i:s');
 
-		$fetch = mysqli_query($conn, "SELECT * FROM medicine WHERE med_Id='$medicine_given'");
-		$row = mysqli_fetch_array($fetch);
-		$med_name = $row['med_name'];
+	    $medicine_given = $_POST['medicine_given'];
+	    $stock_used = $_POST['stock_used'];
+	    $medicines = array();
 
-		$save = mysqli_query($conn, "INSERT INTO asking_med (patient_Id, pr, temperature, vital_sign, medical_advised, medicine_given, chief_complaints, date_admitted) VALUES ('$patient_Id', '$pr', '$temperature', '$vital_sign', '$medical_advised', '$med_name', '$chief_complaints', '$date_admitted')");
+	    foreach ($medicine_given as $med_Id) {
+	        if (isset($stock_used[$med_Id]) && $stock_used[$med_Id] > 0) {
+	            $stock_used_value = (int)$stock_used[$med_Id];
 
-		  if($save) {
-		  	$update = mysqli_query($conn, "UPDATE medicine SET med_stock_in=med_stock_in-1 WHERE med_Id='$medicine_given'");
-		  	if($update) {
-		  		$_SESSION['message'] = "Record has been added.";
-			    $_SESSION['text'] = "Saved successfully!";
-			    $_SESSION['status'] = "success";
-				header("Location: asking_med_mgmt.php?page=create");
-		  	} else {
-		  		$_SESSION['message'] = "Cannot update medicine stock.";
-			    $_SESSION['text'] = "Please try again.";
-			    $_SESSION['status'] = "error";
-			    header("Location: asking_med_mgmt.php?page=create");
-		  	}
-		  } else {
-		    $_SESSION['message'] = "Something went wrong while saving the information.";
-		    $_SESSION['text'] = "Please try again.";
-		    $_SESSION['status'] = "error";
-		    header("Location: asking_med_mgmt.php?page=create");
-		  }
-	}
+	            $sql = mysqli_query($conn, "SELECT * FROM medicine WHERE med_Id = $med_Id");
+
+	            // Check if the query was successful
+	            if ($sql) {
+	                $row = mysqli_fetch_assoc($sql);
+	                $medicines[] = $row['med_name'];
+
+	                // Deduct stock in product table
+	                $updateQuery = mysqli_query($conn, "UPDATE medicine SET med_stock_in = med_stock_in - '$stock_used_value', med_stock_out=med_stock_out + '$stock_used_value' WHERE med_Id = $med_Id");
+
+	                // Log the transaction in the transaction_log table if stock_used is greater than 0
+	                if (!$updateQuery || $stock_used_value <= 0) {
+	                    // Handle error if needed
+	                    $_SESSION['message'] = "Error deducting stock.";
+	                    $_SESSION['text'] = "Please try again.";
+	                    $_SESSION['status'] = "error";
+	                    header("Location: asking_med_mgmt.php?page=create");
+	                    exit;
+	                }
+	            }
+	        }
+	    }
+
+    // Construct imploded medicine names outside the loop
+    $implodedMedNames = implode(', ', $medicines);
+
+    // Insert a single row in the asking_med table with the array of medicine names
+    $save = mysqli_query($conn, "INSERT INTO asking_med (patient_Id, pr, temperature, vital_sign, medical_advised, medicine_given, chief_complaints, date_admitted) VALUES ('$patient_Id', '$pr', '$temperature', '$vital_sign', '$medical_advised', '$implodedMedNames', '$chief_complaints', '$date_admitted')");
+
+    if ($save) {
+        $_SESSION['message'] = "Record has been added.";
+        $_SESSION['text'] = "Saved successfully!";
+        $_SESSION['status'] = "success";
+        header("Location: asking_med_mgmt.php?page=create");
+        exit;
+    } else {
+        $_SESSION['message'] = "Error saving the information.";
+        $_SESSION['text'] = "Please try again.";
+        $_SESSION['status'] = "error";
+        header("Location: asking_med_mgmt.php?page=create");
+        exit;
+    }
+}
 
 
 
@@ -1132,19 +1155,19 @@
 				        	$_SESSION['message'] = "Request succesful";
 						    $_SESSION['text'] = "Request success";
 						    $_SESSION['status'] = "success";
-							header("Location: $location");
+							header("Location: personal_request.php");
 
 					  } catch (Exception $e) { 
 					  	$_SESSION['message'] = "Email not sent.";
 					    $_SESSION['text'] = "Please try again.";
 					    $_SESSION['status'] = "error";
-						header("Location: $location");
+						header("Location: personal_request.php");
 					  }
 				} else {
 					$_SESSION['message'] = "Something went wrong while saving the information.";
 			        $_SESSION['text'] = "Please try again.";
 			        $_SESSION['status'] = "error";
-					header("Location: $location");
+					header("Location: personal_request.php");
 				}
 
 		  	   
@@ -1153,7 +1176,7 @@
 	        $_SESSION['message'] = "Something went wrong while saving the information.";
 	        $_SESSION['text'] = "Please try again.";
 	        $_SESSION['status'] = "error";
-			header("Location: $location");
+			header("Location: personal_request.php");
 	      }
 	}
 

@@ -109,7 +109,7 @@
                             while ($row = mysqli_fetch_array($sql)) {
                           ?>
                         <tr>
-                            <td><?php if($row['brand_name'] == 'Others') { echo ucwords($row['other_brand_name']); } else { echo $row['brand_name']; }; ?></td>
+                            <td><?php if(empty($row['brand_name'])) { echo ucwords($row['other_brand_name']); } else { echo $row['brand_name']; }; ?></td>
                             <td><?php echo ucwords($row['med_name']); ?></td>
                             <td><?php echo ucwords($row['med_type']); ?></td>
                             <td><?php echo $row['milligrams']; ?></td>
@@ -142,7 +142,7 @@
                             while ($row = mysqli_fetch_array($sql)) {
                           ?>
                         <tr>
-                            <td><?php if($row['brand_name'] == 'Others') { echo ucwords($row['other_brand_name']); } else { echo $row['brand_name']; }; ?></td>
+                            <td><?php if(empty($row['brand_name'])) { echo ucwords($row['other_brand_name']); } else { echo $row['brand_name']; }; ?></td>
                             <td><?php echo ucwords($row['med_name']); ?></td>
                             <td><?php echo ucwords($row['med_type']); ?></td>
                             <td><?php echo $row['milligrams']; ?></td>
@@ -206,7 +206,7 @@
                             while ($row = mysqli_fetch_array($sql)) {
                           ?>
                         <tr>
-                            <td><?php if($row['brand_name'] == 'Others') { echo ucwords($row['other_brand_name']); } else { echo $row['brand_name']; }; ?></td>
+                            <td><?php if(empty($row['brand_name'])) { echo ucwords($row['other_brand_name']); } else { echo $row['brand_name']; }; ?></td>
                             <td><?php echo ucwords($row['med_name']); ?></td>
                             <td><?php echo ucwords($row['med_type']); ?></td>
                             <td><?php echo $row['milligrams']; ?></td>
@@ -239,7 +239,7 @@
                             while ($row = mysqli_fetch_array($sql)) {
                           ?>
                         <tr>
-                            <td><?php if($row['brand_name'] == 'Others') { echo ucwords($row['other_brand_name']); } else { echo $row['brand_name']; }; ?></td>
+                            <td><?php if(empty($row['brand_name'])) { echo ucwords($row['other_brand_name']); } else { echo $row['brand_name']; }; ?></td>
                             <td><?php echo ucwords($row['med_name']); ?></td>
                             <td><?php echo ucwords($row['med_type']); ?></td>
                             <td><?php echo $row['milligrams']; ?></td>
@@ -275,7 +275,7 @@
                           while ($row = mysqli_fetch_array($sql)) {
                         ?>
                       <tr>
-                          <td><?php if($row['brand_name'] == 'Others') { echo ucwords($row['other_brand_name']); } else { echo $row['brand_name']; }; ?></td>
+                          <td><?php if(empty($row['brand_name'])) { echo ucwords($row['other_brand_name']); } else { echo $row['brand_name']; }; ?></td>
                           <td><?php echo ucwords($row['med_name']); ?></td>
                           <td><?php echo ucwords($row['med_type']); ?></td>
                           <td><?php echo $row['milligrams']; ?></td>

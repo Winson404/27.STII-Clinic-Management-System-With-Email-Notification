@@ -1100,7 +1100,7 @@
 		$admin_name = $row_admin['firstname'].' '.$row_admin['middlename'].' '.$row_admin['lastname'].' '.$row_admin['suffix'];
 		$email      = $row_admin['email'];
 		$gender = "";
-		if($row_admin['gender'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+		if($row_admin['gender'] == 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
 
 
 		$check = mysqli_query($conn, "SELECT * FROM request_update WHERE user_Id='$user_Id' AND req_type= '$req_type' AND req_status=0 ");
@@ -1206,7 +1206,7 @@
 		$admin_name = $row_admin['firstname'].' '.$row_admin['middlename'].' '.$row_admin['lastname'].' '.$row_admin['suffix'];
 		$email      = $row_admin['email'];
 		$gender = "";
-		if($row_admin['gender'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+		if($row_admin['gender'] == 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
 
 
 		$check = mysqli_query($conn, "SELECT * FROM request_update WHERE user_Id='$user_Id' AND req_type= '$req_type' AND req_status=0 ");
@@ -1345,7 +1345,7 @@
 		$admin_name = $row_admin['firstname'].' '.$row_admin['middlename'].' '.$row_admin['lastname'].' '.$row_admin['suffix'];
 		$email      = $row_admin['email'];
 		$gender = "";
-		if($row_admin['gender'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+		if($row_admin['gender'] == 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
 
 		$check = mysqli_query($conn, "SELECT * FROM request_update WHERE user_Id='$user_Id' AND req_type= '$req_type' AND req_status=0 ");
 		if(mysqli_num_rows($check) > 0) {
@@ -1450,7 +1450,7 @@
 		$admin_name = $row_admin['firstname'].' '.$row_admin['middlename'].' '.$row_admin['lastname'].' '.$row_admin['suffix'];
 		$email      = $row_admin['email'];
 		$gender = "";
-		if($row_admin['gender'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+		if($row_admin['gender'] == 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
 
 		$check = mysqli_query($conn, "SELECT * FROM request_update WHERE user_Id='$user_Id' AND req_type= '$req_type' AND req_status=0 ");
 		if(mysqli_num_rows($check) > 0) {
@@ -1732,7 +1732,7 @@
 		$admin_name = $row_admin['firstname'].' '.$row_admin['middlename'].' '.$row_admin['lastname'].' '.$row_admin['suffix'];
 		$email      = $row_admin['email'];
 		$gender = "";
-		if($row_admin['gender'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+		if($row_admin['gender'] == 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
 
 
 		$check = mysqli_query($conn, "SELECT * FROM request_update WHERE user_Id='$user_Id' AND req_type= '$req_type' AND req_status=0 ");
@@ -1839,7 +1839,7 @@
 		$admin_name = $row_admin['firstname'].' '.$row_admin['middlename'].' '.$row_admin['lastname'].' '.$row_admin['suffix'];
 		$email      = $row_admin['email'];
 		$gender = "";
-		if($row_admin['gender'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+		if($row_admin['gender'] == 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
 
 
 		$check = mysqli_query($conn, "SELECT * FROM request_update WHERE user_Id='$user_Id' AND req_type= '$req_type' AND req_status=0 ");
@@ -1945,7 +1945,7 @@
 		$admin_name = $row_admin['firstname'].' '.$row_admin['middlename'].' '.$row_admin['lastname'].' '.$row_admin['suffix'];
 		$email      = $row_admin['email'];
 		$gender = "";
-		if($row_admin['gender'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+		if($row_admin['gender'] == 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
 
 
 		$check = mysqli_query($conn, "SELECT * FROM request_update WHERE user_Id='$user_Id' AND req_type= '$req_type' AND req_status=0 ");
@@ -2047,7 +2047,7 @@
 		$admin_name = $row_admin['firstname'].' '.$row_admin['middlename'].' '.$row_admin['lastname'].' '.$row_admin['suffix'];
 		$email      = $row_admin['email'];
 		$gender = "";
-		if($row_admin['gender'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+		if($row_admin['gender'] == 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
 
 
 		$check = mysqli_query($conn, "SELECT * FROM request_update WHERE user_Id='$user_Id' AND req_type= '$req_type' AND req_status=0 ");
@@ -2197,7 +2197,7 @@
 		$admin_name = $row_admin['firstname'].' '.$row_admin['middlename'].' '.$row_admin['lastname'].' '.$row_admin['suffix'];
 		$email      = $row_admin['email'];
 		$gender = "";
-		if($row_admin['gender'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+		if($row_admin['gender'] == 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
 
 
 		$check = mysqli_query($conn, "SELECT * FROM request_update WHERE user_Id='$user_Id' AND req_type= '$req_type' AND req_status=0 ");
@@ -2304,7 +2304,7 @@
 		$admin_name = $row_admin['firstname'].' '.$row_admin['middlename'].' '.$row_admin['lastname'].' '.$row_admin['suffix'];
 		$email      = $row_admin['email'];
 		$gender = "";
-		if($row_admin['gender'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+		if($row_admin['gender'] == 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
 
 
 		$check = mysqli_query($conn, "SELECT * FROM request_update WHERE user_Id='$user_Id' AND req_type= '$req_type' AND req_status=0 ");
@@ -2457,7 +2457,7 @@
 		$admin_name = $row_admin['firstname'].' '.$row_admin['middlename'].' '.$row_admin['lastname'].' '.$row_admin['suffix'];
 		$email      = $row_admin['email'];
 		$gender = "";
-		if($row_admin['gender'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+		if($row_admin['gender'] == 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
 
 
 		$check = mysqli_query($conn, "SELECT * FROM request_update WHERE user_Id='$user_Id' AND req_type= '$req_type' AND req_status=0 ");
@@ -2564,7 +2564,7 @@
 		$admin_name = $row_admin['firstname'].' '.$row_admin['middlename'].' '.$row_admin['lastname'].' '.$row_admin['suffix'];
 		$email      = $row_admin['email'];
 		$gender = "";
-		if($row_admin['gender'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+		if($row_admin['gender'] == 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
 
 
 		$check = mysqli_query($conn, "SELECT * FROM request_update WHERE user_Id='$user_Id' AND req_type= '$req_type' AND req_status=0 ");
@@ -2672,7 +2672,7 @@
 		$admin_name = $row_admin['firstname'].' '.$row_admin['middlename'].' '.$row_admin['lastname'].' '.$row_admin['suffix'];
 		$email      = $row_admin['email'];
 		$gender = "";
-		if($row_admin['gender'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+		if($row_admin['gender'] == 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
 
 
 		$check = mysqli_query($conn, "SELECT * FROM request_update WHERE user_Id='$user_Id' AND req_type= '$req_type' AND req_status=0 ");

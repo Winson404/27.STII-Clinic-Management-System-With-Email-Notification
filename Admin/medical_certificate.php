@@ -57,9 +57,9 @@
                       ?>
                     <tr>
                         <td><?php echo ucwords($row['name']); ?></td>
-                        <!--<td><?php echo $row['position']; ?></td>-->
+                        <!--<td><?php// echo $row['position']; ?></td>-->
                         <td><?php echo $row['purpose']; ?></td>
-                        <td><?php echo date("F d, Y h:i A", strtotime($row['pick_up_date'])); ?></td>
+                        <td><?php echo date("F d, Y", strtotime($row['pick_up_date'])); ?></td>
                         <td class="text-primary"><?php echo date("F d, Y h:i A", strtotime($row['date_created'])); ?></td>
                         <td>
                           <?php if($row['req_status'] == 0): ?>

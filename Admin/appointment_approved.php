@@ -54,7 +54,7 @@
                         while ($row = mysqli_fetch_array($sql)) {
                       ?>
                     <tr>
-                        <!--<td><?php echo $row['position']; ?></td>-->
+                        <!--<td><?php //echo $row['position']; ?></td>-->
                         <td><?php echo ucwords($row['name']); ?></td>
                         <td>
                           <?php if($row['appt_date'] == ""): ?>
@@ -63,13 +63,7 @@
                             <span class="badge badge-success pt-1"><?php echo date("F d, Y", strtotime($row['appt_date'])); ?></span>
                           <?php endif; ?>
                         </td>
-                        <td>
-                          <?php if($row['appt_time'] == ""): ?>
-                            <span>Waiting for approval</span>
-                          <?php else : ?>
-                            <span><?php echo date("h:i A", strtotime($row['appt_time'])); ?></span>
-                          <?php endif; ?>
-                        </td>
+                        <td><?= $row['appt_time'] ?></td>
                         <td><?php echo $row['appt_reason']; ?></td>
                         <td>
                           <?php if($row['appt_status'] == 1): ?>

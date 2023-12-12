@@ -1045,7 +1045,7 @@
 		$email      = $row['email'];
 
 		$gender = "";
-		if($row['sex'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+		if($row['sex'] == 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
 
 
 		$delete = mysqli_query($conn, "UPDATE appointment SET appt_status=2 WHERE appt_Id='$appt_Id'");
@@ -1136,7 +1136,7 @@
 		$email      = $row['email'];
 
 		$gender = "";
-		if($row['sex'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+		if($row['sex'] == 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
 
 
 		$delete = mysqli_query($conn, "UPDATE appointment SET appt_status=3 WHERE appt_Id='$appt_Id'");
@@ -1228,7 +1228,11 @@
 		$appt_time  = $row['appt_time'];
 
 		$gender = "";
-		if($row['sex'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+		if($row['sex'] == 'Male') {
+		 	$gender = 'Sir'; 
+		} else { 
+			$gender = 'Maam'; 
+		}
 
 		
 		    
@@ -1322,7 +1326,7 @@
 		$appt_time  = $row['appt_time'];
 
 		$gender = "";
-		if($row['sex'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+		if($row['sex'] == 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
 		
 			$delete = mysqli_query($conn, "UPDATE appointment SET is_rescheduled=1 WHERE appt_Id='$appt_Id'");
 			 if($delete) {
@@ -1468,65 +1472,121 @@
 		$temperature       = mysqli_real_escape_string($conn, $_POST['temperature']);
 		$vital_sign        = mysqli_real_escape_string($conn, $_POST['vital_sign']);
 		$medical_advised   = mysqli_real_escape_string($conn, $_POST['medical_advised']);
-		$medicine_given    = mysqli_real_escape_string($conn, $_POST['medicine_given']);
 		$chief_complaints  = mysqli_real_escape_string($conn, $_POST['chief_complaints']);
 
-		$fetch = mysqli_query($conn, "SELECT * FROM medicine WHERE med_Id='$medicine_given'");
-		$row = mysqli_fetch_array($fetch);
-		$med_name = $row['med_name'];
+		$medicine_given = $_POST['medicine_given'];
+	    $stock_used = $_POST['stock_used'];
+	    $medicines = array();
 
-		// GET MEDICINE GIVEN
-		$fetch2 = mysqli_query($conn, "SELECT * FROM asking_med WHERE asking_med_Id='$asking_med_Id'");
-		$row2 = mysqli_fetch_array($fetch2);
-		$row2_medicine_given = $row2['medicine_given'];
+	    foreach ($medicine_given as $med_Id) {
+	        if (isset($stock_used[$med_Id]) && $stock_used[$med_Id] > 0) {
+	            $stock_used_value = (int)$stock_used[$med_Id];
 
-		if($row2_medicine_given == $med_name) {
-			$save = mysqli_query($conn, "UPDATE asking_med SET patient_Id='$patient_Id', pr='$pr', temperature='$temperature', vital_sign='$vital_sign', medical_advised='$medical_advised', medicine_given='$med_name', chief_complaints='$chief_complaints' WHERE asking_med_Id='$asking_med_Id' ");
+	            $sql = mysqli_query($conn, "SELECT * FROM medicine WHERE med_Id = $med_Id");
 
-			  if($save) {
-			  	$_SESSION['message'] = "Record has been updated.";
-			    $_SESSION['text'] = "Updated successfully!";
-			    $_SESSION['status'] = "success";
-				header("Location: asking_med_mgmt.php?page=".$asking_med_Id);
-			  } else {
-			    $_SESSION['message'] = "Something went wrong while saving the information.";
-			    $_SESSION['text'] = "Please try again.";
-			    $_SESSION['status'] = "error";
-				header("Location: asking_med_mgmt.php?page=".$asking_med_Id);
-			  }
-		} else {
-			$save = mysqli_query($conn, "UPDATE asking_med SET patient_Id='$patient_Id', pr='$pr', temperature='$temperature', vital_sign='$vital_sign', medical_advised='$medical_advised', medicine_given='$med_name', chief_complaints='$chief_complaints' WHERE asking_med_Id='$asking_med_Id' ");
+	            // Check if the query was successful
+	            if ($sql) {
+	                $row = mysqli_fetch_assoc($sql);
+	                $medicines[] = $row['med_name'];
 
-			  if($save) {
-			  	$update = mysqli_query($conn, "UPDATE medicine SET med_stock_in=med_stock_in+1 WHERE med_name='$row2_medicine_given'");
-			  	if($update) {
-			  		$update2 = mysqli_query($conn, "UPDATE medicine SET med_stock_in=med_stock_in-1 WHERE med_Id='$medicine_given'");
-			  		if($update2) {
-			  			$_SESSION['message'] = "Record has been updated.";
-					    $_SESSION['text'] = "Updated successfully!";
-					    $_SESSION['status'] = "success";
-						header("Location: asking_med_mgmt.php?page=".$asking_med_Id);
-			  		} else {
-			  			$_SESSION['message'] = "Cannot update stock.";
-					    $_SESSION['text'] = "Please try again.";
-					    $_SESSION['status'] = "error";
-						header("Location: asking_med_mgmt.php?page=".$asking_med_Id);
-			  		}
-			  	} else {
-			  		$_SESSION['message'] = "Cannot update stock.";
-				    $_SESSION['text'] = "Please try again.";
-				    $_SESSION['status'] = "error";
-					header("Location: asking_med_mgmt.php?page=".$asking_med_Id);
-			  	}
+	                // Deduct stock in product table
+	                $updateQuery = mysqli_query($conn, "UPDATE medicine SET med_stock_in = med_stock_in - '$stock_used_value', med_stock_out=med_stock_out + '$stock_used_value' WHERE med_Id = $med_Id");
+
+	                // Log the transaction in the transaction_log table if stock_used is greater than 0
+	                if (!$updateQuery || $stock_used_value <= 0) {
+	                    // Handle error if needed
+	                    $_SESSION['message'] = "Error deducting stock.";
+	                    $_SESSION['text'] = "Please try again.";
+	                    $_SESSION['status'] = "error";
+	                    header("Location: asking_med_mgmt.php?page=create");
+	                    exit;
+	                }
+	            }
+	        }
+	    }
+
+	    // Construct imploded medicine names outside the loop
+	    $implodedMedNames = implode(', ', $medicines);
+
+	    // Get the existing medicine names from the database
+	    $getExistingMedNamesQuery = mysqli_query($conn, "SELECT medicine_given FROM asking_med WHERE asking_med_Id='$asking_med_Id'");
+	    $existingMedNamesRow = mysqli_fetch_assoc($getExistingMedNamesQuery);
+	    $existingMedNames = $existingMedNamesRow['medicine_given'];
+
+	    // Concatenate the existing and new medicine names
+	    $updatedMedNames = $existingMedNames ? "$existingMedNames, $implodedMedNames" : $implodedMedNames;
+	    $save = mysqli_query($conn, "UPDATE asking_med SET patient_Id='$patient_Id', pr='$pr', temperature='$temperature', vital_sign='$vital_sign', medical_advised='$medical_advised', medicine_given='$updatedMedNames', chief_complaints='$chief_complaints' WHERE asking_med_Id='$asking_med_Id'");
+
+	      // $save = mysqli_query($conn, "UPDATE asking_med SET patient_Id='$patient_Id', pr='$pr', temperature='$temperature', vital_sign='$vital_sign', medical_advised='$medical_advised', medicine_given='$implodedMedNames', chief_complaints='$chief_complaints' WHERE asking_med_Id='$asking_med_Id' ");
+
+		  if($save) {
+		  	$_SESSION['message'] = "Record has been updated.";
+		    $_SESSION['text'] = "Updated successfully!";
+		    $_SESSION['status'] = "success";
+			header("Location: asking_med_mgmt.php?page=".$asking_med_Id);
+		  } else {
+		    $_SESSION['message'] = "Something went wrong while saving the information.";
+		    $_SESSION['text'] = "Please try again.";
+		    $_SESSION['status'] = "error";
+			header("Location: asking_med_mgmt.php?page=".$asking_med_Id);
+		  }
+
+		// $fetch = mysqli_query($conn, "SELECT * FROM medicine WHERE med_Id='$medicine_given'");
+		// $row = mysqli_fetch_array($fetch);
+		// $med_name = $row['med_name'];
+
+		// // GET MEDICINE GIVEN
+		// $fetch2 = mysqli_query($conn, "SELECT * FROM asking_med WHERE asking_med_Id='$asking_med_Id'");
+		// $row2 = mysqli_fetch_array($fetch2);
+		// $row2_medicine_given = $row2['medicine_given'];
+
+		// if($row2_medicine_given == $med_name) {
+		// 	$save = mysqli_query($conn, "UPDATE asking_med SET patient_Id='$patient_Id', pr='$pr', temperature='$temperature', vital_sign='$vital_sign', medical_advised='$medical_advised', medicine_given='$med_name', chief_complaints='$chief_complaints' WHERE asking_med_Id='$asking_med_Id' ");
+
+		// 	  if($save) {
+		// 	  	$_SESSION['message'] = "Record has been updated.";
+		// 	    $_SESSION['text'] = "Updated successfully!";
+		// 	    $_SESSION['status'] = "success";
+		// 		header("Location: asking_med_mgmt.php?page=".$asking_med_Id);
+		// 	  } else {
+		// 	    $_SESSION['message'] = "Something went wrong while saving the information.";
+		// 	    $_SESSION['text'] = "Please try again.";
+		// 	    $_SESSION['status'] = "error";
+		// 		header("Location: asking_med_mgmt.php?page=".$asking_med_Id);
+		// 	  }
+		// } else {
+		// 	$save = mysqli_query($conn, "UPDATE asking_med SET patient_Id='$patient_Id', pr='$pr', temperature='$temperature', vital_sign='$vital_sign', medical_advised='$medical_advised', medicine_given='$med_name', chief_complaints='$chief_complaints' WHERE asking_med_Id='$asking_med_Id' ");
+
+		// 	  if($save) {
+		// 	  	$update = mysqli_query($conn, "UPDATE medicine SET med_stock_in=med_stock_in+1 WHERE med_name='$row2_medicine_given'");
+		// 	  	if($update) {
+		// 	  		$update2 = mysqli_query($conn, "UPDATE medicine SET med_stock_in=med_stock_in-1 WHERE med_Id='$medicine_given'");
+		// 	  		if($update2) {
+		// 	  			$_SESSION['message'] = "Record has been updated.";
+		// 			    $_SESSION['text'] = "Updated successfully!";
+		// 			    $_SESSION['status'] = "success";
+		// 				header("Location: asking_med_mgmt.php?page=".$asking_med_Id);
+		// 	  		} else {
+		// 	  			$_SESSION['message'] = "Cannot update stock.";
+		// 			    $_SESSION['text'] = "Please try again.";
+		// 			    $_SESSION['status'] = "error";
+		// 				header("Location: asking_med_mgmt.php?page=".$asking_med_Id);
+		// 	  		}
+		// 	  	} else {
+		// 	  		$_SESSION['message'] = "Cannot update stock.";
+		// 		    $_SESSION['text'] = "Please try again.";
+		// 		    $_SESSION['status'] = "error";
+		// 			header("Location: asking_med_mgmt.php?page=".$asking_med_Id);
+		// 	  	}
 			  	
-			  } else {
-			    $_SESSION['message'] = "Something went wrong while saving the information.";
-			    $_SESSION['text'] = "Please try again.";
-			    $_SESSION['status'] = "error";
-				header("Location: asking_med_mgmt.php?page=".$asking_med_Id);
-			  }
+		// 	  } else {
+		// 	    $_SESSION['message'] = "Something went wrong while saving the information.";
+		// 	    $_SESSION['text'] = "Please try again.";
+		// 	    $_SESSION['status'] = "error";
+		// 		header("Location: asking_med_mgmt.php?page=".$asking_med_Id);
+		// 	  }
 
-		}
+		// }
 
 		
 	}
@@ -1802,7 +1862,7 @@
 		$type    = $row['req_type'];
 
 		$gender = "";
-		if($row['sex'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+		if($row['sex'] == 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
 
 
 	    $update = mysqli_query($conn, "UPDATE request_update SET req_status=2 WHERE req_Id='$req_Id' ");
@@ -1896,7 +1956,7 @@
 		$type    = $row['req_type'];
 
 		$gender = "";
-		if($row['sex'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+		if($row['sex'] == 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
 
 
 	    $update = mysqli_query($conn, "UPDATE request_update SET req_status=1 WHERE req_Id='$req_Id' ");
@@ -1995,7 +2055,7 @@
 		$senderId = $row['patient_Id'];
 
 		$gender = "";
-		if($row['sex'] = 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+		if($row['sex'] == 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
 
 
 		$update = mysqli_query($conn, "UPDATE request_doc SET req_status='$req_status' WHERE req_Id='$req_Id'");

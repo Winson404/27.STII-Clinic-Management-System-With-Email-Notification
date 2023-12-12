@@ -11,7 +11,7 @@
     $result3 = mysqli_num_rows($check_med_stock);
 
     $check_unsettled = mysqli_query($conn, "SELECT * FROM appointment WHERE DATE(appt_date)<CURDATE() AND (appt_status != 3 AND appt_status != 2 AND appt_status !=4) AND seen_by_admin=0"); 
-    $result4 = mysqli_num_rows($check_unsettled);
+    $result4  = mysqli_num_rows($check_unsettled);
 
 ?>
   <!-- Content Wrapper. Contains page content -->
@@ -650,7 +650,7 @@
                 <tr>
                     <td><?php echo ucwords($row['name']); ?></td>
                     <td><?php echo $row['type']; ?></td>
-                    <td><?php echo date("F d, Y h:i A", strtotime($row['pick_up_date'])); ?></td>
+                    <td><?php echo date("F d, Y", strtotime($row['pick_up_date'])); ?></td>
                     <td class="text-primary"><?php echo date("F d, Y h:i A", strtotime($row['date_created'])); ?></td>
                     <td>
                       <?php if($row['req_status'] == 0): ?>
@@ -693,7 +693,7 @@
                           $currentDate = date('Y-m-d');
                       ?>
                     <tr>
-                        <td><?php if($row['brand_name'] == 'Others') { echo ucwords($row['other_brand_name']); } else { echo $row['brand_name']; }; ?></td>
+                        <td><?php if(empty($row['brand_name'])) { echo ucwords($row['other_brand_name']); } else { echo $row['brand_name']; }; ?></td>
                         <td><?php echo ucwords($row['med_name']); ?></td>
                         <td><?php echo ucwords($row['med_type']); ?></td>
                         <td><?php echo $row['milligrams']; ?></td>

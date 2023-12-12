@@ -55,7 +55,7 @@
                     <tr>
                         
                         <td><?php echo $row['purpose']; ?></td>
-                        <td><?php echo date("F d, Y h:i A", strtotime($row['pick_up_date'])); ?></td>
+                        <td><?php echo date("F d, Y", strtotime($row['pick_up_date'])); ?></td>
                         <td>
                           <?php if($row['req_status'] == 0): ?>
                             <span class="badge badge-warning pt-1">Pending</span>

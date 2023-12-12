@@ -16,8 +16,8 @@
             <textarea class="form-control" name="purpose" placeholder="Enter for purpose" id="" cols="30" rows="3" required></textarea>
           </div>
           <div class="form-group">
-              <label for="appt_date">Pick desired appointment date</label>
-              <input type="date" class="form-control" id="appt_date" name="appt_date" required>
+              <label for="appt_date">Pick-up date</label>
+              <input type="date" class="form-control" id="appt_date" name="pick_up_date" required>
           </div>
 
           <script>

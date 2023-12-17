@@ -1411,14 +1411,67 @@
 		$vs_bp           = mysqli_real_escape_string($conn, $_POST['vs_bp']);
 		$pr              = mysqli_real_escape_string($conn, $_POST['pr']);
 		$rr              = mysqli_real_escape_string($conn, $_POST['rr']);
-		$medicine_given  = mysqli_real_escape_string($conn, $_POST['medicine_given']);
+		// $medicine_given  = mysqli_real_escape_string($conn, $_POST['medicine_given']);
 		$dental_advised  = mysqli_real_escape_string($conn, $_POST['dental_advised']);
 
 		if(empty($vs_bp)) { $vs_bp = 'None'; }
 		if(empty($pr))    { $pr    = 'None'; }
 		if(empty($rr))    { $rr    = 'None'; }
 
-		$save = mysqli_query($conn, "UPDATE dental SET patient_Id='$patient_Id', dental_history='$dental_history', teeth_no='$teeth_no', vs_bp='$vs_bp', pr='$pr', rr='$rr', medicine_given='$medicine_given', dental_advised='$dental_advised' WHERE dental_Id ='$dental_Id' ");
+		$medicine_given = $_POST['medicine_given'];
+	    $stock_used = $_POST['stock_used'];
+	    $medicines = array();
+
+	    foreach ($medicine_given as $med_Id) {
+	        if (isset($stock_used[$med_Id]) && $stock_used[$med_Id] > 0) {
+	            $stock_used_value = (int)$stock_used[$med_Id];
+
+	            $sql = mysqli_query($conn, "SELECT * FROM medicine WHERE med_Id = $med_Id");
+
+	            // Check if the query was successful
+	            if ($sql) {
+	                $row = mysqli_fetch_assoc($sql);
+	                $medicines[] = $row['med_name'];
+
+	                // Extract the numeric part of med_stock_in
+            		$numericPart = (int)$row['med_stock_in'];
+
+            		$updateQuery = mysqli_query($conn, "UPDATE medicine SET med_stock_in = CONCAT(CAST($numericPart - $stock_used_value AS CHAR), ' ', SUBSTRING_INDEX('$row[med_stock_in]', ' ', -1)), med_stock_out=med_stock_out + '$stock_used_value' WHERE med_Id = $med_Id");
+            		$insert_date = date("Y-m-d h:i:s");
+		            $save_ask_med = mysqli_query($conn, "INSERT INTO dental_transaction_log (patient_Id, stock_used_value, med_Id, dental_Id, date_added) VALUES ('$patient_Id', '$stock_used_value', '$med_Id', '$dental_Id', '$insert_date')");
+
+
+	                // Deduct stock in product table
+	                // $updateQuery = mysqli_query($conn, "UPDATE medicine SET med_stock_in = med_stock_in - '$stock_used_value', med_stock_out=med_stock_out + '$stock_used_value' WHERE med_Id = $med_Id");
+	                // $insert_date = date("Y-m-d h:i:s");
+                    // $save_ask_med = mysqli_query($conn, "INSERT INTO asking_med_transaction_log (patient_Id, stock_used_value, med_Id, date_added) VALUEs ('$patient_Id', '$stock_used_value', '$med_Id', '$insert_date')");
+
+	                // Log the transaction in the transaction_log table if stock_used is greater than 0
+	                if (!$updateQuery || $stock_used_value <= 0) {
+
+	                    // Handle error if needed
+	                    $_SESSION['message'] = "Error deducting stock.";
+	                    $_SESSION['text'] = "Please try again.";
+	                    $_SESSION['status'] = "error";
+	                    header("Location: dental_mgmt.php?page=".$dental_Id);
+	                    exit;
+	                }
+	            }
+	        }
+	    }
+
+	    // Construct imploded medicine names outside the loop
+	    $implodedMedNames = implode(', ', $medicines);
+
+	    // Get the existing medicine names from the database
+	    $getExistingMedNamesQuery = mysqli_query($conn, "SELECT medicine_given FROM dental WHERE dental_Id='$dental_Id'");
+	    $existingMedNamesRow = mysqli_fetch_assoc($getExistingMedNamesQuery);
+	    $existingMedNames = $existingMedNamesRow['medicine_given'];
+
+	    // Concatenate the existing and new medicine names
+	    $updatedMedNames = $existingMedNames ? "$existingMedNames, $implodedMedNames" : $implodedMedNames;
+	    
+		$save = mysqli_query($conn, "UPDATE dental SET patient_Id='$patient_Id', dental_history='$dental_history', teeth_no='$teeth_no', vs_bp='$vs_bp', pr='$pr', rr='$rr', medicine_given='$updatedMedNames', dental_advised='$dental_advised' WHERE dental_Id ='$dental_Id' ");
 
 		  if($save) {
 		  	$_SESSION['message'] = "Record has been updated.";
@@ -1445,9 +1498,62 @@
 		$temperature       = mysqli_real_escape_string($conn, $_POST['temperature']);
 		$vital_sign        = mysqli_real_escape_string($conn, $_POST['vital_sign']);
 		$diagnosis         = mysqli_real_escape_string($conn, $_POST['diagnosis']);
-		$medical_advised   = mysqli_real_escape_string($conn, $_POST['medical_advised']);
+		// $medical_advised   = mysqli_real_escape_string($conn, $_POST['medical_advised']);
+		 
+		$medicine_given = $_POST['medicine_given'];
+	    $stock_used = $_POST['stock_used'];
+	    $medicines = array();
 
-		$save = mysqli_query($conn, "UPDATE form2 SET patient_Id='$patient_Id', vs_bp='$vs_bp', pr='$pr', rr='$rr', temperature='$temperature', vital_sign='$vital_sign', diagnosis='$diagnosis', medical_advised='$medical_advised' WHERE form2_Id='$form2_Id' ");
+	    foreach ($medicine_given as $med_Id) {
+	        if (isset($stock_used[$med_Id]) && $stock_used[$med_Id] > 0) {
+	            $stock_used_value = (int)$stock_used[$med_Id];
+
+	            $sql = mysqli_query($conn, "SELECT * FROM medicine WHERE med_Id = $med_Id");
+
+	            // Check if the query was successful
+	            if ($sql) {
+	                $row = mysqli_fetch_assoc($sql);
+	                $medicines[] = $row['med_name'];
+
+	                // Extract the numeric part of med_stock_in
+            		$numericPart = (int)$row['med_stock_in'];
+
+            		$updateQuery = mysqli_query($conn, "UPDATE medicine SET med_stock_in = CONCAT(CAST($numericPart - $stock_used_value AS CHAR), ' ', SUBSTRING_INDEX('$row[med_stock_in]', ' ', -1)), med_stock_out=med_stock_out + '$stock_used_value' WHERE med_Id = $med_Id");
+            		$insert_date = date("Y-m-d h:i:s");
+		            $save_ask_med = mysqli_query($conn, "INSERT INTO form2_transaction_log (patient_Id, stock_used_value, med_Id, form2_Id, date_added) VALUES ('$patient_Id', '$stock_used_value', '$med_Id', '$form2_Id', '$insert_date')");
+
+
+	                // Deduct stock in product table
+	                // $updateQuery = mysqli_query($conn, "UPDATE medicine SET med_stock_in = med_stock_in - '$stock_used_value', med_stock_out=med_stock_out + '$stock_used_value' WHERE med_Id = $med_Id");
+	                // $insert_date = date("Y-m-d h:i:s");
+                    // $save_ask_med = mysqli_query($conn, "INSERT INTO asking_med_transaction_log (patient_Id, stock_used_value, med_Id, date_added) VALUEs ('$patient_Id', '$stock_used_value', '$med_Id', '$insert_date')");
+
+	                // Log the transaction in the transaction_log table if stock_used is greater than 0
+	                if (!$updateQuery || $stock_used_value <= 0) {
+
+	                    // Handle error if needed
+	                    $_SESSION['message'] = "Error deducting stock.";
+	                    $_SESSION['text'] = "Please try again.";
+	                    $_SESSION['status'] = "error";
+	                    header("Location: form2_mgmt.php?page=".$dental_Id);
+	                    exit;
+	                }
+	            }
+	        }
+	    }
+
+	    // Construct imploded medicine names outside the loop
+	    $implodedMedNames = implode(', ', $medicines);
+
+	    // Get the existing medicine names from the database
+	    $getExistingMedNamesQuery = mysqli_query($conn, "SELECT medical_advised FROM form2 WHERE form2_Id='$form2_Id'");
+	    $existingMedNamesRow = mysqli_fetch_assoc($getExistingMedNamesQuery);
+	    $existingMedNames = $existingMedNamesRow['medical_advised'];
+
+	    // Concatenate the existing and new medicine names
+	    $updatedMedNames = $existingMedNames ? "$existingMedNames, $implodedMedNames" : $implodedMedNames;
+
+		$save = mysqli_query($conn, "UPDATE form2 SET patient_Id='$patient_Id', vs_bp='$vs_bp', pr='$pr', rr='$rr', temperature='$temperature', vital_sign='$vital_sign', diagnosis='$diagnosis', medical_advised='$updatedMedNames' WHERE form2_Id='$form2_Id' ");
 
 		  if($save) {
 		  	$_SESSION['message'] = "Record has been updated.";
@@ -1489,16 +1595,27 @@
 	                $row = mysqli_fetch_assoc($sql);
 	                $medicines[] = $row['med_name'];
 
+	                // Extract the numeric part of med_stock_in
+            		$numericPart = (int)$row['med_stock_in'];
+
+            		$updateQuery = mysqli_query($conn, "UPDATE medicine SET med_stock_in = CONCAT(CAST($numericPart - $stock_used_value AS CHAR), ' ', SUBSTRING_INDEX('$row[med_stock_in]', ' ', -1)), med_stock_out=med_stock_out + '$stock_used_value' WHERE med_Id = $med_Id");
+            		$insert_date = date("Y-m-d h:i:s");
+		            $save_ask_med = mysqli_query($conn, "INSERT INTO asking_med_transaction_log (patient_Id, stock_used_value, med_Id, asking_med_Id, date_added) VALUES ('$patient_Id', '$stock_used_value', '$med_Id', '$asking_med_Id', '$insert_date')");
+
+
 	                // Deduct stock in product table
-	                $updateQuery = mysqli_query($conn, "UPDATE medicine SET med_stock_in = med_stock_in - '$stock_used_value', med_stock_out=med_stock_out + '$stock_used_value' WHERE med_Id = $med_Id");
+	                // $updateQuery = mysqli_query($conn, "UPDATE medicine SET med_stock_in = med_stock_in - '$stock_used_value', med_stock_out=med_stock_out + '$stock_used_value' WHERE med_Id = $med_Id");
+	                // $insert_date = date("Y-m-d h:i:s");
+                    // $save_ask_med = mysqli_query($conn, "INSERT INTO asking_med_transaction_log (patient_Id, stock_used_value, med_Id, date_added) VALUEs ('$patient_Id', '$stock_used_value', '$med_Id', '$insert_date')");
 
 	                // Log the transaction in the transaction_log table if stock_used is greater than 0
 	                if (!$updateQuery || $stock_used_value <= 0) {
+
 	                    // Handle error if needed
 	                    $_SESSION['message'] = "Error deducting stock.";
 	                    $_SESSION['text'] = "Please try again.";
 	                    $_SESSION['status'] = "error";
-	                    header("Location: asking_med_mgmt.php?page=create");
+	                    header("Location: asking_med_mgmt.php?page=".$asking_med_Id);
 	                    exit;
 	                }
 	            }
@@ -1674,9 +1791,62 @@
  		// NOT ARRAY
 		$clinical_impression      = mysqli_real_escape_string($conn, $_POST['clinical_impression']);     
 		$potential_risk           = mysqli_real_escape_string($conn, $_POST['potential_risk']);     
-		$plan_medication          = mysqli_real_escape_string($conn, $_POST['plan_medication']);     
+		// $plan_medication          = mysqli_real_escape_string($conn, $_POST['plan_medication']); 
+		
+		$medicine_given = $_POST['medicine_given'];
+	    $stock_used = $_POST['stock_used'];
+	    $medicines = array();
 
-		$update = mysqli_query($conn, "UPDATE physical SET patient_Id='$patient_Id', p_general='$p_general', p_skin='$p_skin', skinOther='$skinOther', p_heent='$p_heent', p_auditory='$p_auditory', p_nose='$p_nose', p_mouth_throat='$p_mouth_throat', p_neck='$p_neck', p_breast='$p_breast', p_cardiovascular='$p_cardiovascular', p_abdomen='$p_abdomen', p_genitals='$p_genitals', clinical_impression='$clinical_impression', potential_risk='$potential_risk', plan_medication='$plan_medication' WHERE physical_Id='$physical_Id'");
+	    foreach ($medicine_given as $med_Id) {
+	        if (isset($stock_used[$med_Id]) && $stock_used[$med_Id] > 0) {
+	            $stock_used_value = (int)$stock_used[$med_Id];
+
+	            $sql = mysqli_query($conn, "SELECT * FROM medicine WHERE med_Id = $med_Id");
+
+	            // Check if the query was successful
+	            if ($sql) {
+	                $row = mysqli_fetch_assoc($sql);
+	                $medicines[] = $row['med_name'];
+
+	                // Extract the numeric part of med_stock_in
+            		$numericPart = (int)$row['med_stock_in'];
+
+            		$updateQuery = mysqli_query($conn, "UPDATE medicine SET med_stock_in = CONCAT(CAST($numericPart - $stock_used_value AS CHAR), ' ', SUBSTRING_INDEX('$row[med_stock_in]', ' ', -1)), med_stock_out=med_stock_out + '$stock_used_value' WHERE med_Id = $med_Id");
+            		$insert_date = date("Y-m-d h:i:s");
+		            $save_ask_med = mysqli_query($conn, "INSERT INTO physical_transaction_log (patient_Id, stock_used_value, med_Id, physical_Id, date_added) VALUES ('$patient_Id', '$stock_used_value', '$med_Id', '$physical_Id', '$insert_date')");
+
+
+	                // Deduct stock in product table
+	                // $updateQuery = mysqli_query($conn, "UPDATE medicine SET med_stock_in = med_stock_in - '$stock_used_value', med_stock_out=med_stock_out + '$stock_used_value' WHERE med_Id = $med_Id");
+	                // $insert_date = date("Y-m-d h:i:s");
+                    // $save_ask_med = mysqli_query($conn, "INSERT INTO asking_med_transaction_log (patient_Id, stock_used_value, med_Id, date_added) VALUEs ('$patient_Id', '$stock_used_value', '$med_Id', '$insert_date')");
+
+	                // Log the transaction in the transaction_log table if stock_used is greater than 0
+	                if (!$updateQuery || $stock_used_value <= 0) {
+
+	                    // Handle error if needed
+	                    $_SESSION['message'] = "Error deducting stock.";
+	                    $_SESSION['text'] = "Please try again.";
+	                    $_SESSION['status'] = "error";
+	                     header("Location: physical_mgmt.php?page=".$physical_Id);
+	                    exit;
+	                }
+	            }
+	        }
+	    }
+
+	    // Construct imploded medicine names outside the loop
+	    $implodedMedNames = implode(', ', $medicines);
+
+	    // Get the existing medicine names from the database
+	    $getExistingMedNamesQuery = mysqli_query($conn, "SELECT plan_medication FROM physical WHERE physical_Id='$physical_Id'");
+	    $existingMedNamesRow = mysqli_fetch_assoc($getExistingMedNamesQuery);
+	    $existingMedNames = $existingMedNamesRow['plan_medication'];
+
+	    // Concatenate the existing and new medicine names
+	    $updatedMedNames = $existingMedNames ? "$existingMedNames, $implodedMedNames" : $implodedMedNames;    
+
+		$update = mysqli_query($conn, "UPDATE physical SET patient_Id='$patient_Id', p_general='$p_general', p_skin='$p_skin', skinOther='$skinOther', p_heent='$p_heent', p_auditory='$p_auditory', p_nose='$p_nose', p_mouth_throat='$p_mouth_throat', p_neck='$p_neck', p_breast='$p_breast', p_cardiovascular='$p_cardiovascular', p_abdomen='$p_abdomen', p_genitals='$p_genitals', clinical_impression='$clinical_impression', potential_risk='$potential_risk', plan_medication='$updatedMedNames' WHERE physical_Id='$physical_Id'");
 
   	  if($update) {
 	  	$_SESSION['message'] = "Record has been updated.";
@@ -1708,7 +1878,7 @@
 		$rr                  = mysqli_real_escape_string($conn, $_POST['rr']);
 		$o2zat               = mysqli_real_escape_string($conn, $_POST['o2zat']);
 		$doctors_advice      = mysqli_real_escape_string($conn, $_POST['doctors_advice']);
-		$medicine_given      = mysqli_real_escape_string($conn, $_POST['medicine_given']);
+		// $medicine_given      = mysqli_real_escape_string($conn, $_POST['medicine_given']);
 		$medical_personnel   = mysqli_real_escape_string($conn, $_POST['medical_personnel']);
 
 		if(empty($vs_bp))    { $vs_bp = 'None'; }
@@ -1717,7 +1887,61 @@
 		if(empty($o2zat))    { $o2zat = 'None'; }
 
 
-		$save = mysqli_query($conn, "UPDATE consultation SET patient_Id='$patient_Id', mothers_maiden_name='$mothers_maiden_name', chief_complaints='$chief_complaints', temperature='$temperature', vs_bp='$vs_bp', pr='$pr', rr='$rr', o2zat='$o2zat', doctors_advice='$doctors_advice', medicine_given='$medicine_given', medical_personnel='$medical_personnel' WHERE consult_Id='$consult_Id'  ");
+		$medicine_given = $_POST['medicine_given'];
+	    $stock_used = $_POST['stock_used'];
+	    $medicines = array();
+
+	    foreach ($medicine_given as $med_Id) {
+	        if (isset($stock_used[$med_Id]) && $stock_used[$med_Id] > 0) {
+	            $stock_used_value = (int)$stock_used[$med_Id];
+
+	            $sql = mysqli_query($conn, "SELECT * FROM medicine WHERE med_Id = $med_Id");
+
+	            // Check if the query was successful
+	            if ($sql) {
+	                $row = mysqli_fetch_assoc($sql);
+	                $medicines[] = $row['med_name'];
+
+	                // Extract the numeric part of med_stock_in
+            		$numericPart = (int)$row['med_stock_in'];
+
+            		$updateQuery = mysqli_query($conn, "UPDATE medicine SET med_stock_in = CONCAT(CAST($numericPart - $stock_used_value AS CHAR), ' ', SUBSTRING_INDEX('$row[med_stock_in]', ' ', -1)), med_stock_out=med_stock_out + '$stock_used_value' WHERE med_Id = $med_Id");
+            		$insert_date = date("Y-m-d h:i:s");
+		            $save_ask_med = mysqli_query($conn, "INSERT INTO consultation_transaction_log (patient_Id, stock_used_value, med_Id, consult_Id, date_added) VALUES ('$patient_Id', '$stock_used_value', '$med_Id', '$consult_Id', '$insert_date')");
+
+
+	                // Deduct stock in product table
+	                // $updateQuery = mysqli_query($conn, "UPDATE medicine SET med_stock_in = med_stock_in - '$stock_used_value', med_stock_out=med_stock_out + '$stock_used_value' WHERE med_Id = $med_Id");
+	                // $insert_date = date("Y-m-d h:i:s");
+                    // $save_ask_med = mysqli_query($conn, "INSERT INTO asking_med_transaction_log (patient_Id, stock_used_value, med_Id, date_added) VALUEs ('$patient_Id', '$stock_used_value', '$med_Id', '$insert_date')");
+
+	                // Log the transaction in the transaction_log table if stock_used is greater than 0
+	                if (!$updateQuery || $stock_used_value <= 0) {
+
+	                    // Handle error if needed
+	                    $_SESSION['message'] = "Error deducting stock.";
+	                    $_SESSION['text'] = "Please try again.";
+	                    $_SESSION['status'] = "error";
+	                    header("Location: consultation_mgmt.php?page=".$consult_Id);
+	                    exit;
+	                }
+	            }
+	        }
+	    }
+
+	    // Construct imploded medicine names outside the loop
+	    $implodedMedNames = implode(', ', $medicines);
+
+	    // Get the existing medicine names from the database
+	    $getExistingMedNamesQuery = mysqli_query($conn, "SELECT medicine_given FROM consultation WHERE consult_Id='$consult_Id'");
+	    $existingMedNamesRow = mysqli_fetch_assoc($getExistingMedNamesQuery);
+	    $existingMedNames = $existingMedNamesRow['medicine_given'];
+
+	    // Concatenate the existing and new medicine names
+	    $updatedMedNames = $existingMedNames ? "$existingMedNames, $implodedMedNames" : $implodedMedNames; 
+
+
+		$save = mysqli_query($conn, "UPDATE consultation SET patient_Id='$patient_Id', mothers_maiden_name='$mothers_maiden_name', chief_complaints='$chief_complaints', temperature='$temperature', vs_bp='$vs_bp', pr='$pr', rr='$rr', o2zat='$o2zat', doctors_advice='$doctors_advice', medicine_given='$updatedMedNames', medical_personnel='$medical_personnel' WHERE consult_Id='$consult_Id'  ");
 
 		  if($save) {
 		  	$_SESSION['message'] = "Record has been updated.";

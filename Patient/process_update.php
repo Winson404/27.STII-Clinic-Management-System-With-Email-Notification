@@ -790,21 +790,29 @@ if (isset($_POST['mark_as_read'])) {
 	    $appt_time   = $_POST['appt_time'];
 	    $appt_reason = $_POST['appt_reason'];
 
-        $update = mysqli_query($conn, "UPDATE appointment SET appt_status=0, seen_by_admin=0, is_rescheduled=0, appt_date='$appt_date', appt_time='$appt_time', appt_reason='$appt_reason' WHERE appt_Id='$appt_Id'");
-        if ($update) {
-            $_SESSION['message'] = "Appointment has been updated";
-            $_SESSION['text'] = "Updated successfully";
-            $_SESSION['status'] = "success";
-            header("Location: appointment.php");
-            exit();
-            exit();
-        } else {
-            $_SESSION['message'] = "Something went wrong while updating the record.";
-            $_SESSION['text'] = "Please try again.";
-            $_SESSION['status'] = "error";
-            header("Location: appointment.php");
-            exit();
-        }
+	    $get_limit = mysqli_query($conn, "SELECT appt_time FROM appointment WHERE appt_date='$appt_date' AND appt_Id != '$appt_Id' ");
+		if(mysqli_num_rows($get_limit)) {
+			$_SESSION['message'] = "Appointments on this date has reached the limit.";
+	        $_SESSION['text'] = "Please try again.";
+	        $_SESSION['status'] = "error";
+			header("Location: appointment.php");
+		} else {
+	        $update = mysqli_query($conn, "UPDATE appointment SET appt_status=0, seen_by_admin=0, is_rescheduled=0, appt_date='$appt_date', appt_time='$appt_time', appt_reason='$appt_reason' WHERE appt_Id='$appt_Id'");
+	        if ($update) {
+	            $_SESSION['message'] = "Appointment has been updated";
+	            $_SESSION['text'] = "Updated successfully";
+	            $_SESSION['status'] = "success";
+	            header("Location: appointment.php");
+	            exit();
+	            exit();
+	        } else {
+	            $_SESSION['message'] = "Something went wrong while updating the record.";
+	            $_SESSION['text'] = "Please try again.";
+	            $_SESSION['status'] = "error";
+	            header("Location: appointment.php");
+	            exit();
+	        }
+	    }
 	}
 	
 

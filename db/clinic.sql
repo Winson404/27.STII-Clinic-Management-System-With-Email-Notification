@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 27, 2023 at 04:38 AM
+-- Generation Time: Dec 17, 2023 at 07:27 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -57,7 +57,8 @@ CREATE TABLE `appointment` (
 
 INSERT INTO `appointment` (`appt_Id`, `appt_patient_Id`, `appt_date`, `appt_time`, `appt_reason`, `appt_status`, `seen_by_admin`, `is_rescheduled`, `date_added`) VALUES
 (8, 72, '2023-11-25', '07:00-08:00 AM', 'sample', 1, 1, 1, '2023-11-26 14:27:32'),
-(9, 70, '2023-11-25', '07:00-08:00 AM', 'sampesampe', 4, 0, 2, '2023-11-26 15:18:27');
+(9, 70, '2023-11-29', '08:00-09:00 AM', 'sampesampe', 4, 1, 0, '2023-11-28 03:34:23'),
+(12, 70, '2023-12-10', '08:00-09:00 AM', 'sample', 0, 1, 0, '2023-12-11 04:16:05');
 
 -- --------------------------------------------------------
 
@@ -82,11 +83,32 @@ CREATE TABLE `asking_med` (
 --
 
 INSERT INTO `asking_med` (`asking_med_Id`, `patient_Id`, `pr`, `temperature`, `vital_sign`, `medical_advised`, `medicine_given`, `chief_complaints`, `date_admitted`) VALUES
-(1, 70, '4', '324234', '24fdsds', 'fdsf', 'fdsfsd', 'fsd', '2023-02-01 12:28:22'),
-(2, 70, 'dsa', 'sadad', 'dsa', 'dsa', 'das', 'dsa', '2023-10-21 13:07:14'),
-(3, 68, 'dsadsa', 'dadsd', 'sadas', 'dasd', 'dsad', 'asdas', '2023-11-25 13:07:22'),
-(4, 68, '22', '22', '22', '22', '22', '22', '2023-11-25 18:15:59'),
-(5, 70, '3', '232', 'dsds', 'fdsfds', 'Asmple2', 'dadsfss', '2023-11-25 15:38:46');
+(130, 70, 'dsf', 'dsfd', 'fsdf', 'fds', 'Bioparacetamol, Product 1, Product 2, Product 3', 'fd', '2023-12-17 10:34:42');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `asking_med_transaction_log`
+--
+
+CREATE TABLE `asking_med_transaction_log` (
+  `Id` int(11) NOT NULL,
+  `patient_Id` int(11) NOT NULL,
+  `stock_used_value` int(11) NOT NULL,
+  `med_Id` int(11) NOT NULL,
+  `asking_med_Id` int(11) NOT NULL,
+  `date_added` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `asking_med_transaction_log`
+--
+
+INSERT INTO `asking_med_transaction_log` (`Id`, `patient_Id`, `stock_used_value`, `med_Id`, `asking_med_Id`, `date_added`) VALUES
+(71, 70, 2, 10, 130, '2023-12-17 10:34:42'),
+(72, 70, 2, 2, 130, '2023-12-17 10:34:42'),
+(73, 70, 1, 3, 130, '2023-12-17 10:34:42'),
+(74, 70, 3, 4, 130, '2023-12-17 10:34:42');
 
 -- --------------------------------------------------------
 
@@ -115,7 +137,43 @@ CREATE TABLE `consultation` (
 --
 
 INSERT INTO `consultation` (`consult_Id`, `patient_Id`, `mothers_maiden_name`, `chief_complaints`, `temperature`, `vs_bp`, `pr`, `rr`, `o2zat`, `doctors_advice`, `medicine_given`, `medical_personnel`, `date_admitted`) VALUES
-(1, 70, 'sda', 'dsa', 'dsa', 'dsa', 'dsad', 'adsa', 'dsa', 'dadas', 'dsa', 'dsa', '2023-11-25 21:09:38');
+(1, 70, 'sda', 'dsa', 'dsa', 'dsa', 'dsad', 'adsa', 'dsa', 'dadas', 'dsa', 'dsa', '2023-11-25 21:09:38'),
+(2, 70, 'dsa', 'dsadsa', 'sd', 'adsa', 'dsad', 'asdsa', 'dsa', 'dsa', 'Bioparacetamol, Product 1, Product 2, Product 3, Product 4, Bioparacetamol, Product 1, Product 2, Product 3, Product 4, Product 5, Product 6, Product 7, Product 8', 'dsa', '2023-12-17 00:58:47');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `consultation_transaction_log`
+--
+
+CREATE TABLE `consultation_transaction_log` (
+  `Id` int(11) NOT NULL,
+  `patient_Id` int(11) NOT NULL,
+  `stock_used_value` int(11) NOT NULL,
+  `med_Id` int(11) NOT NULL,
+  `consult_Id` int(11) NOT NULL,
+  `date_added` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `consultation_transaction_log`
+--
+
+INSERT INTO `consultation_transaction_log` (`Id`, `patient_Id`, `stock_used_value`, `med_Id`, `consult_Id`, `date_added`) VALUES
+(1, 70, 1, 10, 2, '2023-12-17 00:58:47'),
+(2, 70, 2, 2, 2, '2023-12-17 00:58:47'),
+(3, 70, 3, 3, 2, '2023-12-17 00:58:47'),
+(4, 70, 4, 4, 2, '2023-12-17 00:58:47'),
+(5, 70, 5, 5, 2, '2023-12-17 00:58:47'),
+(6, 70, 1, 10, 2, '2023-12-17 01:04:35'),
+(7, 70, 2, 2, 2, '2023-12-17 01:04:35'),
+(8, 70, 3, 3, 2, '2023-12-17 01:04:35'),
+(9, 70, 4, 4, 2, '2023-12-17 01:04:35'),
+(10, 70, 5, 5, 2, '2023-12-17 01:04:35'),
+(11, 70, 1, 6, 2, '2023-12-17 01:04:35'),
+(12, 70, 2, 7, 2, '2023-12-17 01:04:35'),
+(13, 70, 3, 8, 2, '2023-12-17 01:04:35'),
+(14, 70, 4, 9, 2, '2023-12-17 01:04:35');
 
 -- --------------------------------------------------------
 
@@ -136,12 +194,20 @@ CREATE TABLE `dental` (
   `date_admitted` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `dental`
+-- Table structure for table `dental_transaction_log`
 --
 
-INSERT INTO `dental` (`dental_Id`, `patient_Id`, `dental_history`, `teeth_no`, `vs_bp`, `pr`, `rr`, `medicine_given`, `dental_advised`, `date_admitted`) VALUES
-(1, 70, 'sa', '3', 'fdsf', '33', '43', 'fds', 'fds', '2023-11-25 12:35:27');
+CREATE TABLE `dental_transaction_log` (
+  `Id` int(11) NOT NULL,
+  `patient_Id` int(11) NOT NULL,
+  `stock_used_value` int(11) NOT NULL,
+  `med_Id` int(11) NOT NULL,
+  `dental_Id` int(11) NOT NULL,
+  `date_added` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -165,6 +231,21 @@ CREATE TABLE `form2` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `form2_transaction_log`
+--
+
+CREATE TABLE `form2_transaction_log` (
+  `Id` int(11) NOT NULL,
+  `patient_Id` int(11) NOT NULL,
+  `stock_used_value` int(11) NOT NULL,
+  `med_Id` int(11) NOT NULL,
+  `form2_Id` int(11) NOT NULL,
+  `date_added` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `medicine`
 --
 
@@ -175,7 +256,7 @@ CREATE TABLE `medicine` (
   `med_name` varchar(100) NOT NULL,
   `med_type` varchar(30) NOT NULL,
   `milligrams` varchar(50) NOT NULL,
-  `med_stock_in` int(11) NOT NULL,
+  `med_stock_in` varchar(50) NOT NULL,
   `med_stock_in_orig` varchar(100) NOT NULL,
   `med_stock_out` varchar(100) NOT NULL,
   `expiration_date` varchar(100) NOT NULL,
@@ -189,12 +270,15 @@ CREATE TABLE `medicine` (
 --
 
 INSERT INTO `medicine` (`med_Id`, `brand_name`, `other_brand_name`, `med_name`, `med_type`, `milligrams`, `med_stock_in`, `med_stock_in_orig`, `med_stock_out`, `expiration_date`, `is_returned`, `seen_by_admin`, `date_added`) VALUES
-(2, 'Biogesic', '', 'dsada', '', '232', 32, '32', '', '2023-11-09', 1, 0, '2023-10-25 09:57 AM'),
-(3, 'Biogesic', '', 'dsadsa', '', 'dsadsa', 23, '23', '', '2023-11-07', 0, 0, '2023-10-25 09:57 AM'),
-(4, 'Biogesic', '', '25354', 'Generic', '45', 4, '4', '', '2023-11-26', 0, 0, '2023-11-12 10:43 PM'),
-(5, 'RiteMed', '', 'sample', 'Branded', '11', 19, '22', '', '2023-11-30', 0, 1, '2023-11-25 10:50 AM'),
-(6, '', 'asmple2s', 'Asmple2', 'Generic', '22', 1, '2', '', '2023-11-30', 0, 1, '2023-11-25 10:50 AM'),
-(7, 'RiteMed', '', 'fdsfsd', 'Branded', '432fds ', 15, '15', '', '2023-11-28', 0, 1, '2023-11-26 03:43 PM');
+(2, 'Biogesic', '', 'Product 1', '', '232', '39 tablets', '50 tablets', '11', '2023-12-21', 1, 0, '2023-10-25 09:57 AM'),
+(3, 'Biogesic', '', 'Product 2', '', 'dsadsa', '38 tablets', '50 tablets', '12', '2023-12-21', 0, 0, '2023-10-25 09:57 AM'),
+(4, 'Biogesic', '', 'Product 3', 'Generic', '45', '34 tablets', '50 tablets', '16', '2023-12-21', 0, 0, '2023-11-12 10:43 PM'),
+(5, 'RiteMed', '', 'Product 4', 'Branded', '11', '35 tablets', '50 tablets', '15', '2023-12-21', 0, 1, '2023-11-25 10:50 AM'),
+(6, '', 'asmple2s', 'Product 5', 'Generic', '22', '45 tablets', '50 tablets', '5', '2023-12-21', 0, 1, '2023-11-25 10:50 AM'),
+(7, 'RiteMed', '', 'Product 6', 'Branded', '432fds ', '45 tablets', '50 tablets', '5', '2023-12-21', 0, 0, '2023-11-26 03:43 PM'),
+(8, 'RiteMed', '', 'Product 7', 'Generic', '232g', '45 tablets', '50 tablets', '5', '2023-12-21', 0, 1, '2023-11-28 08:42 AM'),
+(9, '', 'dsadas', 'Product 8', 'Branded', 'fdsf', '45 tablets', '50 tablets', '5', '2023-12-21', 0, 0, '2023-12-06 11:22 PM'),
+(10, 'RiteMed', '', 'Bioparacetamol', 'Branded', '22', '41 tablets', '50 tablets', '9', '2029-07-18', 0, 0, '2023-12-16 10:52 AM');
 
 -- --------------------------------------------------------
 
@@ -244,7 +328,18 @@ INSERT INTO `notification` (`notif_Id`, `type`, `subject`, `message`, `reason`, 
 (25, 'Appointment', 'Appointment denied by patient', 'Good day Sir Erwin Cabag Son , your reschedule for appointment has been denied by the patient.', '', 70, 0, 0, '2023-11-26 15:18:36'),
 (26, 'Medical Certificate', 'Medical Certificate request', 'Good day Sir Faculty patient, you have personally request for document, Medical Certificate', 'sasa', 68, 0, 0, '2023-11-27 03:08:21'),
 (27, 'Medical Certificate', 'Personal document request', 'Good day Maam Student, you have personally request for document, Medical Records', 'dsa', 70, 0, 0, '2023-11-27 03:12:51'),
-(28, 'Medical certificate', 'Request status: Ready to pick-up', 'Good day Sir Faculty patient, your requested document, Medical certificate status has been set to Ready to pick-up.', '', 68, 0, 0, '2023-11-27 03:15:59');
+(28, 'Medical certificate', 'Request status: Ready to pick-up', 'Good day Sir Faculty patient, your requested document, Medical certificate status has been set to Ready to pick-up.', '', 68, 0, 0, '2023-11-27 03:15:59'),
+(29, 'Appointment', 'Appointment approved', 'Good day Sir Student, your appointment has been approved. Your schedule will be on 2023-11-29 at exactly 07:00-08:00 AM.', '', 70, 0, 0, '2023-11-28 00:15:51'),
+(30, 'Appointment', 'Appointment approved', 'Good day Maam Student, your appointment has been approved. Your schedule will be on 2023-11-29 at exactly 07:00-08:00 AM.', '', 70, 0, 0, '2023-11-28 00:17:49'),
+(31, 'Appointment', 'Rescheduled appointment', 'Good day Maam Student, your appointment has been rescheduled. Please confirm this message by clicking <b>YES</b> button in your appointment page after you login.', '', 70, 0, 0, '2023-11-28 00:30:38'),
+(32, 'Medical Certificate', 'Personal document request', 'Good day Sir Faculty patient, you have personally request for document, Medical Certificate', 'dsads', 68, 0, 0, '2023-11-28 00:44:28'),
+(33, 'Appointment', 'Appointment request', 'Good day Sir Erwin Cabag Son , an appointment has been set by new patient named, Student.', 'sample', 70, 0, 0, '2023-11-28 02:45:59'),
+(34, 'Appointment', 'Appointment approved', 'Good day Maam Student, your appointment has been approved. Your schedule will be on 2023-11-30 at exactly 08:00-09:00 AM.', '', 70, 0, 0, '2023-11-28 02:59:41'),
+(35, 'Appointment', 'Appointment approved', 'Good day Maam Student, your appointment has been approved. Your schedule will be on 2023-11-30 at exactly 08:00-09:00 AM.', '', 70, 0, 0, '2023-11-28 03:32:48'),
+(36, 'Appointment', 'Appointment denied', 'Good day Maam Student, your appointment has been denied.', '', 70, 0, 0, '2023-11-28 03:33:07'),
+(37, 'Medical Certificate', 'Personal document request', 'Good day Sir Faculty patient, you have personally request for document, Medical Certificate', 'dsa', 68, 0, 0, '2023-12-09 12:46:45'),
+(38, 'Medical Certificate', 'Personal document request', 'Good day Maam Student, you have personally request for document, Medical Certificate', 'dsadsa', 70, 0, 0, '2023-12-11 04:17:41'),
+(39, 'Medical Certificate', 'Personal document request', 'Good day Maam Student, you have personally request for document, Medical Certificate', 'sss', 70, 0, 0, '2023-12-11 04:18:45');
 
 -- --------------------------------------------------------
 
@@ -353,6 +448,47 @@ CREATE TABLE `physical` (
   `date_admitted` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `physical`
+--
+
+INSERT INTO `physical` (`physical_Id`, `patient_Id`, `p_general`, `p_skin`, `skinOther`, `p_heent`, `p_auditory`, `p_nose`, `p_mouth_throat`, `p_neck`, `p_breast`, `p_cardiovascular`, `p_abdomen`, `p_genitals`, `clinical_impression`, `potential_risk`, `plan_medication`, `date_admitted`) VALUES
+(1, 70, 'Awake,Coherent', 'Other', 'ds', 'Pupils Equally Reactive to light & accomodation', 'Non-Intact', 'Nasal Deformity', 'None', 'Lymphadenpathy,None', 'Discharge', 'Carotid Bruit,Murmur', 'Flat,Normoactive', '', 'dsa', 'dsa', 'Bioparacetamol, Product 1, Product 2, Product 3, Product 4, Bioparacetamol, Product 1, Product 2, Product 3, Product 5, Product 6, Product 7, Product 8', '2023-12-17 00:52:04');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `physical_transaction_log`
+--
+
+CREATE TABLE `physical_transaction_log` (
+  `Id` int(11) NOT NULL,
+  `patient_Id` int(11) NOT NULL,
+  `stock_used_value` int(11) NOT NULL,
+  `med_Id` int(11) NOT NULL,
+  `physical_Id` int(11) NOT NULL,
+  `date_added` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `physical_transaction_log`
+--
+
+INSERT INTO `physical_transaction_log` (`Id`, `patient_Id`, `stock_used_value`, `med_Id`, `physical_Id`, `date_added`) VALUES
+(1, 70, 1, 10, 1, '2023-12-17 00:45:14'),
+(2, 70, 2, 2, 1, '2023-12-17 00:45:14'),
+(3, 70, 3, 3, 1, '2023-12-17 00:45:14'),
+(4, 70, 4, 4, 1, '2023-12-17 00:45:14'),
+(5, 70, 5, 5, 1, '2023-12-17 00:45:14'),
+(6, 70, 4, 10, 1, '2023-12-17 12:52:04'),
+(7, 70, 3, 2, 1, '2023-12-17 12:52:04'),
+(8, 70, 2, 3, 1, '2023-12-17 12:52:04'),
+(9, 70, 1, 4, 1, '2023-12-17 12:52:04'),
+(10, 70, 4, 6, 1, '2023-12-17 12:52:04'),
+(11, 70, 3, 7, 1, '2023-12-17 12:52:04'),
+(12, 70, 2, 8, 1, '2023-12-17 12:52:04'),
+(13, 70, 1, 9, 1, '2023-12-17 12:52:04');
+
 -- --------------------------------------------------------
 
 --
@@ -378,7 +514,11 @@ INSERT INTO `request_doc` (`req_Id`, `type`, `patient_Id`, `purpose`, `pick_up_d
 (1, 'Medical Certificate', 70, 'dasdsa', '', 0, 1, '2023-11-26 12:31:54'),
 (2, 'Medical Records', 70, 'das', '2023-11-30', 0, 1, '2023-11-26 12:31:54'),
 (3, 'Medical Certificate', 68, 'sasa', '2023-11-30', 2, 0, '2023-11-27 03:15:55'),
-(4, 'Medical Records', 70, 'dsa', '2023-11-30', 0, 0, '2023-11-27 03:08:51');
+(4, 'Medical Records', 70, 'dsa', '2023-11-30', 0, 1, '2023-11-27 03:45:15'),
+(5, 'Medical Certificate', 68, 'dsads123', '2023-11-28', 0, 1, '2023-11-28 02:27:19'),
+(6, 'Medical Certificate', 68, 'dsa', '2023-12-09', 0, 0, '2023-12-09 12:46:45'),
+(7, 'Medical Certificate', 70, 'dsadsa', '2023-12-11', 0, 1, '2023-12-11 04:33:52'),
+(8, 'Medical Certificate', 70, 'sss', '2023-12-11', 0, 1, '2023-12-11 04:33:52');
 
 -- --------------------------------------------------------
 
@@ -468,10 +608,22 @@ ALTER TABLE `asking_med`
   ADD PRIMARY KEY (`asking_med_Id`);
 
 --
+-- Indexes for table `asking_med_transaction_log`
+--
+ALTER TABLE `asking_med_transaction_log`
+  ADD PRIMARY KEY (`Id`);
+
+--
 -- Indexes for table `consultation`
 --
 ALTER TABLE `consultation`
   ADD PRIMARY KEY (`consult_Id`);
+
+--
+-- Indexes for table `consultation_transaction_log`
+--
+ALTER TABLE `consultation_transaction_log`
+  ADD PRIMARY KEY (`Id`);
 
 --
 -- Indexes for table `dental`
@@ -480,10 +632,22 @@ ALTER TABLE `dental`
   ADD PRIMARY KEY (`dental_Id`);
 
 --
+-- Indexes for table `dental_transaction_log`
+--
+ALTER TABLE `dental_transaction_log`
+  ADD PRIMARY KEY (`Id`);
+
+--
 -- Indexes for table `form2`
 --
 ALTER TABLE `form2`
   ADD PRIMARY KEY (`form2_Id`);
+
+--
+-- Indexes for table `form2_transaction_log`
+--
+ALTER TABLE `form2_transaction_log`
+  ADD PRIMARY KEY (`Id`);
 
 --
 -- Indexes for table `medicine`
@@ -508,6 +672,12 @@ ALTER TABLE `patient`
 --
 ALTER TABLE `physical`
   ADD PRIMARY KEY (`physical_Id`);
+
+--
+-- Indexes for table `physical_transaction_log`
+--
+ALTER TABLE `physical_transaction_log`
+  ADD PRIMARY KEY (`Id`);
 
 --
 -- Indexes for table `request_doc`
@@ -541,43 +711,67 @@ ALTER TABLE `announcement`
 -- AUTO_INCREMENT for table `appointment`
 --
 ALTER TABLE `appointment`
-  MODIFY `appt_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `appt_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `asking_med`
 --
 ALTER TABLE `asking_med`
-  MODIFY `asking_med_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `asking_med_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
+
+--
+-- AUTO_INCREMENT for table `asking_med_transaction_log`
+--
+ALTER TABLE `asking_med_transaction_log`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 
 --
 -- AUTO_INCREMENT for table `consultation`
 --
 ALTER TABLE `consultation`
-  MODIFY `consult_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `consult_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `consultation_transaction_log`
+--
+ALTER TABLE `consultation_transaction_log`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `dental`
 --
 ALTER TABLE `dental`
-  MODIFY `dental_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `dental_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `dental_transaction_log`
+--
+ALTER TABLE `dental_transaction_log`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `form2`
 --
 ALTER TABLE `form2`
-  MODIFY `form2_Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `form2_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `form2_transaction_log`
+--
+ALTER TABLE `form2_transaction_log`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `medicine`
 --
 ALTER TABLE `medicine`
-  MODIFY `med_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `med_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `notif_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `notif_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `patient`
@@ -589,13 +783,19 @@ ALTER TABLE `patient`
 -- AUTO_INCREMENT for table `physical`
 --
 ALTER TABLE `physical`
-  MODIFY `physical_Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `physical_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `physical_transaction_log`
+--
+ALTER TABLE `physical_transaction_log`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `request_doc`
 --
 ALTER TABLE `request_doc`
-  MODIFY `req_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `req_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `request_update`

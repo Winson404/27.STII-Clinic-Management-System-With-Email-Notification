@@ -1309,11 +1309,69 @@
                             </div>
                         </div>
 
-                        <div class="col-12">
+                        <!-- <div class="col-12">
                             <div class="form-group">
                               <span class="text-dark"><b>Medicine given</b></span>
-                              <textarea cols="30" rows="3" class="form-control" placeholder="Medicine given" name="medicine_given" readonly><?php echo $row['medicine_given']; ?></textarea>
+                              <textarea cols="30" rows="3" class="form-control" placeholder="Medicine given" name="medicine_given" readonly><?php //echo $row['medicine_given']; ?></textarea>
                             </div>
+                        </div> -->
+                        <div class="col-12">
+                          <h5 class="text-center">List of Given Medicines</h5>
+                          <hr>
+                          <table id="example1" class="table table-bordered table-hover table-sm text-sm">
+                            <thead>
+                                <tr>
+                                    <th>Medicine Name</th>
+                                    <!-- <th class="text-center">Available Stock</th> -->
+                                    <th class="text-center"># of medicine given</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $dental_Id = $row['dental_Id'];
+                                // Fetch data from asking_med_transaction_log and medicine tables
+                                $fetch2 = mysqli_query($conn, "SELECT *, SUM(stock_used_value) AS sum_stock_used_value FROM dental_transaction_log WHERE dental_Id=$dental_Id GROUP BY med_Id");
+                                $medicineData = array();
+
+                                // Iterate through the results of asking_med_transaction_log
+                                while ($logRow = mysqli_fetch_assoc($fetch2)) {
+                                    $med_Id = $logRow['med_Id'];
+
+                                    // Fetch medicine information based on med_Id
+                                    $fetchMedicine = mysqli_query($conn, "SELECT * FROM medicine WHERE med_Id = '$med_Id'");
+                                    $medicineRow = mysqli_fetch_assoc($fetchMedicine);
+
+                                    // Check if the medicine is found and has positive stock
+                                    if ($medicineRow && $medicineRow['med_stock_in'] > 0 && strtotime($medicineRow['expiration_date']) >= strtotime(date('Y-m-d'))) {
+                                        // Use regular expression to extract the unit label
+                                        preg_match('/(\d+)\s*(\w+)/', $medicineRow['med_stock_in'], $matches);
+
+                                        $medicineData[] = array(
+                                            'med_name' => ucwords($medicineRow['med_name']),
+                                            'stock_in' => $matches[1], // Quantity
+                                            'units_label' => $matches[2], // Units label
+                                            'stock_used_value' => $logRow['sum_stock_used_value'],
+                                        );
+                                    }
+                                }
+
+                                // Display the medicine data in the table
+                                foreach ($medicineData as $medicine) {
+                                ?>
+                                    <tr>
+                                        <td>
+                                            <?php echo $medicine['med_name']; ?>
+                                        </td>
+                                       <!--  <td class="text-center">
+                                            <?php //echo $medicine['stock_in'] . ' ' . $medicine['units_label']; ?>
+                                        </td> -->
+                                        <td class="text-center">
+                                            <?php echo $medicine['stock_used_value'] . ' ' . $medicine['units_label']; ?>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                          </table>
                         </div>
 
                         <div class="col-12">
@@ -1375,11 +1433,69 @@
                             </div>
                         </div>
 
-                        <div class="col-12">
+                        <!-- <div class="col-12">
                             <div class="form-group">
                               <span class="text-dark"><b>Medicine given</b></span>
-                              <textarea cols="30" rows="3" class="form-control" placeholder="Medicine given" name="medicine_given" readonly><?php echo $row['medicine_given']; ?></textarea>
+                              <textarea cols="30" rows="3" class="form-control" placeholder="Medicine given" name="medicine_given" readonly><?php //echo $row['medicine_given']; ?></textarea>
                             </div>
+                        </div> -->
+                        <div class="col-12">
+                          <h5 class="text-center">List of Given Medicines</h5>
+                          <hr>
+                          <table id="example1" class="table table-bordered table-hover table-sm text-sm">
+                            <thead>
+                                <tr>
+                                    <th>Medicine Name</th>
+                                    <!-- <th class="text-center">Available Stock</th> -->
+                                    <th class="text-center"># of medicine given</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $dental_Id = $row['dental_Id'];
+                                // Fetch data from asking_med_transaction_log and medicine tables
+                                $fetch2 = mysqli_query($conn, "SELECT *, SUM(stock_used_value) AS sum_stock_used_value FROM dental_transaction_log WHERE dental_Id=$dental_Id GROUP BY med_Id");
+                                $medicineData = array();
+
+                                // Iterate through the results of asking_med_transaction_log
+                                while ($logRow = mysqli_fetch_assoc($fetch2)) {
+                                    $med_Id = $logRow['med_Id'];
+
+                                    // Fetch medicine information based on med_Id
+                                    $fetchMedicine = mysqli_query($conn, "SELECT * FROM medicine WHERE med_Id = '$med_Id'");
+                                    $medicineRow = mysqli_fetch_assoc($fetchMedicine);
+
+                                    // Check if the medicine is found and has positive stock
+                                    if ($medicineRow && $medicineRow['med_stock_in'] > 0 && strtotime($medicineRow['expiration_date']) >= strtotime(date('Y-m-d'))) {
+                                        // Use regular expression to extract the unit label
+                                        preg_match('/(\d+)\s*(\w+)/', $medicineRow['med_stock_in'], $matches);
+
+                                        $medicineData[] = array(
+                                            'med_name' => ucwords($medicineRow['med_name']),
+                                            'stock_in' => $matches[1], // Quantity
+                                            'units_label' => $matches[2], // Units label
+                                            'stock_used_value' => $logRow['sum_stock_used_value'],
+                                        );
+                                    }
+                                }
+
+                                // Display the medicine data in the table
+                                foreach ($medicineData as $medicine) {
+                                ?>
+                                    <tr>
+                                        <td>
+                                            <?php echo $medicine['med_name']; ?>
+                                        </td>
+                                       <!--  <td class="text-center">
+                                            <?php //echo $medicine['stock_in'] . ' ' . $medicine['units_label']; ?>
+                                        </td> -->
+                                        <td class="text-center">
+                                            <?php echo $medicine['stock_used_value'] . ' ' . $medicine['units_label']; ?>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                          </table>
                         </div>
 
                         <div class="col-12">
@@ -1453,11 +1569,69 @@
                             </div>
                         </div>
 
-                        <div class="col-12">
+                        <!-- <div class="col-12">
                             <div class="form-group">
                               <span class="text-dark"><b>Treatment/ Medical advised</b></span>
-                              <textarea cols="30" rows="3" class="form-control" placeholder="Treatment/ Medical advised" name="medical_advised" readonly><?php echo $row['medical_advised']; ?></textarea>
+                              <textarea cols="30" rows="3" class="form-control" placeholder="Treatment/ Medical advised" name="medical_advised" readonly><?php //echo $row['medical_advised']; ?></textarea>
                             </div>
+                        </div> -->
+                        <div class="col-12">
+                          <h5 class="text-center">List of Given Medicines</h5>
+                          <hr>
+                          <table id="example1" class="table table-bordered table-hover table-sm text-sm">
+                            <thead>
+                                <tr>
+                                    <th>Medicine Name</th>
+                                    <!-- <th class="text-center">Available Stock</th> -->
+                                    <th class="text-center"># of medicine given</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $form2_Id = $row['form2_Id'];
+                                // Fetch data from asking_med_transaction_log and medicine tables
+                                $fetch2 = mysqli_query($conn, "SELECT *, SUM(stock_used_value) AS sum_stock_used_value FROM form2_transaction_log WHERE form2_Id=$form2_Id GROUP BY med_Id");
+                                $medicineData = array();
+
+                                // Iterate through the results of asking_med_transaction_log
+                                while ($logRow = mysqli_fetch_assoc($fetch2)) {
+                                    $med_Id = $logRow['med_Id'];
+
+                                    // Fetch medicine information based on med_Id
+                                    $fetchMedicine = mysqli_query($conn, "SELECT * FROM medicine WHERE med_Id = '$med_Id'");
+                                    $medicineRow = mysqli_fetch_assoc($fetchMedicine);
+
+                                    // Check if the medicine is found and has positive stock
+                                    if ($medicineRow && $medicineRow['med_stock_in'] > 0 && strtotime($medicineRow['expiration_date']) >= strtotime(date('Y-m-d'))) {
+                                        // Use regular expression to extract the unit label
+                                        preg_match('/(\d+)\s*(\w+)/', $medicineRow['med_stock_in'], $matches);
+
+                                        $medicineData[] = array(
+                                            'med_name' => ucwords($medicineRow['med_name']),
+                                            'stock_in' => $matches[1], // Quantity
+                                            'units_label' => $matches[2], // Units label
+                                            'stock_used_value' => $logRow['sum_stock_used_value'],
+                                        );
+                                    }
+                                }
+
+                                // Display the medicine data in the table
+                                foreach ($medicineData as $medicine) {
+                                ?>
+                                    <tr>
+                                        <td>
+                                            <?php echo $medicine['med_name']; ?>
+                                        </td>
+                                       <!--  <td class="text-center">
+                                            <?php //echo $medicine['stock_in'] . ' ' . $medicine['units_label']; ?>
+                                        </td> -->
+                                        <td class="text-center">
+                                            <?php echo $medicine['stock_used_value'] . ' ' . $medicine['units_label']; ?>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                          </table>
                         </div>
 
                        
@@ -1512,11 +1686,69 @@
                             </div>
                         </div>
 
-                        <div class="col-12">
+                        <!-- <div class="col-12">
                             <div class="form-group">
                               <span class="text-dark"><b>Treatment/ Medical advised</b></span>
-                              <textarea cols="30" rows="3" class="form-control" placeholder="Treatment/ Medical advised" name="medical_advised" readonly><?php echo $row['medical_advised']; ?></textarea>
+                              <textarea cols="30" rows="3" class="form-control" placeholder="Treatment/ Medical advised" name="medical_advised" readonly><?php //echo $row['medical_advised']; ?></textarea>
                             </div>
+                        </div> -->
+                        <div class="col-12">
+                          <h5 class="text-center">List of Given Medicines</h5>
+                          <hr>
+                          <table id="example1" class="table table-bordered table-hover table-sm text-sm">
+                            <thead>
+                                <tr>
+                                    <th>Medicine Name</th>
+                                    <!-- <th class="text-center">Available Stock</th> -->
+                                    <th class="text-center"># of medicine given</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $form2_Id = $row['form2_Id'];
+                                // Fetch data from asking_med_transaction_log and medicine tables
+                                $fetch2 = mysqli_query($conn, "SELECT *, SUM(stock_used_value) AS sum_stock_used_value FROM form2_transaction_log WHERE form2_Id=$form2_Id GROUP BY med_Id");
+                                $medicineData = array();
+
+                                // Iterate through the results of asking_med_transaction_log
+                                while ($logRow = mysqli_fetch_assoc($fetch2)) {
+                                    $med_Id = $logRow['med_Id'];
+
+                                    // Fetch medicine information based on med_Id
+                                    $fetchMedicine = mysqli_query($conn, "SELECT * FROM medicine WHERE med_Id = '$med_Id'");
+                                    $medicineRow = mysqli_fetch_assoc($fetchMedicine);
+
+                                    // Check if the medicine is found and has positive stock
+                                    if ($medicineRow && $medicineRow['med_stock_in'] > 0 && strtotime($medicineRow['expiration_date']) >= strtotime(date('Y-m-d'))) {
+                                        // Use regular expression to extract the unit label
+                                        preg_match('/(\d+)\s*(\w+)/', $medicineRow['med_stock_in'], $matches);
+
+                                        $medicineData[] = array(
+                                            'med_name' => ucwords($medicineRow['med_name']),
+                                            'stock_in' => $matches[1], // Quantity
+                                            'units_label' => $matches[2], // Units label
+                                            'stock_used_value' => $logRow['sum_stock_used_value'],
+                                        );
+                                    }
+                                }
+
+                                // Display the medicine data in the table
+                                foreach ($medicineData as $medicine) {
+                                ?>
+                                    <tr>
+                                        <td>
+                                            <?php echo $medicine['med_name']; ?>
+                                        </td>
+                                       <!--  <td class="text-center">
+                                            <?php //echo $medicine['stock_in'] . ' ' . $medicine['units_label']; ?>
+                                        </td> -->
+                                        <td class="text-center">
+                                            <?php echo $medicine['stock_used_value'] . ' ' . $medicine['units_label']; ?>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                          </table>
                         </div>
 
                         <div class="col-12">
@@ -1552,7 +1784,7 @@
 
                         <div class="col-lg-12 mt-3 mb-2 col-md-12 col-sm-12 col-12">
                           <hr>
-                          <a class="h5 text-primary"><b>PHYSICAL EXAMINATION </b> </a>
+                          <a class="h5 text-primary"><b>PHYSICAL EXAMINATION</b> </a>
                           <br>
                           Date admitted: <?php echo date("F d, Y",strtotime($row['date_admitted'])); ?>
                           <div class="dropdown-divider"></div>
@@ -1900,11 +2132,70 @@
                             </div>
                         </div>
 
-                        <div class="col-12">
+                        <!-- <div class="col-12">
                             <span class="text-dark"><a class=" text-primary"><b>PLAN/MEDICATION</b></a></span>
                             <div class="form-group">
-                                <textarea name="plan_medication" id="" cols="30" rows="2" class="form-control" placeholder="Enter plan/medication..." disabled><?php echo $row['plan_medication']; ?></textarea>
+                                <textarea name="plan_medication" id="" cols="30" rows="2" class="form-control" placeholder="Enter plan/medication..." disabled><?php// echo $row['plan_medication']; ?></textarea>
                             </div>
+                        </div>
+ -->
+                        <div class="col-12">
+                          <h5 class="text-center">List of Given Medicines</h5>
+                          <hr>
+                         <table id="example1" class="table table-bordered table-hover table-sm text-sm">
+                            <thead>
+                                <tr>
+                                    <th>Medicine Name</th>
+                                    <!-- <th class="text-center">Available Stock</th> -->
+                                    <th class="text-center"># of medicine given</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $physical_Id = $row['physical_Id'];
+                                // Fetch data from asking_med_transaction_log and medicine tables
+                                $fetch2 = mysqli_query($conn, "SELECT *, SUM(stock_used_value) AS sum_stock_used_value FROM physical_transaction_log WHERE physical_Id=$physical_Id GROUP BY med_Id");
+                                $medicineData = array();
+
+                                // Iterate through the results of asking_med_transaction_log
+                                while ($logRow = mysqli_fetch_assoc($fetch2)) {
+                                    $med_Id = $logRow['med_Id'];
+
+                                    // Fetch medicine information based on med_Id
+                                    $fetchMedicine = mysqli_query($conn, "SELECT * FROM medicine WHERE med_Id = '$med_Id'");
+                                    $medicineRow = mysqli_fetch_assoc($fetchMedicine);
+
+                                    // Check if the medicine is found and has positive stock
+                                    if ($medicineRow && $medicineRow['med_stock_in'] > 0 && strtotime($medicineRow['expiration_date']) >= strtotime(date('Y-m-d'))) {
+                                        // Use regular expression to extract the unit label
+                                        preg_match('/(\d+)\s*(\w+)/', $medicineRow['med_stock_in'], $matches);
+
+                                        $medicineData[] = array(
+                                            'med_name' => ucwords($medicineRow['med_name']),
+                                            'stock_in' => $matches[1], // Quantity
+                                            'units_label' => $matches[2], // Units label
+                                            'stock_used_value' => $logRow['sum_stock_used_value'],
+                                        );
+                                    }
+                                }
+
+                                // Display the medicine data in the table
+                                foreach ($medicineData as $medicine) {
+                                ?>
+                                    <tr>
+                                        <td>
+                                            <?php echo $medicine['med_name']; ?>
+                                        </td>
+                                       <!--  <td class="text-center">
+                                            <?php //echo $medicine['stock_in'] . ' ' . $medicine['units_label']; ?>
+                                        </td> -->
+                                        <td class="text-center">
+                                            <?php echo $medicine['stock_used_value'] . ' ' . $medicine['units_label']; ?>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
                         </div>
 
                       <?php 
@@ -2264,11 +2555,69 @@
                             </div>
                         </div>
 
-                        <div class="col-12">
+                        <!-- <div class="col-12">
                             <span class="text-dark"><a class=" text-primary"><b>PLAN/MEDICATION</b></a></span>
                             <div class="form-group">
-                                <textarea name="plan_medication" id="" cols="30" rows="2" class="form-control" placeholder="Enter plan/medication..." disabled><?php echo $row['plan_medication']; ?></textarea>
+                                <textarea name="plan_medication" id="" cols="30" rows="2" class="form-control" placeholder="Enter plan/medication..." disabled><?php //echo $row['plan_medication']; ?></textarea>
                             </div>
+                        </div> -->
+                        <div class="col-12">
+                          <h5 class="text-center">List of Given Medicines</h5>
+                          <hr>
+                         <table id="example1" class="table table-bordered table-hover table-sm text-sm">
+                            <thead>
+                                <tr>
+                                    <th>Medicine Name</th>
+                                    <!-- <th class="text-center">Available Stock</th> -->
+                                    <th class="text-center"># of medicine given</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $physical_Id = $row['physical_Id'];
+                                // Fetch data from asking_med_transaction_log and medicine tables
+                                $fetch2 = mysqli_query($conn, "SELECT *, SUM(stock_used_value) AS sum_stock_used_value FROM physical_transaction_log WHERE physical_Id=$physical_Id GROUP BY med_Id");
+                                $medicineData = array();
+
+                                // Iterate through the results of asking_med_transaction_log
+                                while ($logRow = mysqli_fetch_assoc($fetch2)) {
+                                    $med_Id = $logRow['med_Id'];
+
+                                    // Fetch medicine information based on med_Id
+                                    $fetchMedicine = mysqli_query($conn, "SELECT * FROM medicine WHERE med_Id = '$med_Id'");
+                                    $medicineRow = mysqli_fetch_assoc($fetchMedicine);
+
+                                    // Check if the medicine is found and has positive stock
+                                    if ($medicineRow && $medicineRow['med_stock_in'] > 0 && strtotime($medicineRow['expiration_date']) >= strtotime(date('Y-m-d'))) {
+                                        // Use regular expression to extract the unit label
+                                        preg_match('/(\d+)\s*(\w+)/', $medicineRow['med_stock_in'], $matches);
+
+                                        $medicineData[] = array(
+                                            'med_name' => ucwords($medicineRow['med_name']),
+                                            'stock_in' => $matches[1], // Quantity
+                                            'units_label' => $matches[2], // Units label
+                                            'stock_used_value' => $logRow['sum_stock_used_value'],
+                                        );
+                                    }
+                                }
+
+                                // Display the medicine data in the table
+                                foreach ($medicineData as $medicine) {
+                                ?>
+                                    <tr>
+                                        <td>
+                                            <?php echo $medicine['med_name']; ?>
+                                        </td>
+                                       <!--  <td class="text-center">
+                                            <?php //echo $medicine['stock_in'] . ' ' . $medicine['units_label']; ?>
+                                        </td> -->
+                                        <td class="text-center">
+                                            <?php echo $medicine['stock_used_value'] . ' ' . $medicine['units_label']; ?>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
                         </div>
                       <?php } else { ?> 
                         <div class="col-lg-12 mt-3 mb-2 col-md-12 col-sm-12 col-12">
@@ -2345,17 +2694,75 @@
                         </div>
 
                         <div class="col-12">
-                            <span class="text-dark"><b>NUrse's Advice</b></span>
+                            <span class="text-dark"><b>Nurse's Advice</b></span>
                             <div class="form-group">
                                 <textarea name="doctors_advice" id="" cols="30" rows="3" class="form-control" placeholder="Enter doctor's advice..." disabled><?php echo $row['doctors_advice']; ?></textarea>
                             </div>
                         </div>
 
-                        <div class="col-12">
+                        <!-- <div class="col-12">
                             <span class="text-dark"><b>Medicine given</b></span>
                             <div class="form-group">
-                                <textarea name="medicine_given" id="" cols="30" rows="2" class="form-control" placeholder="Enter medicine given..." disabled><?php echo $row['medicine_given']; ?></textarea>
+                                <textarea name="medicine_given" id="" cols="30" rows="2" class="form-control" placeholder="Enter medicine given..." disabled><?php //echo $row['medicine_given']; ?></textarea>
                             </div>
+                        </div> -->
+                        <div class="col-12">
+                          <h5 class="text-center">List of Given Medicines</h5>
+                          <hr>
+                         <table id="example1" class="table table-bordered table-hover table-sm text-sm">
+                            <thead>
+                                <tr>
+                                    <th>Medicine Name</th>
+                                    <!-- <th class="text-center">Available Stock</th> -->
+                                    <th class="text-center"># of medicine given</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $consult_Id = $row['consult_Id'];
+                                // Fetch data from asking_med_transaction_log and medicine tables
+                                $fetch2 = mysqli_query($conn, "SELECT *, SUM(stock_used_value) AS sum_stock_used_value FROM consultation_transaction_log WHERE consult_Id=$consult_Id GROUP BY med_Id");
+                                $medicineData = array();
+
+                                // Iterate through the results of asking_med_transaction_log
+                                while ($logRow = mysqli_fetch_assoc($fetch2)) {
+                                    $med_Id = $logRow['med_Id'];
+
+                                    // Fetch medicine information based on med_Id
+                                    $fetchMedicine = mysqli_query($conn, "SELECT * FROM medicine WHERE med_Id = '$med_Id'");
+                                    $medicineRow = mysqli_fetch_assoc($fetchMedicine);
+
+                                    // Check if the medicine is found and has positive stock
+                                    if ($medicineRow && $medicineRow['med_stock_in'] > 0 && strtotime($medicineRow['expiration_date']) >= strtotime(date('Y-m-d'))) {
+                                        // Use regular expression to extract the unit label
+                                        preg_match('/(\d+)\s*(\w+)/', $medicineRow['med_stock_in'], $matches);
+
+                                        $medicineData[] = array(
+                                            'med_name' => ucwords($medicineRow['med_name']),
+                                            'stock_in' => $matches[1], // Quantity
+                                            'units_label' => $matches[2], // Units label
+                                            'stock_used_value' => $logRow['sum_stock_used_value'],
+                                        );
+                                    }
+                                }
+
+                                // Display the medicine data in the table
+                                foreach ($medicineData as $medicine) {
+                                ?>
+                                    <tr>
+                                        <td>
+                                            <?php echo $medicine['med_name']; ?>
+                                        </td>
+                                       <!--  <td class="text-center">
+                                            <?php //echo $medicine['stock_in'] . ' ' . $medicine['units_label']; ?>
+                                        </td> -->
+                                        <td class="text-center">
+                                            <?php echo $medicine['stock_used_value'] . ' ' . $medicine['units_label']; ?>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
                         </div>
 
                         <div class="col-12">
@@ -2434,11 +2841,69 @@
                             </div>
                         </div>
 
-                        <div class="col-12">
+                        <!-- <div class="col-12">
                             <span class="text-dark"><b>Medicine given</b></span>
                             <div class="form-group">
-                                <textarea name="medicine_given" id="" cols="30" rows="2" class="form-control" placeholder="Enter medicine given..." disabled><?php echo $row['medicine_given']; ?></textarea>
+                                <textarea name="medicine_given" id="" cols="30" rows="2" class="form-control" placeholder="Enter medicine given..." disabled><?php //echo $row['medicine_given']; ?></textarea>
                             </div>
+                        </div> -->
+                        <div class="col-12">
+                          <h5 class="text-center">List of Given Medicines</h5>
+                          <hr>
+                         <table id="example1" class="table table-bordered table-hover table-sm text-sm">
+                            <thead>
+                                <tr>
+                                    <th>Medicine Name</th>
+                                    <!-- <th class="text-center">Available Stock</th> -->
+                                    <th class="text-center"># of medicine given</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $consult_Id = $row['consult_Id'];
+                                // Fetch data from asking_med_transaction_log and medicine tables
+                                $fetch2 = mysqli_query($conn, "SELECT *, SUM(stock_used_value) AS sum_stock_used_value FROM consultation_transaction_log WHERE consult_Id=$consult_Id GROUP BY med_Id");
+                                $medicineData = array();
+
+                                // Iterate through the results of asking_med_transaction_log
+                                while ($logRow = mysqli_fetch_assoc($fetch2)) {
+                                    $med_Id = $logRow['med_Id'];
+
+                                    // Fetch medicine information based on med_Id
+                                    $fetchMedicine = mysqli_query($conn, "SELECT * FROM medicine WHERE med_Id = '$med_Id'");
+                                    $medicineRow = mysqli_fetch_assoc($fetchMedicine);
+
+                                    // Check if the medicine is found and has positive stock
+                                    if ($medicineRow && $medicineRow['med_stock_in'] > 0 && strtotime($medicineRow['expiration_date']) >= strtotime(date('Y-m-d'))) {
+                                        // Use regular expression to extract the unit label
+                                        preg_match('/(\d+)\s*(\w+)/', $medicineRow['med_stock_in'], $matches);
+
+                                        $medicineData[] = array(
+                                            'med_name' => ucwords($medicineRow['med_name']),
+                                            'stock_in' => $matches[1], // Quantity
+                                            'units_label' => $matches[2], // Units label
+                                            'stock_used_value' => $logRow['sum_stock_used_value'],
+                                        );
+                                    }
+                                }
+
+                                // Display the medicine data in the table
+                                foreach ($medicineData as $medicine) {
+                                ?>
+                                    <tr>
+                                        <td>
+                                            <?php echo $medicine['med_name']; ?>
+                                        </td>
+                                       <!--  <td class="text-center">
+                                            <?php //echo $medicine['stock_in'] . ' ' . $medicine['units_label']; ?>
+                                        </td> -->
+                                        <td class="text-center">
+                                            <?php echo $medicine['stock_used_value'] . ' ' . $medicine['units_label']; ?>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
                         </div>
 
                         <div class="col-12">
@@ -2497,11 +2962,69 @@
                               <textarea cols="30" rows="3" class="form-control" placeholder="Treatment/ Medical advised" name="medical_advised" required disabled><?php echo $row['medical_advised']; ?></textarea>
                             </div>
                         </div>
-                        <div class="col-12">
+                        <!-- <div class="col-12">
                             <div class="form-group">
                               <span class="text-dark"><b>Medicine given</b></span>
-                              <textarea cols="30" rows="3" class="form-control" placeholder="Medicine given" name="medicine_given" required disabled><?php echo $row['medicine_given']; ?></textarea>
+                              <textarea cols="30" rows="3" class="form-control" placeholder="Medicine given" name="medicine_given" required disabled><?php //echo $row['medicine_given']; ?></textarea>
                             </div>
+                        </div> -->
+                        <div class="col-12">
+                          <h5 class="text-center">List of Given Medicines</h5>
+                          <hr>
+                         <table id="example1" class="table table-bordered table-hover table-sm text-sm">
+                            <thead>
+                                <tr>
+                                    <th>Medicine Name</th>
+                                    <!-- <th class="text-center">Available Stock</th> -->
+                                    <th class="text-center"># of medicine given</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $asking_med_Id = $row['asking_med_Id'];
+                                // Fetch data from asking_med_transaction_log and medicine tables
+                                $fetch2 = mysqli_query($conn, "SELECT *, SUM(stock_used_value) AS sum_stock_used_value FROM asking_med_transaction_log WHERE asking_med_Id=$asking_med_Id GROUP BY med_Id");
+                                $medicineData = array();
+
+                                // Iterate through the results of asking_med_transaction_log
+                                while ($logRow = mysqli_fetch_assoc($fetch2)) {
+                                    $med_Id = $logRow['med_Id'];
+
+                                    // Fetch medicine information based on med_Id
+                                    $fetchMedicine = mysqli_query($conn, "SELECT * FROM medicine WHERE med_Id = '$med_Id'");
+                                    $medicineRow = mysqli_fetch_assoc($fetchMedicine);
+
+                                    // Check if the medicine is found and has positive stock
+                                    if ($medicineRow && $medicineRow['med_stock_in'] > 0 && strtotime($medicineRow['expiration_date']) >= strtotime(date('Y-m-d'))) {
+                                        // Use regular expression to extract the unit label
+                                        preg_match('/(\d+)\s*(\w+)/', $medicineRow['med_stock_in'], $matches);
+
+                                        $medicineData[] = array(
+                                            'med_name' => ucwords($medicineRow['med_name']),
+                                            'stock_in' => $matches[1], // Quantity
+                                            'units_label' => $matches[2], // Units label
+                                            'stock_used_value' => $logRow['sum_stock_used_value'],
+                                        );
+                                    }
+                                }
+
+                                // Display the medicine data in the table
+                                foreach ($medicineData as $medicine) {
+                                ?>
+                                    <tr>
+                                        <td>
+                                            <?php echo $medicine['med_name']; ?>
+                                        </td>
+                                       <!--  <td class="text-center">
+                                            <?php //echo $medicine['stock_in'] . ' ' . $medicine['units_label']; ?>
+                                        </td> -->
+                                        <td class="text-center">
+                                            <?php echo $medicine['stock_used_value'] . ' ' . $medicine['units_label']; ?>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
@@ -2548,11 +3071,69 @@
                               <textarea cols="30" rows="3" class="form-control" placeholder="Treatment/ Medical advised" name="medical_advised" required disabled><?php echo $row['medical_advised']; ?></textarea>
                             </div>
                         </div>
-                        <div class="col-12">
+                        <!-- <div class="col-12">
                             <div class="form-group">
                               <span class="text-dark"><b>Medicine given</b></span>
-                              <textarea cols="30" rows="3" class="form-control" placeholder="Medicine given" name="medicine_given" required disabled><?php echo $row['medicine_given']; ?></textarea>
+                              <textarea cols="30" rows="3" class="form-control" placeholder="Medicine given" name="medicine_given" required disabled><?php //echo $row['medicine_given']; ?></textarea>
                             </div>
+                        </div> -->
+                        <div class="col-12">
+                          <h5 class="text-center">List of Given Medicines</h5>
+                          <hr>
+                         <table id="example1" class="table table-bordered table-hover table-sm text-sm">
+                            <thead>
+                                <tr>
+                                    <th>Medicine Name</th>
+                                    <!-- <th class="text-center">Available Stock</th> -->
+                                    <th class="text-center"># of medicine given</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $asking_med_Id = $row['asking_med_Id'];
+                                // Fetch data from asking_med_transaction_log and medicine tables
+                                $fetch2 = mysqli_query($conn, "SELECT *, SUM(stock_used_value) AS sum_stock_used_value FROM asking_med_transaction_log WHERE asking_med_Id=$asking_med_Id GROUP BY med_Id");
+                                $medicineData = array();
+
+                                // Iterate through the results of asking_med_transaction_log
+                                while ($logRow = mysqli_fetch_assoc($fetch2)) {
+                                    $med_Id = $logRow['med_Id'];
+
+                                    // Fetch medicine information based on med_Id
+                                    $fetchMedicine = mysqli_query($conn, "SELECT * FROM medicine WHERE med_Id = '$med_Id'");
+                                    $medicineRow = mysqli_fetch_assoc($fetchMedicine);
+
+                                    // Check if the medicine is found and has positive stock
+                                    if ($medicineRow && $medicineRow['med_stock_in'] > 0 && strtotime($medicineRow['expiration_date']) >= strtotime(date('Y-m-d'))) {
+                                        // Use regular expression to extract the unit label
+                                        preg_match('/(\d+)\s*(\w+)/', $medicineRow['med_stock_in'], $matches);
+
+                                        $medicineData[] = array(
+                                            'med_name' => ucwords($medicineRow['med_name']),
+                                            'stock_in' => $matches[1], // Quantity
+                                            'units_label' => $matches[2], // Units label
+                                            'stock_used_value' => $logRow['sum_stock_used_value'],
+                                        );
+                                    }
+                                }
+
+                                // Display the medicine data in the table
+                                foreach ($medicineData as $medicine) {
+                                ?>
+                                    <tr>
+                                        <td>
+                                            <?php echo $medicine['med_name']; ?>
+                                        </td>
+                                       <!--  <td class="text-center">
+                                            <?php //echo $medicine['stock_in'] . ' ' . $medicine['units_label']; ?>
+                                        </td> -->
+                                        <td class="text-center">
+                                            <?php echo $medicine['stock_used_value'] . ' ' . $medicine['units_label']; ?>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
                         </div>
                         <div class="col-12">
                             <div class="form-group">

@@ -310,8 +310,6 @@
                         </div>
                         <div class="col-12">
                             <div class="form-group">
-                             
-
                               <h5 class="text-center mt-5">List of Available Medicines</h5>
                               <hr>
                               <table id="" class="table table-bordered table-hover table-sm text-sm">
@@ -346,7 +344,6 @@
                                       <?php } ?>
                                   </tbody>
                               </table>
-
                             </div>
                         </div>
                         <div class="col-12">

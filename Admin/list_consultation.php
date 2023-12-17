@@ -106,6 +106,7 @@
                       <th>PR</th>
                       <th>RR</th>
                       <th>O2ZAT</th>
+                      <th>MEDICINE GIVEN</th>
                       <th>DATE VISITED</th>
                     </tr>
                     </thead>
@@ -116,16 +117,49 @@
                             $timezone = new DateTimeZone('Asia/Manila'); // Replace 'Your_Timezone' with your desired timezone
                             $datetime = new DateTime($dateString, $timezone);
                             $formattedDate = $datetime->format("F d, Y h:i A");
+
+                            $consult_Id = $row['consult_Id'];
+                            // Fetch data from asking_med_transaction_log and medicine tables
+                            $fetch2 = mysqli_query($conn, "SELECT *, SUM(stock_used_value) AS sum_stock_used_value FROM consultation_transaction_log WHERE consult_Id=$consult_Id GROUP BY med_Id");
+                            $medicineData = array();
+
+                            // Iterate through the results of asking_med_transaction_log
+                            while ($logRow = mysqli_fetch_assoc($fetch2)) {
+                                $med_Id = $logRow['med_Id'];
+
+                                // Fetch medicine information based on med_Id
+                                $fetchMedicine = mysqli_query($conn, "SELECT * FROM medicine WHERE med_Id = '$med_Id'");
+                                $medicineRow = mysqli_fetch_assoc($fetchMedicine);
+
+                                // Check if the medicine is found and has positive stock
+                                if ($medicineRow && $medicineRow['med_stock_in'] > 0 && strtotime($medicineRow['expiration_date']) >= strtotime(date('Y-m-d'))) {
+                                    // Use regular expression to extract the unit label
+                                    preg_match('/(\d+)\s*(\w+)/', $medicineRow['med_stock_in'], $matches);
+
+                                    $medicineData[] = array(
+                                        'med_name' => ucwords($medicineRow['med_name']),
+                                        'stock_in' => $matches[1], // Quantity
+                                        'units_label' => $matches[2], // Units label
+                                        'stock_used_value' => $logRow['sum_stock_used_value'],
+                                    );
+                                }
+                            }
                         ?>
                       <tr>
-                          <td><?php if($row['position'] == 'Student') { echo $row['grade']; } else { echo $row['teacher_position']; }; ?></td>
-                          <td><?php echo $row['name']; ?></td>
-                          <td><?php echo $row['chief_complaints']; ?></td>
-                          <td><?php echo $row['temperature']; ?></td>
-                          <td><?php echo $row['vs_bp']; ?></td>
-                          <td><?php echo $row['pr']; ?></td>
-                          <td><?php echo $row['rr']; ?></td>
-                          <td><?php echo $row['o2zat']; ?></td>
+                          <td><?php if($row['position'] == 'Student') { echo ucwords($row['grade']); } else { echo ucwords($row['teacher_position']); }; ?></td>
+                          <td><?php echo ucwords($row['name']); ?></td>
+                          <td><?php echo ucwords($row['chief_complaints']); ?></td>
+                          <td><?php echo ucwords($row['temperature']); ?></td>
+                          <td><?php echo ucwords($row['vs_bp']); ?></td>
+                          <td><?php echo ucwords($row['pr']); ?></td>
+                          <td><?php echo ucwords($row['rr']); ?></td>
+                          <td><?php echo ucwords($row['o2zat']); ?></td>
+                          <td>
+                              <?php foreach ($medicineData as $key => $medicine) { ?>
+                                  <?php echo $medicine['med_name'] . ' - ' . $medicine['stock_used_value'] . ' ' . $medicine['units_label']; ?>
+                                  <?php if ($key < count($medicineData) - 1) { echo ','; } ?>
+                              <?php } ?>
+                          </td>
                           <td class="text-primary"><?php echo $formattedDate; ?></td>
                       </tr>
 
@@ -146,6 +180,7 @@
                       <th>PR</th>
                       <th>RR</th>
                       <th>O2ZAT</th>
+                      <th>MEDICINE GIVEN</th>
                       <th>DATE VISITED</th>
                     </tr>
                     </thead>
@@ -156,16 +191,49 @@
                             $timezone = new DateTimeZone('Asia/Manila'); // Replace 'Your_Timezone' with your desired timezone
                             $datetime = new DateTime($dateString, $timezone);
                             $formattedDate = $datetime->format("F d, Y h:i A");
+
+                            $consult_Id = $row['consult_Id'];
+                            // Fetch data from asking_med_transaction_log and medicine tables
+                            $fetch2 = mysqli_query($conn, "SELECT *, SUM(stock_used_value) AS sum_stock_used_value FROM consultation_transaction_log WHERE consult_Id=$consult_Id GROUP BY med_Id");
+                            $medicineData = array();
+
+                            // Iterate through the results of asking_med_transaction_log
+                            while ($logRow = mysqli_fetch_assoc($fetch2)) {
+                                $med_Id = $logRow['med_Id'];
+
+                                // Fetch medicine information based on med_Id
+                                $fetchMedicine = mysqli_query($conn, "SELECT * FROM medicine WHERE med_Id = '$med_Id'");
+                                $medicineRow = mysqli_fetch_assoc($fetchMedicine);
+
+                                // Check if the medicine is found and has positive stock
+                                if ($medicineRow && $medicineRow['med_stock_in'] > 0 && strtotime($medicineRow['expiration_date']) >= strtotime(date('Y-m-d'))) {
+                                    // Use regular expression to extract the unit label
+                                    preg_match('/(\d+)\s*(\w+)/', $medicineRow['med_stock_in'], $matches);
+
+                                    $medicineData[] = array(
+                                        'med_name' => ucwords($medicineRow['med_name']),
+                                        'stock_in' => $matches[1], // Quantity
+                                        'units_label' => $matches[2], // Units label
+                                        'stock_used_value' => $logRow['sum_stock_used_value'],
+                                    );
+                                }
+                            }
                         ?>
                       <tr>
-                          <td><?php if($row['position'] == 'Student') { echo $row['grade']; } else { echo $row['teacher_position']; }; ?></td>
-                          <td><?php echo $row['name']; ?></td>
-                          <td><?php echo $row['chief_complaints']; ?></td>
-                          <td><?php echo $row['temperature']; ?></td>
-                          <td><?php echo $row['vs_bp']; ?></td>
-                          <td><?php echo $row['pr']; ?></td>
-                          <td><?php echo $row['rr']; ?></td>
-                          <td><?php echo $row['o2zat']; ?></td>
+                          <td><?php if($row['position'] == 'Student') { echo ucwords($row['grade']); } else { echo ucwords($row['teacher_position']); }; ?></td>
+                          <td><?php echo ucwords($row['name']); ?></td>
+                          <td><?php echo ucwords($row['chief_complaints']); ?></td>
+                          <td><?php echo ucwords($row['temperature']); ?></td>
+                          <td><?php echo ucwords($row['vs_bp']); ?></td>
+                          <td><?php echo ucwords($row['pr']); ?></td>
+                          <td><?php echo ucwords($row['rr']); ?></td>
+                          <td><?php echo ucwords($row['o2zat']); ?></td>
+                          <td>
+                              <?php foreach ($medicineData as $key => $medicine) { ?>
+                                  <?php echo $medicine['med_name'] . ' - ' . $medicine['stock_used_value'] . ' ' . $medicine['units_label']; ?>
+                                  <?php if ($key < count($medicineData) - 1) { echo ','; } ?>
+                              <?php } ?>
+                          </td>
                           <td class="text-primary"><?php echo $formattedDate; ?></td>
                       </tr>
                       <?php } ?>
@@ -210,6 +278,7 @@
                       <th>PR</th>
                       <th>RR</th>
                       <th>O2ZAT</th>
+                      <th>MEDICINE GIVEN</th>
                       <th>DATE VISITED</th>
                     </tr>
                     </thead>
@@ -220,16 +289,49 @@
                             $timezone = new DateTimeZone('Asia/Manila'); // Replace 'Your_Timezone' with your desired timezone
                             $datetime = new DateTime($dateString, $timezone);
                             $formattedDate = $datetime->format("F d, Y h:i A");
+
+                            $consult_Id = $row['consult_Id'];
+                            // Fetch data from asking_med_transaction_log and medicine tables
+                            $fetch2 = mysqli_query($conn, "SELECT *, SUM(stock_used_value) AS sum_stock_used_value FROM consultation_transaction_log WHERE consult_Id=$consult_Id GROUP BY med_Id");
+                            $medicineData = array();
+
+                            // Iterate through the results of asking_med_transaction_log
+                            while ($logRow = mysqli_fetch_assoc($fetch2)) {
+                                $med_Id = $logRow['med_Id'];
+
+                                // Fetch medicine information based on med_Id
+                                $fetchMedicine = mysqli_query($conn, "SELECT * FROM medicine WHERE med_Id = '$med_Id'");
+                                $medicineRow = mysqli_fetch_assoc($fetchMedicine);
+
+                                // Check if the medicine is found and has positive stock
+                                if ($medicineRow && $medicineRow['med_stock_in'] > 0 && strtotime($medicineRow['expiration_date']) >= strtotime(date('Y-m-d'))) {
+                                    // Use regular expression to extract the unit label
+                                    preg_match('/(\d+)\s*(\w+)/', $medicineRow['med_stock_in'], $matches);
+
+                                    $medicineData[] = array(
+                                        'med_name' => ucwords($medicineRow['med_name']),
+                                        'stock_in' => $matches[1], // Quantity
+                                        'units_label' => $matches[2], // Units label
+                                        'stock_used_value' => $logRow['sum_stock_used_value'],
+                                    );
+                                }
+                            }
                         ?>
                       <tr>
-                          <td><?php if($row['position'] == 'Student') { echo $row['grade']; } else { echo $row['teacher_position']; }; ?></td>
-                          <td><?php echo $row['name']; ?></td>
-                          <td><?php echo $row['chief_complaints']; ?></td>
-                          <td><?php echo $row['temperature']; ?></td>
-                          <td><?php echo $row['vs_bp']; ?></td>
-                          <td><?php echo $row['pr']; ?></td>
-                          <td><?php echo $row['rr']; ?></td>
-                          <td><?php echo $row['o2zat']; ?></td>
+                          <td><?php if($row['position'] == 'Student') { echo ucwords($row['grade']); } else { echo ucwords($row['teacher_position']); }; ?></td>
+                          <td><?php echo ucwords($row['name']); ?></td>
+                          <td><?php echo ucwords($row['chief_complaints']); ?></td>
+                          <td><?php echo ucwords($row['temperature']); ?></td>
+                          <td><?php echo ucwords($row['vs_bp']); ?></td>
+                          <td><?php echo ucwords($row['pr']); ?></td>
+                          <td><?php echo ucwords($row['rr']); ?></td>
+                          <td><?php echo ucwords($row['o2zat']); ?></td>
+                          <td>
+                              <?php foreach ($medicineData as $key => $medicine) { ?>
+                                  <?php echo $medicine['med_name'] . ' - ' . $medicine['stock_used_value'] . ' ' . $medicine['units_label']; ?>
+                                  <?php if ($key < count($medicineData) - 1) { echo ','; } ?>
+                              <?php } ?>
+                          </td>
                           <td class="text-primary"><?php echo $formattedDate; ?></td>
                       </tr>
 
@@ -250,6 +352,7 @@
                       <th>PR</th>
                       <th>RR</th>
                       <th>O2ZAT</th>
+                      <th>MEDICINE GIVEN</th>
                       <th>DATE VISITED</th>
                     </tr>
                     </thead>
@@ -260,16 +363,49 @@
                             $timezone = new DateTimeZone('Asia/Manila'); // Replace 'Your_Timezone' with your desired timezone
                             $datetime = new DateTime($dateString, $timezone);
                             $formattedDate = $datetime->format("F d, Y h:i A");
+
+                            $consult_Id = $row['consult_Id'];
+                            // Fetch data from asking_med_transaction_log and medicine tables
+                            $fetch2 = mysqli_query($conn, "SELECT *, SUM(stock_used_value) AS sum_stock_used_value FROM consultation_transaction_log WHERE consult_Id=$consult_Id GROUP BY med_Id");
+                            $medicineData = array();
+
+                            // Iterate through the results of asking_med_transaction_log
+                            while ($logRow = mysqli_fetch_assoc($fetch2)) {
+                                $med_Id = $logRow['med_Id'];
+
+                                // Fetch medicine information based on med_Id
+                                $fetchMedicine = mysqli_query($conn, "SELECT * FROM medicine WHERE med_Id = '$med_Id'");
+                                $medicineRow = mysqli_fetch_assoc($fetchMedicine);
+
+                                // Check if the medicine is found and has positive stock
+                                if ($medicineRow && $medicineRow['med_stock_in'] > 0 && strtotime($medicineRow['expiration_date']) >= strtotime(date('Y-m-d'))) {
+                                    // Use regular expression to extract the unit label
+                                    preg_match('/(\d+)\s*(\w+)/', $medicineRow['med_stock_in'], $matches);
+
+                                    $medicineData[] = array(
+                                        'med_name' => ucwords($medicineRow['med_name']),
+                                        'stock_in' => $matches[1], // Quantity
+                                        'units_label' => $matches[2], // Units label
+                                        'stock_used_value' => $logRow['sum_stock_used_value'],
+                                    );
+                                }
+                            }
                         ?>
                       <tr>
-                          <td><?php if($row['position'] == 'Student') { echo $row['grade']; } else { echo $row['teacher_position']; }; ?></td>
-                          <td><?php echo $row['name']; ?></td>
-                          <td><?php echo $row['chief_complaints']; ?></td>
-                          <td><?php echo $row['temperature']; ?></td>
-                          <td><?php echo $row['vs_bp']; ?></td>
-                          <td><?php echo $row['pr']; ?></td>
-                          <td><?php echo $row['rr']; ?></td>
-                          <td><?php echo $row['o2zat']; ?></td>
+                          <td><?php if($row['position'] == 'Student') { echo ucwords($row['grade']); } else { echo ucwords($row['teacher_position']); }; ?></td>
+                          <td><?php echo ucwords($row['name']); ?></td>
+                          <td><?php echo ucwords($row['chief_complaints']); ?></td>
+                          <td><?php echo ucwords($row['temperature']); ?></td>
+                          <td><?php echo ucwords($row['vs_bp']); ?></td>
+                          <td><?php echo ucwords($row['pr']); ?></td>
+                          <td><?php echo ucwords($row['rr']); ?></td>
+                          <td><?php echo ucwords($row['o2zat']); ?></td>
+                          <td>
+                              <?php foreach ($medicineData as $key => $medicine) { ?>
+                                  <?php echo $medicine['med_name'] . ' - ' . $medicine['stock_used_value'] . ' ' . $medicine['units_label']; ?>
+                                  <?php if ($key < count($medicineData) - 1) { echo ','; } ?>
+                              <?php } ?>
+                          </td>
                           <td class="text-primary"><?php echo $formattedDate; ?></td>
                       </tr>
 
@@ -289,6 +425,7 @@
                     <th>PR</th>
                     <th>RR</th>
                     <th>O2ZAT</th>
+                    <th>MEDICINE GIVEN</th>
                     <th>DATE VISITED</th>
                   </tr>
                   </thead>
@@ -300,16 +437,49 @@
                           $timezone = new DateTimeZone('Asia/Manila'); // Replace 'Your_Timezone' with your desired timezone
                           $datetime = new DateTime($dateString, $timezone);
                           $formattedDate = $datetime->format("F d, Y h:i A");
+
+                          $consult_Id = $row['consult_Id'];
+                          // Fetch data from asking_med_transaction_log and medicine tables
+                          $fetch2 = mysqli_query($conn, "SELECT *, SUM(stock_used_value) AS sum_stock_used_value FROM consultation_transaction_log WHERE consult_Id=$consult_Id GROUP BY med_Id");
+                          $medicineData = array();
+
+                          // Iterate through the results of asking_med_transaction_log
+                          while ($logRow = mysqli_fetch_assoc($fetch2)) {
+                              $med_Id = $logRow['med_Id'];
+
+                              // Fetch medicine information based on med_Id
+                              $fetchMedicine = mysqli_query($conn, "SELECT * FROM medicine WHERE med_Id = '$med_Id'");
+                              $medicineRow = mysqli_fetch_assoc($fetchMedicine);
+
+                              // Check if the medicine is found and has positive stock
+                              if ($medicineRow && $medicineRow['med_stock_in'] > 0 && strtotime($medicineRow['expiration_date']) >= strtotime(date('Y-m-d'))) {
+                                  // Use regular expression to extract the unit label
+                                  preg_match('/(\d+)\s*(\w+)/', $medicineRow['med_stock_in'], $matches);
+
+                                  $medicineData[] = array(
+                                      'med_name' => ucwords($medicineRow['med_name']),
+                                      'stock_in' => $matches[1], // Quantity
+                                      'units_label' => $matches[2], // Units label
+                                      'stock_used_value' => $logRow['sum_stock_used_value'],
+                                  );
+                              }
+                          }
                       ?>
                     <tr>
-                        <td><?php if($row['position'] == 'Student') { echo $row['grade']; } else { echo $row['teacher_position']; }; ?></td>
-                        <td><?php echo $row['name']; ?></td>
-                        <td><?php echo $row['chief_complaints']; ?></td>
-                        <td><?php echo $row['temperature']; ?></td>
-                        <td><?php echo $row['vs_bp']; ?></td>
-                        <td><?php echo $row['pr']; ?></td>
-                        <td><?php echo $row['rr']; ?></td>
-                        <td><?php echo $row['o2zat']; ?></td>
+                        <td><?php if($row['position'] == 'Student') { echo ucwords($row['grade']); } else { echo ucwords($row['teacher_position']); }; ?></td>
+                        <td><?php echo ucwords($row['name']); ?></td>
+                        <td><?php echo ucwords($row['chief_complaints']); ?></td>
+                        <td><?php echo ucwords($row['temperature']); ?></td>
+                        <td><?php echo ucwords($row['vs_bp']); ?></td>
+                        <td><?php echo ucwords($row['pr']); ?></td>
+                        <td><?php echo ucwords($row['rr']); ?></td>
+                        <td><?php echo ucwords($row['o2zat']); ?></td>
+                        <td>
+                            <?php foreach ($medicineData as $key => $medicine) { ?>
+                                <?php echo $medicine['med_name'] . ' - ' . $medicine['stock_used_value'] . ' ' . $medicine['units_label']; ?>
+                                <?php if ($key < count($medicineData) - 1) { echo ','; } ?>
+                            <?php } ?>
+                        </td>
                         <td class="text-primary"><?php echo $formattedDate; ?></td>
                     </tr>
 

@@ -140,12 +140,62 @@
                         </div>
 
                         <div class="col-12">
-                            <div class="form-group">
-                              <span class="text-dark"><b>Medicine given</b></span>
-                              <textarea cols="30" rows="3" class="form-control" placeholder="Medicine given" name="medicine_given" readonly><?php echo $row['medicine_given']; ?></textarea>
-                            </div>
-                        </div>
+                            <h5 class="text-center mt-5">List of Given Medicines</h5>
+                            <hr>
+                           <table id="example1" class="table table-bordered table-hover table-sm text-sm">
+                              <thead>
+                                  <tr>
+                                      <th>Medicine Name</th>
+                                      <!-- <th class="text-center">Available Stock</th> -->
+                                      <th class="text-center"># of medicine given</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <?php
+                                  // Fetch data from dental_transaction_log and medicine tables
+                                  $fetch2 = mysqli_query($conn, "SELECT *, SUM(stock_used_value) AS sum_stock_used_value FROM dental_transaction_log WHERE dental_Id='$dental_Id' GROUP BY med_Id ");
+                                  $medicineData = array();
 
+                                  // Iterate through the results of dental_transaction_log
+                                  while ($logRow = mysqli_fetch_assoc($fetch2)) {
+                                      $med_Id = $logRow['med_Id'];
+
+                                      // Fetch medicine information based on med_Id
+                                      $fetchMedicine = mysqli_query($conn, "SELECT * FROM medicine WHERE med_Id = '$med_Id'");
+                                      $medicineRow = mysqli_fetch_assoc($fetchMedicine);
+
+                                      // Check if the medicine is found and has positive stock
+                                      if ($medicineRow && $medicineRow['med_stock_in'] > 0 && strtotime($medicineRow['expiration_date']) >= strtotime(date('Y-m-d'))) {
+                                          // Use regular expression to extract the unit label
+                                          preg_match('/(\d+)\s*(\w+)/', $medicineRow['med_stock_in'], $matches);
+
+                                          $medicineData[] = array(
+                                              'med_name' => ucwords($medicineRow['med_name']),
+                                              'stock_in' => $matches[1], // Quantity
+                                              'units_label' => $matches[2], // Units label
+                                              'stock_used_value' => $logRow['sum_stock_used_value'],
+                                          );
+                                      }
+                                  }
+
+                                  // Display the medicine data in the table
+                                  foreach ($medicineData as $medicine) {
+                                  ?>
+                                      <tr>
+                                          <td>
+                                              <?php echo $medicine['med_name']; ?>
+                                          </td>
+                                         <!--  <td class="text-center">
+                                              <?php //echo $medicine['stock_in'] . ' ' . $medicine['units_label']; ?>
+                                          </td> -->
+                                          <td class="text-center">
+                                              <?php echo $medicine['stock_used_value'] . ' ' . $medicine['units_label']; ?>
+                                          </td>
+                                      </tr>
+                                  <?php } ?>
+                              </tbody>
+                          </table>
+                          </div>
                         <div class="col-12">
                             <div class="form-group">
                               <span class="text-dark"><b>Dental advised</b></span>

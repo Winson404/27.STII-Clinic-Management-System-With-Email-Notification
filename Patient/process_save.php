@@ -33,8 +33,9 @@
 		$gender = "";
 		if($row_admin['gender'] == 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
 
-		if($appt_date < $date_today) {
-			$_SESSION['message'] = "Selected date must be onward/later.";
+		$get_limit = mysqli_query($conn, "SELECT appt_time FROM appointment WHERE appt_date='$appt_date'");
+		if(mysqli_num_rows($get_limit)) {
+			$_SESSION['message'] = "Appointments on this date has reached the limit.";
 	        $_SESSION['text'] = "Please try again.";
 	        $_SESSION['status'] = "error";
 			header("Location: appointment.php");

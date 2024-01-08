@@ -74,7 +74,7 @@
               ?>
 
               <?php if(mysqli_num_rows($sql) > 0) { ?>
-                <button id="printButton" class="btn btn-success btn-sm float-sm-right mr-3"><i class="fa-solid fa-print"></i> Print</button>
+                <--<button id="printButton" class="btn btn-success btn-sm float-sm-right mr-3"><i class="fa-solid fa-print"></i> Print</button>
                 <div id="printElement">
                   <div class="row d-flex justify-content-center">
                     <div class="col-lg-1 col-md-1 col-sm-3">

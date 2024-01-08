@@ -791,7 +791,7 @@ if (isset($_POST['mark_as_read'])) {
 	    $appt_reason = $_POST['appt_reason'];
 
 	    $get_limit = mysqli_query($conn, "SELECT appt_time FROM appointment WHERE appt_date='$appt_date' AND appt_Id != '$appt_Id' ");
-		if(mysqli_num_rows($get_limit)) {
+		if(mysqli_num_rows($get_limit)  >= 8) {
 			$_SESSION['message'] = "Appointments on this date has reached the limit.";
 	        $_SESSION['text'] = "Please try again.";
 	        $_SESSION['status'] = "error";

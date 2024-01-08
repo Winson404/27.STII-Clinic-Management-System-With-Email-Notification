@@ -1332,7 +1332,7 @@
 			 if($delete) {
 
 			 	  $subject = 'Rescheduled appointment';
-			      $message = '<p>Good day '.$gender.' '.$name.', your appointment has been rescheduled. Please confirm this message by clicking <b>YES</b> button in your appointment page after you login.</p>
+			      $message = '<p>Good day '.$gender.' '.$name.', your appointment has been rescheduled. Please confirm this message by clicking rescheduled button in your appointment page after you login.</p>
 			      <p><b>NOTE:</b> This is a system generated email. Please do not reply.</p> ';
 
 			      $mail = new PHPMailer(true);                            
@@ -1368,7 +1368,7 @@
 			        $mail->send();
 
 			        	// SAVE NOTIFICATION
-			        	$message2 = 'Good day '.$gender.' '.$name.', your appointment has been rescheduled. Please confirm this message by clicking <b>YES</b> button in your appointment page after you login.';
+			        	$message2 = 'Good day '.$gender.' '.$name.', your appointment has been rescheduled. Please confirm this message by clicking rescheduled button in your appointment page after you login.';
 			        	$notif = mysqli_query($conn, "INSERT INTO notification (type, subject, message, sender) VALUES ('Appointment', '$subject', '$message2', '$patient_Id') ");
 			        	if($notif) {
 			        		$_SESSION['message'] = "Reschedule suggestion has been sent to patient!";

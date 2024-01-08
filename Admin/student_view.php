@@ -43,7 +43,9 @@
               <div class="card">
                 <div class="card-header">
                   <a class="h5 text-primary"><b>Basic information</b></a>
-                  <p class="float-right">Added by: <?= $row2['firstname'].' '.$row2['middlename'].' '.$row2['lastname'].' '.$row2['suffix'] ?></p>
+                  <?php if($row['added_by'] != 0):  ?>
+                    <p class="float-right">Added by: <?= $row2['firstname'].' '.$row2['middlename'].' '.$row2['lastname'].' '.$row2['suffix'] ?></p>
+                  <?php endif; ?>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -1344,7 +1346,7 @@
                                     $medicineRow = mysqli_fetch_assoc($fetchMedicine);
 
                                     // Check if the medicine is found and has positive stock
-                                    if ($medicineRow && $medicineRow['med_stock_in'] > 0 && strtotime($medicineRow['expiration_date']) >= strtotime(date('Y-m-d'))) {
+                                    if ($medicineRow && $medicineRow['med_stock_in'] > 0) {
                                         // Use regular expression to extract the unit label
                                         preg_match('/(\d+)\s*(\w+)/', $medicineRow['med_stock_in'], $matches);
 
@@ -1467,7 +1469,7 @@
                                     $medicineRow = mysqli_fetch_assoc($fetchMedicine);
 
                                     // Check if the medicine is found and has positive stock
-                                    if ($medicineRow && $medicineRow['med_stock_in'] > 0 && strtotime($medicineRow['expiration_date']) >= strtotime(date('Y-m-d'))) {
+                                    if ($medicineRow && $medicineRow['med_stock_in'] > 0) {
                                         // Use regular expression to extract the unit label
                                         preg_match('/(\d+)\s*(\w+)/', $medicineRow['med_stock_in'], $matches);
 
@@ -1896,7 +1898,7 @@
                                     $medicineRow = mysqli_fetch_assoc($fetchMedicine);
 
                                     // Check if the medicine is found and has positive stock
-                                    if ($medicineRow && $medicineRow['med_stock_in'] > 0 && strtotime($medicineRow['expiration_date']) >= strtotime(date('Y-m-d'))) {
+                                    if ($medicineRow && $medicineRow['med_stock_in'] > 0) {
                                         // Use regular expression to extract the unit label
                                         preg_match('/(\d+)\s*(\w+)/', $medicineRow['med_stock_in'], $matches);
 
@@ -2026,7 +2028,7 @@
                                     $medicineRow = mysqli_fetch_assoc($fetchMedicine);
 
                                     // Check if the medicine is found and has positive stock
-                                    if ($medicineRow && $medicineRow['med_stock_in'] > 0 && strtotime($medicineRow['expiration_date']) >= strtotime(date('Y-m-d'))) {
+                                    if ($medicineRow && $medicineRow['med_stock_in'] > 0) {
                                         // Use regular expression to extract the unit label
                                         preg_match('/(\d+)\s*(\w+)/', $medicineRow['med_stock_in'], $matches);
 
@@ -2123,7 +2125,7 @@
                                 <?php
                                 $asking_med_Id = $row['asking_med_Id'];
                                 // Fetch data from asking_med_transaction_log and medicine tables
-                                $fetch2 = mysqli_query($conn, "SELECT *, SUM(stock_used_value) AS sum_stock_used_value FROM asking_med_transaction_log WHERE asking_med_Id=$asking_med_Id GROUP BY med_Id");
+                                $fetch2 = mysqli_query($conn, "SELECT *, SUM(stock_used_value) AS sum_stock_used_value FROM asking_med_transaction_log WHERE asking_med_Id='$asking_med_Id' GROUP BY med_Id");
                                 $medicineData = array();
 
                                 // Iterate through the results of asking_med_transaction_log
@@ -2135,7 +2137,7 @@
                                     $medicineRow = mysqli_fetch_assoc($fetchMedicine);
 
                                     // Check if the medicine is found and has positive stock
-                                    if ($medicineRow && $medicineRow['med_stock_in'] > 0 && strtotime($medicineRow['expiration_date']) >= strtotime(date('Y-m-d'))) {
+                                    if ($medicineRow && $medicineRow['med_stock_in'] > 0) {
                                         // Use regular expression to extract the unit label
                                         preg_match('/(\d+)\s*(\w+)/', $medicineRow['med_stock_in'], $matches);
 

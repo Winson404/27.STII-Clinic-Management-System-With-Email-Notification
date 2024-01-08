@@ -34,14 +34,16 @@
 		if($row_admin['gender'] == 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
 
 		$get_limit = mysqli_query($conn, "SELECT appt_time FROM appointment WHERE appt_date='$appt_date'");
-		if(mysqli_num_rows($get_limit)) {
+		if(mysqli_num_rows($get_limit) >= 8) {
 			$_SESSION['message'] = "Appointments on this date has reached the limit.";
 	        $_SESSION['text'] = "Please try again.";
 	        $_SESSION['status'] = "error";
 			header("Location: appointment.php");
 		} else {
 			if ($selectedYear == $currentYear) {
-				$appt_exists = mysqli_query($conn, "SELECT * FROM appointment WHERE appt_date='$appt_date' AND appt_time='$appt_time' AND appt_patient_Id='$patient_Id' ");
+				$appt_exists = mysqli_query($conn, "SELECT * FROM appointment WHERE appt_date='$appt_date' AND appt_time='$appt_time' ");
+				// $appt_exists = mysqli_query($conn, "SELECT * FROM appointment WHERE appt_date='$appt_date' AND appt_time='$appt_time' AND appt_patient_Id='$patient_Id' ");
+
 				if(mysqli_num_rows($appt_exists) > 0 ) {
 					$_SESSION['message'] = "Appointment date and time already exists.";
 			        $_SESSION['text'] = "Please try again.";
@@ -51,7 +53,7 @@
 
 					$check = mysqli_query($conn, "SELECT * FROM appointment WHERE appt_patient_Id='$patient_Id' AND (appt_status=0 || appt_status=1) AND is_rescheduled != 2 ");
 					if(mysqli_num_rows($check) > 0) {
-						$_SESSION['message'] = "You still have unsettled appointment.";
+						$_SESSION['message'] = "You still have unsettled or pending appointment.";
 				        $_SESSION['text'] = "Please try again.";
 				        $_SESSION['status'] = "error";
 						header("Location: appointment.php");
@@ -397,9 +399,11 @@
 	    $selectedDate = $_POST['selectedDate'];
 
 	    // Fetch existing appointments for the selected date from your database
-	    $query = "SELECT appt_time FROM appointment WHERE appt_date = '$selectedDate' AND appt_status=1";
-	    $result = mysqli_query($conn, $query);
+	    // $query = "SELECT appt_time FROM appointment WHERE appt_date = '$selectedDate' AND appt_status=1";
+	    $query = "SELECT appt_time FROM appointment WHERE appt_date = '$selectedDate'";
 
+	    $result = mysqli_query($conn, $query);
+		
 	    $appointments = array();
 	    while ($row = mysqli_fetch_assoc($result)) {
 	        $appointments[] = $row;

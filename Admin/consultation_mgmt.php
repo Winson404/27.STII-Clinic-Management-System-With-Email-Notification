@@ -120,28 +120,28 @@
 
                         <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                           <div class="form-group">
-                            <span class="text-dark text-bold">VS/BP</span>
+                            <span class="text-dark text-bold">Vital sign(VS) Blood presure(BP)</span>
                             <input type="text" class="form-control" name="vs_bp" placeholder="Enter VS/BP" > 
                           </div>
                         </div>
 
                         <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                           <div class="form-group">
-                            <span class="text-dark text-bold">PR</span>
+                            <span class="text-dark text-bold">Pulse rate(PR)</span>
                             <input type="text" class="form-control" name="pr" placeholder="Enter PR" > 
                           </div>
                         </div>
 
                         <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                           <div class="form-group">
-                            <span class="text-dark text-bold">RR</span>
+                            <span class="text-dark text-bold">Respiratory rate(RR)</span>
                             <input type="text" class="form-control" name="rr" placeholder="Enter RR" > 
                           </div>
                         </div>
 
                         <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                           <div class="form-group">
-                            <span class="text-dark text-bold">O2ZAT</span>
+                            <span class="text-dark text-bold">Oxygen Saturation(O2ZAT)</span>
                             <input type="text" class="form-control" name="o2zat" placeholder="Enter O2ZAT" > 
                           </div>
                         </div>
@@ -162,7 +162,7 @@
                                       <tr>
                                           <th>Medicine Name</th>
                                           <th class="text-center">Available Stock</th>
-                                          <th class="text-center">Stock Used</th>
+                                          <th class="text-center">Medicine given</th>
                                       </tr>
                                   </thead>
                                   <tbody>
@@ -383,7 +383,7 @@
                                       <tr>
                                           <th>Medicine Name</th>
                                           <th class="text-center">Available Stock</th>
-                                          <th class="text-center">Stock Used</th>
+                                          <th class="text-center">Medicine given</th>
                                       </tr>
                                   </thead>
                                   <tbody>

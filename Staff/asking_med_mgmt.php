@@ -98,7 +98,7 @@
                         </div>
                         <div class="col-3 mt-3">
                             <div class="form-group">
-                              <span class="text-dark"><b>PR</b></span>
+                              <span class="text-dark"><b>Pulse rate(PR)</b></span>
                               <input type="text" class="form-control" placeholder="Enter PR" name="pr" required>
                             </div>
                         </div>
@@ -111,30 +111,52 @@
                        
                         <div class="col-12">
                             <div class="form-group">
-                              <span class="text-dark"><b>Vital sign</b></span>
+                              <span class="text-dark"><b>Vital sign(VS) </b></span>
                               <textarea cols="30" rows="3" class="form-control" placeholder="Vital sign" name="vital_sign" required></textarea>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
-                              <span class="text-dark"><b>Treatment/ Medical advised</b></span>
-                              <textarea cols="30" rows="3" class="form-control" placeholder="Treatment/ Medical advised" name="medical_advised" required></textarea>
+                              <span class="text-dark"><b> Medical advised</b></span>
+                              <textarea cols="30" rows="3" class="form-control" placeholder="Medical advised" name="medical_advised" required></textarea>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
-                              <span class="text-dark"><b>Medicine given</b></span>
-                              <select class="form-control" name="medicine_given" id="" required>
-                                <option value="" selected disabled>Select medicine</option>
-                                <?php 
-                                  $sql_med = mysqli_query($conn, "SELECT * FROM medicine WHERE DATE(expiration_date)>CURDATE() AND is_returned=0 ");
-                                  if(mysqli_num_rows($sql_med) > 0) {
-                                    while ($r_med = mysqli_fetch_array($sql_med)) { ?>
-                                      <option value="<?= $r_med['med_Id'] ?>"><?= ucwords($r_med['med_name']) ?></option>
-                                <?php } } else { ?>
-                                    <option value="" selected disabled>No medicine available</option>
-                                <?php } ?>
-                              </select>
+                              <h5 class="text-center mt-2">List of Available Medicines</h5>
+                              <hr>
+                              <table id="" class="table table-bordered table-hover table-sm text-sm">
+                                  <thead>
+                                      <tr>
+                                          <th>Medicine Name</th>
+                                          <th class="text-center">Available Stock</th>
+                                          <th class="text-center">Medicine given</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                      <?php
+                                          $fetchProducts = mysqli_query($conn, "SELECT * FROM medicine WHERE med_stock_in > 0 AND expiration_date >= CURDATE() ORDER BY med_name ASC");
+
+                                        $products = array();
+                                        while ($product = mysqli_fetch_assoc($fetchProducts)) {
+                                            $products[] = $product;
+                                        }
+
+                                        foreach ($products as $product) {
+                                        ?>
+                                          <tr>
+                                              <td>
+                                                <input type="hidden" class="form-control" name="medicine_given[]" value="<?php echo $product['med_Id']; ?>">
+                                                <?php echo ucwords($product['med_name']); ?>
+                                              </td>
+                                              <td class="text-center"><?php echo $product['med_stock_in']; ?></td>
+                                              <td>
+                                                  <input type="number" class="form-control form-control-sm text-center" name="stock_used[<?php echo $product['med_Id']; ?>]" placeholder="Enter number of stock to release to the patient" pattern="\d*" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                              </td>
+                                          </tr>
+                                      <?php } ?>
+                                  </tbody>
+                              </table>
                             </div>
                         </div>
                         <div class="col-12">
@@ -288,19 +310,40 @@
                         </div>
                         <div class="col-12">
                             <div class="form-group">
-                              <span class="text-dark"><b>Medicine given</b></span>
-                              <select class="form-control" name="medicine_given" id="" required>
-                                <option value="" selected disabled>Select medicine</option>
-                                <?php 
-                                  $med_name = $row['medicine_given'];
-                                  $sql_med = mysqli_query($conn, "SELECT * FROM medicine WHERE DATE(expiration_date)>CURDATE() AND is_returned=0 ");
-                                  if(mysqli_num_rows($sql_med) > 0) {
-                                    while ($r_med = mysqli_fetch_array($sql_med)) { ?>
-                                      <option value="<?= $r_med['med_Id'] ?>" <?php if($r_med['med_name'] == $med_name) { echo 'selected'; } ?>><?= ucwords($r_med['med_name']) ?></option>
-                                <?php } } else { ?>
-                                    <option value="" selected disabled>No medicine available</option>
-                                <?php } ?>
-                              </select>
+                              <h5 class="text-center mt-5">List of Available Medicines</h5>
+                              <hr>
+                              <table id="" class="table table-bordered table-hover table-sm text-sm">
+                                  <thead>
+                                      <tr>
+                                          <th>Medicine Name</th>
+                                          <th class="text-center">Available Stock</th>
+                                          <th class="text-center">Medicine given</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                      <?php
+                                          $fetchProducts = mysqli_query($conn, "SELECT * FROM medicine WHERE med_stock_in > 0 AND expiration_date >= CURDATE() ORDER BY med_name ASC");
+
+                                        $products = array();
+                                        while ($product = mysqli_fetch_assoc($fetchProducts)) {
+                                            $products[] = $product;
+                                        }
+
+                                        foreach ($products as $product) {
+                                        ?>
+                                          <tr>
+                                              <td>
+                                                <input type="hidden" class="form-control" name="medicine_given[]" value="<?php echo $product['med_Id']; ?>">
+                                                <?php echo ucwords($product['med_name']); ?>
+                                              </td>
+                                              <td class="text-center"><?php echo $product['med_stock_in']; ?></td>
+                                              <td>
+                                                  <input type="number" class="form-control form-control-sm text-center" name="stock_used[<?php echo $product['med_Id']; ?>]" placeholder="Enter number of stock to release to the patient" pattern="\d*" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                              </td>
+                                          </tr>
+                                      <?php } ?>
+                                  </tbody>
+                              </table>
                             </div>
                         </div>
                         <div class="col-12">

@@ -17,12 +17,12 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-sm-6">
-            <h3>New Consultation </h3>
+            <h3>New Consultation Record</h3>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
-              <li class="breadcrumb-item active">Consultation </li>
+              <li class="breadcrumb-item active">Consultation Record</li>
             </ol>
           </div>
         </div>
@@ -120,28 +120,28 @@
 
                         <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                           <div class="form-group">
-                            <span class="text-dark text-bold">VS/BP</span>
+                            <span class="text-dark text-bold">Vital sign(VS) Blood presure(BP)</span>
                             <input type="text" class="form-control" name="vs_bp" placeholder="Enter VS/BP" > 
                           </div>
                         </div>
 
                         <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                           <div class="form-group">
-                            <span class="text-dark text-bold">PR</span>
+                            <span class="text-dark text-bold">Pulse rate(PR)</span>
                             <input type="text" class="form-control" name="pr" placeholder="Enter PR" > 
                           </div>
                         </div>
 
                         <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                           <div class="form-group">
-                            <span class="text-dark text-bold">RR</span>
+                            <span class="text-dark text-bold">Respiratory rate(RR)</span>
                             <input type="text" class="form-control" name="rr" placeholder="Enter RR" > 
                           </div>
                         </div>
 
                         <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                           <div class="form-group">
-                            <span class="text-dark text-bold">O2ZAT</span>
+                            <span class="text-dark text-bold">Oxygen Saturation(O2ZAT)</span>
                             <input type="text" class="form-control" name="o2zat" placeholder="Enter O2ZAT" > 
                           </div>
                         </div>
@@ -149,14 +149,46 @@
                         <div class="col-12">
                             <span class="text-dark"><b>Nurse's Advice</b></span>
                             <div class="form-group">
-                                <textarea name="doctors_advice" id="" cols="30" rows="3" class="form-control" placeholder="Enter Nurse's advice..."></textarea>
+                                <textarea name="doctors_advice" id="" cols="30" rows="3" class="form-control" placeholder="Enter doctor's advice..."></textarea>
                             </div>
                         </div>
 
                         <div class="col-12">
-                            <span class="text-dark"><b>Medicine given</b></span>
                             <div class="form-group">
-                                <textarea name="medicine_given" id="" cols="30" rows="2" class="form-control" placeholder="Enter medicine given..."></textarea>
+                              <h5 class="text-center mt-5">List of Available Medicines</h5>
+                              <hr>
+                              <table id="" class="table table-bordered table-hover table-sm text-sm">
+                                  <thead>
+                                      <tr>
+                                          <th>Medicine Name</th>
+                                          <th class="text-center">Available Stock</th>
+                                          <th class="text-center">Medicine given</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                      <?php
+                                          $fetchProducts = mysqli_query($conn, "SELECT * FROM medicine WHERE med_stock_in > 0 AND expiration_date >= CURDATE() ORDER BY med_name ASC");
+
+                                        $products = array();
+                                        while ($product = mysqli_fetch_assoc($fetchProducts)) {
+                                            $products[] = $product;
+                                        }
+
+                                        foreach ($products as $product) {
+                                        ?>
+                                          <tr>
+                                              <td>
+                                                <input type="hidden" class="form-control" name="medicine_given[]" value="<?php echo $product['med_Id']; ?>">
+                                                <?php echo ucwords($product['med_name']); ?>
+                                              </td>
+                                              <td class="text-center"><?php echo $product['med_stock_in']; ?></td>
+                                              <td>
+                                                  <input type="number" class="form-control form-control-sm text-center" name="stock_used[<?php echo $product['med_Id']; ?>]" placeholder="Enter number of stock to release to the patient" pattern="\d*" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                              </td>
+                                          </tr>
+                                      <?php } ?>
+                                  </tbody>
+                              </table>
                             </div>
                         </div>
 
@@ -343,9 +375,41 @@
                         </div>
 
                         <div class="col-12">
-                            <span class="text-dark"><b>Medicine given</b></span>
                             <div class="form-group">
-                                <textarea name="medicine_given" id="" cols="30" rows="2" class="form-control" placeholder="Enter medicine given..."><?php echo $row['medicine_given']; ?></textarea>
+                              <h5 class="text-center mt-5">List of Available Medicines</h5>
+                              <hr>
+                              <table id="" class="table table-bordered table-hover table-sm text-sm">
+                                  <thead>
+                                      <tr>
+                                          <th>Medicine Name</th>
+                                          <th class="text-center">Available Stock</th>
+                                          <th class="text-center">Medicine given</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                      <?php
+                                          $fetchProducts = mysqli_query($conn, "SELECT * FROM medicine WHERE med_stock_in > 0 AND expiration_date >= CURDATE() ORDER BY med_name ASC");
+
+                                        $products = array();
+                                        while ($product = mysqli_fetch_assoc($fetchProducts)) {
+                                            $products[] = $product;
+                                        }
+
+                                        foreach ($products as $product) {
+                                        ?>
+                                          <tr>
+                                              <td>
+                                                <input type="hidden" class="form-control" name="medicine_given[]" value="<?php echo $product['med_Id']; ?>">
+                                                <?php echo ucwords($product['med_name']); ?>
+                                              </td>
+                                              <td class="text-center"><?php echo $product['med_stock_in']; ?></td>
+                                              <td>
+                                                  <input type="number" class="form-control form-control-sm text-center" name="stock_used[<?php echo $product['med_Id']; ?>]" placeholder="Enter number of stock to release to the patient" pattern="\d*" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                              </td>
+                                          </tr>
+                                      <?php } ?>
+                                  </tbody>
+                              </table>
                             </div>
                         </div>
 

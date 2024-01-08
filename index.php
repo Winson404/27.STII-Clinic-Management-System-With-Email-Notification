@@ -16,7 +16,7 @@ text-transform: none;
         <div class="col-lg-4 col-md-12 col-sm-12 col-12 card shadow-sm rounded mt-5 ">
           <div class="card-header text-center justify-content-center d-flex">
             <div class="col-5 p-3">
-              <a href="login.php" class="h1">
+              <a href="index.php" class="h1">
                 <img src="images/stii.png" alt="logo" class="img-fluid">
               </a>
               <!-- <a href="login.php" class="h1"><b>Login</b></a> -->

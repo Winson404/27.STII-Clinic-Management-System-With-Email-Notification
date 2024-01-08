@@ -36,8 +36,8 @@
                   <tr> 
                     <th>REQUESTER'S NAME</th>
                     <th>REQUEST TYPE</th>
-                    <th>SUBJECT</th>
                     <th>REQUEST STATUS</th>
+                    <!--<th>SUBJECT</th>-->
                     <th>DATE REQUESTED</th>
                     <th>ACTION</th>
                   </tr>
@@ -59,7 +59,7 @@
                             <span class="badge pt-1 bg-danger">Request denied</span>
                           <?php endif; ?>
                         </td>
-                        <td><?php echo $row['req_type']; ?></td>
+                        <!--<td><?php echo $row['req_type']; ?></td>-->
                         <td class="text-primary"><?php echo date("F d, Y", strtotime($row['date_added'])); ?></td>
                         <td>
                           <?php if($row['req_status'] == 0): ?>

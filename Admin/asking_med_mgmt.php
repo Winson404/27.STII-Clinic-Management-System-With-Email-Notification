@@ -98,7 +98,7 @@
                         </div>
                         <div class="col-3 mt-3">
                             <div class="form-group">
-                              <span class="text-dark"><b>PR</b></span>
+                              <span class="text-dark"><b>Pulse rate(PR)</b></span>
                               <input type="text" class="form-control" placeholder="Enter PR" name="pr" required>
                             </div>
                         </div>
@@ -111,14 +111,14 @@
                        
                         <div class="col-12">
                             <div class="form-group">
-                              <span class="text-dark"><b>Vital sign</b></span>
+                              <span class="text-dark"><b>Vital sign(VS) </b></span>
                               <textarea cols="30" rows="3" class="form-control" placeholder="Vital sign" name="vital_sign" required></textarea>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
-                              <span class="text-dark"><b>Treatment/ Medical advised</b></span>
-                              <textarea cols="30" rows="3" class="form-control" placeholder="Treatment/ Medical advised" name="medical_advised" required></textarea>
+                              <span class="text-dark"><b> Medical advised</b></span>
+                              <textarea cols="30" rows="3" class="form-control" placeholder="Medical advised" name="medical_advised" required></textarea>
                             </div>
                         </div>
                         <div class="col-12">
@@ -130,7 +130,7 @@
                                       <tr>
                                           <th>Medicine Name</th>
                                           <th class="text-center">Available Stock</th>
-                                          <th class="text-center">Stock Used</th>
+                                          <th class="text-center">Medicine given</th>
                                       </tr>
                                   </thead>
                                   <tbody>
@@ -151,7 +151,7 @@
                                               </td>
                                               <td class="text-center"><?php echo $product['med_stock_in']; ?></td>
                                               <td>
-                                                  <input type="number" class="form-control form-control-sm text-center" name="stock_used[<?php echo $product['med_Id']; ?>]" placeholder="Enter number of stock to release to the patient" pattern="\d*" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                                  <input type="number" class="form-control form-control-sm text-center" name="stock_used[<?php echo $product['med_Id']; ?>]" placeholder="Enter number of medicine to release to the patient" pattern="\d*" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                                               </td>
                                           </tr>
                                       <?php } ?>
@@ -317,7 +317,7 @@
                                       <tr>
                                           <th>Medicine Name</th>
                                           <th class="text-center">Available Stock</th>
-                                          <th class="text-center">Stock Used</th>
+                                          <th class="text-center">Medicine given</th>
                                       </tr>
                                   </thead>
                                   <tbody>
@@ -338,7 +338,7 @@
                                               </td>
                                               <td class="text-center"><?php echo $product['med_stock_in']; ?></td>
                                               <td>
-                                                  <input type="number" class="form-control form-control-sm text-center" name="stock_used[<?php echo $product['med_Id']; ?>]" placeholder="Enter number of stock to release to the patient" pattern="\d*" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                                  <input type="number" class="form-control form-control-sm text-center" name="stock_used[<?php echo $product['med_Id']; ?>]" placeholder="Enter number of medicine to release to the patient" pattern="\d*" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                                               </td>
                                           </tr>
                                       <?php } ?>

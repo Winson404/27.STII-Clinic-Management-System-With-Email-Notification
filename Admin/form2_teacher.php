@@ -43,7 +43,7 @@
                     <th>PATIENT NAME</th>
                     <th>VITAL SIGN</th>
                     <th>DIAGNOSIS</th>
-                    <th>MEDICAL ADVISED</th>
+                    <th>MEDICINE GIVEN</th>
                     <th>DATE ADMITTED</th>
                     <th>TOOLS</th>
                   </tr>

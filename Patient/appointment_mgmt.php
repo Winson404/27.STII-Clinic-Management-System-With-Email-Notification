@@ -60,7 +60,7 @@
                       <option value="04:00-05:00 PM">04:00-05:00 PM</option>
                     </select> -->
                     <select class="form-control" name="appt_time" id="appt_time" required>
-                        <option value="" selected disabled>Select time</option>
+                        <option value="" selected disabled>Select time available</option>
                     </select>
                   </div>
                   <div class="form-group">
@@ -145,7 +145,7 @@
                       <option value="04:00-05:00 PM">04:00-05:00 PM</option>
                     </select> -->
                     <select class="form-control" name="appt_time" id="appt_time" required>
-                        <option value="" selected disabled>Select time</option>
+                        <option value="" selected disabled>Select time available</option>
                     </select>
                   </div>
                   <div class="form-group">
@@ -225,9 +225,13 @@
                     // Populate the dropdown with available times
                     var dropdown = $('#appt_time');
                     dropdown.empty();
-                    dropdown.append('<option value="" selected disabled>Select time</option>');
-                    for (var j = 0; j < availableTimes.length; j++) {
-                        dropdown.append('<option value="' + availableTimes[j] + '">' + availableTimes[j] + '</option>');
+                    if (availableTimes.length === 0) {
+                        dropdown.append('<option value="" selected disabled>No time available</option>');
+                    } else {
+                        dropdown.append('<option value="" selected disabled>Select time</option>');
+                        for (var j = 0; j < availableTimes.length; j++) {
+                            dropdown.append('<option value="' + availableTimes[j] + '">' + availableTimes[j] + '</option>');
+                        }
                     }
                 }
             });

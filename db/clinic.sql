@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 17, 2023 at 07:27 AM
+-- Generation Time: Jan 08, 2024 at 07:56 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -83,7 +83,7 @@ CREATE TABLE `asking_med` (
 --
 
 INSERT INTO `asking_med` (`asking_med_Id`, `patient_Id`, `pr`, `temperature`, `vital_sign`, `medical_advised`, `medicine_given`, `chief_complaints`, `date_admitted`) VALUES
-(130, 70, 'dsf', 'dsfd', 'fsdf', 'fds', 'Bioparacetamol, Product 1, Product 2, Product 3', 'fd', '2023-12-17 10:34:42');
+(132, 70, 'dsa', 'dsad', 'adas', 'dsa', 'Acid Reducer, Anti-Inflammatory, Antibiotic', 'dsa', '2023-12-21 02:46:15');
 
 -- --------------------------------------------------------
 
@@ -105,10 +105,9 @@ CREATE TABLE `asking_med_transaction_log` (
 --
 
 INSERT INTO `asking_med_transaction_log` (`Id`, `patient_Id`, `stock_used_value`, `med_Id`, `asking_med_Id`, `date_added`) VALUES
-(71, 70, 2, 10, 130, '2023-12-17 10:34:42'),
-(72, 70, 2, 2, 130, '2023-12-17 10:34:42'),
-(73, 70, 1, 3, 130, '2023-12-17 10:34:42'),
-(74, 70, 3, 4, 130, '2023-12-17 10:34:42');
+(78, 70, 1, 35, 132, '2023-12-21 02:46:15'),
+(79, 70, 2, 36, 132, '2023-12-21 02:46:15'),
+(80, 70, 3, 32, 132, '2023-12-21 02:46:15');
 
 -- --------------------------------------------------------
 
@@ -270,15 +269,16 @@ CREATE TABLE `medicine` (
 --
 
 INSERT INTO `medicine` (`med_Id`, `brand_name`, `other_brand_name`, `med_name`, `med_type`, `milligrams`, `med_stock_in`, `med_stock_in_orig`, `med_stock_out`, `expiration_date`, `is_returned`, `seen_by_admin`, `date_added`) VALUES
-(2, 'Biogesic', '', 'Product 1', '', '232', '39 tablets', '50 tablets', '11', '2023-12-21', 1, 0, '2023-10-25 09:57 AM'),
-(3, 'Biogesic', '', 'Product 2', '', 'dsadsa', '38 tablets', '50 tablets', '12', '2023-12-21', 0, 0, '2023-10-25 09:57 AM'),
-(4, 'Biogesic', '', 'Product 3', 'Generic', '45', '34 tablets', '50 tablets', '16', '2023-12-21', 0, 0, '2023-11-12 10:43 PM'),
-(5, 'RiteMed', '', 'Product 4', 'Branded', '11', '35 tablets', '50 tablets', '15', '2023-12-21', 0, 1, '2023-11-25 10:50 AM'),
-(6, '', 'asmple2s', 'Product 5', 'Generic', '22', '45 tablets', '50 tablets', '5', '2023-12-21', 0, 1, '2023-11-25 10:50 AM'),
-(7, 'RiteMed', '', 'Product 6', 'Branded', '432fds ', '45 tablets', '50 tablets', '5', '2023-12-21', 0, 0, '2023-11-26 03:43 PM'),
-(8, 'RiteMed', '', 'Product 7', 'Generic', '232g', '45 tablets', '50 tablets', '5', '2023-12-21', 0, 1, '2023-11-28 08:42 AM'),
-(9, '', 'dsadas', 'Product 8', 'Branded', 'fdsf', '45 tablets', '50 tablets', '5', '2023-12-21', 0, 0, '2023-12-06 11:22 PM'),
-(10, 'RiteMed', '', 'Bioparacetamol', 'Branded', '22', '41 tablets', '50 tablets', '9', '2029-07-18', 0, 0, '2023-12-16 10:52 AM');
+(31, 'Paracetamol', 'Tylenol', 'Pain Relief', 'Tablet', '500', '100 units', '120 units', '', '2023-12-31', 0, 1, '2023-11-15 10:30 AM'),
+(32, 'Amoxicillin', 'Amoxil', 'Antibiotic', 'Capsule', '250', '47 capsules', '60 capsules', '3', '2023-12-28', 0, 1, '2023-11-15 11:15 AM'),
+(33, 'Lisinopril', '', 'Blood Pressure Control', 'Tablet', '10', '30 tablets', '40 tablets', '', '2023-12-25', 0, 1, '2023-11-16 09:45 AM'),
+(34, 'Simvastatin', 'Zocor', 'Cholesterol Buster', 'Tablet', '20', '25 tablets', '30 tablets', '', '2023-12-30', 0, 1, '2023-11-16 10:20 AM'),
+(35, 'Omeprazole', 'Prilosec', 'Acid Reducer', 'Capsule', '40', '59 capsules', '70 capsules', '1', '2023-12-15', 1, 1, '2023-11-17 08:55 AM'),
+(36, 'Ibuprofen', 'Advil', 'Anti-Inflammatory', 'Tablet', '200', '78 tablets', '90 tablets', '2', '2023-12-31', 0, 1, '2023-11-17 09:30 AM'),
+(37, 'Aspirin', '', 'Heart Health', 'Tablet', '81', '120 tablets', '130 tablets', '', '2023-12-26', 0, 1, '2023-11-18 10:10 AM'),
+(38, 'Diazepam', 'Valium', 'Anxiety Relief', 'Tablet', '5', '40 tablets', '50 tablets', '', '2023-12-27', 0, 1, '2023-11-18 10:45 AM'),
+(39, 'Ciprofloxacin', 'Cipro', 'Antibiotic', 'Tablet', '500', '20 tablets', '25 tablets', '', '2023-12-28', 0, 1, '2023-11-19 09:20 AM'),
+(40, 'Metformin', 'Glucophage', 'Diabetes Control', 'Tablet', '850', '60 tablets', '70 tablets', '', '2023-12-29', 0, 1, '2023-11-19 09:55 AM');
 
 -- --------------------------------------------------------
 
@@ -419,7 +419,11 @@ CREATE TABLE `patient` (
 
 INSERT INTO `patient` (`user_Id`, `added_by`, `vaccine_status`, `position`, `civil_status`, `name`, `grade`, `teacher_position`, `dob`, `age`, `sex`, `address`, `religion`, `contact`, `email`, `parentName`, `parentContact`, `guardianName`, `illness`, `pastMedical`, `surgicalHistory`, `blood_type`, `height`, `weight`, `allergy`, `password`, `pass`, `nutritional_Immunization`, `familyHistory`, `socialHistory`, `packsYears`, `environment`, `frequency`, `general`, `hematologic`, `endocrine`, `extremities`, `skin`, `head`, `vision`, `Eyes`, `ears`, `nose`, `mouthThroat`, `yearsMonths`, `neck`, `Breast`, `Respiratory`, `Cardiovascular`, `Gastrointestinal`, `peripheralvascular`, `freq_urinary`, `Urinary`, `male`, `age_menarche`, `female`, `muscularSkeletal`, `Psychiatric`, `Neurologic`, `NeurologicExam`, `picture`, `verification_code`, `date_registered`) VALUES
 (68, 66, '1st Booster', 'Teacher', 'Widow/er', 'Faculty patient', 'Sampl12345', 'Teacher', '2021-02-03', '2 years old', 'Male', 'Sampl', 'dsdssd123d', '9359428963', 'christinegutierez16@gmail.com', 'Samplsfd', '9359428963', '', 'Sampl', 'Sampl', 'Sampl', '1243', '12', '12', 'fds', '0192023a7bbd73250516f069df18b500', 'admin123', 'Complete immunization,Incomplete immunization,Normal Filipino Diet,High Protein Diet', 'Asthma,Hypertension,Cancer,Boold Dyscracis', 'Non-Smoker,Occasional Alcoholic Beverage Drinker', 'NA', 'NA', 'NA', 'Weight loss,Weakness', 'Anemia,Easy Bruising or Bleeding', 'Heat and Cold Tolerance,Excessive Sweating', 'Good Pulse,Weak Pulse', 'Rashes,Moles', 'Headache,Diziness,Head injury', 'Good', 'Eye pain,Blurring of Vision', 'Ear infection,Ear Pain', 'Nasal Discharge,Nose Bleeding,None', 'Bleeding Gums,None', 'NA', 'Goiter,Lamps', 'Lumps,Pain', 'Cough,Haemoptysis', 'Chest Pain,Palpitation,Edema', 'Heart Burn,Constipation,Loss of Appetite,Nausea & Vomiting', 'Leg Cramps,Varicose Veins', '3', 'Dysuria,Haematuria,Kidney Stone', 'Discharges/Sore on the penis,Testicular Pain or Mass', '43', 'Itching,Vaginal Discharge,Sores,Lumps', 'Muscle of Joint Pain,Arthritis,Backache,Inflammation,History of Trauma', 'Nervousness,Depression', 'Change of Moods,Headache,Dizziness,Blackouts,Loss of Sensation,Tremors', 'GCS 15,Oriented to Time and Place,Intact CN,5/5 Motor Strength Bilateral U/L Extremities', 'aisat.png', 357842, '2023-10-21 00:39:17'),
-(70, 66, 'Fully Vaccinated', 'Student', 'Married', 'Student', 'dsfdsf', '', '2020-02-19', '3 years old', 'Female', 'fdsfd', 'dsa', '9359428963', 'sonerwin8@gmail.com', 'fdsf', '9359428963', 'df', 'fdsf', 'dsfsdf', 'fdsf', 'sfds', 'sdfsd', 'fdsf', 'ds', '0192023a7bbd73250516f069df18b500', 'admin123', '', '', '', 'NA', 'NA', 'NA', '', '', '', '', '', '', '', '', '', '', '', 'NA', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '13.jpg', 0, '2023-11-26 13:54:47');
+(70, 66, 'Fully Vaccinated', 'Student', 'Married', 'Student', 'dsfdsf', '', '2020-02-19', '3 years old', 'Female', 'fdsfd', 'dsa', '9359428963', 'sonerwin8@gmail.com', 'fdsf', '9359428963', 'df', 'fdsf', 'dsfsdf', 'fdsf', 'sfds', 'sdfsd', 'fdsf', 'ds', '0192023a7bbd73250516f069df18b500', 'admin123', '', '', '', 'NA', 'NA', 'NA', '', '', '', '', '', '', '', '', '', '', '', 'NA', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '13.jpg', 0, '2023-11-26 13:54:47'),
+(71, 66, '2nd Dose', 'Student', 'Married', 'dsa', 'dsadsa', '', '2002-02-27', '21 years old', 'Male', 'dsadas', 'dsadsa', '9359428963', 'jedsathro@gmail.com', 'dsad', '9359428963', 'dsada', 'dsadsa', 'dsadsa', 'da', 'dsa', 'dsadsa', 'dsad', 'adsa', '0192023a7bbd73250516f069df18b500', 'admin123', 'Complete immunization', 'Asthma', 'Non-Smoker', 'NA', 'NA', 'NA', 'Weight loss', 'Anemia', 'Heat and Cold Tolerance', 'Good Pulse', 'None', 'Headache', '', 'Glasses or Contact Lens', 'Ear infection', 'None', 'None', 'NA', 'None', 'None', 'Dyspnea', 'None', '', '', '', '', '', '', '', '', '', '', '', '3.jpg', 0, '2023-12-17 14:25:07'),
+(72, 0, 'Fully Vaccinated', 'Teacher', 'Separated', 'dsa', '', 'dsadsad', '2006-03-02', '17 years old', 'Male', 'dsada', 'dsad', '9359428963', 'jetdsa4324hro@gmail.com', 'dsad', '9359428963', '', 'dsad', 'adsadsad', 'sadsa', 'dasd', 'asdas', 'd', 'dsadsa', '0192023a7bbd73250516f069df18b500', 'admin123', '', '', '', 'NA', 'NA', 'NA', '', '', '', '', '', '', '', '', '', '', '', 'NA', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '3.jpg', 0, '2023-12-17 14:38:14'),
+(73, 0, '2nd Dose', 'Student', 'Married', 'Registerkuno', 'RegisterkunoRegister', '', '1987-02-17', '36 years old', 'Female', 'Registerkuno', 'Registerkuno', '9359428963', 'sonerwRegisterkunoin8@gmail.com', 'Registerkuno', '9359428963', 'Registerkuno', 'Registerkuno', 'Registerkuno', 'Registerkuno', 'Registerkuno', 'Registerku', 'Registerku', 'Registerkuno', '0ba7583639a274c434bbe6ef797115a4', 'Register', '', '', '', 'NA', 'NA', 'NA', '', '', '', '', '', '', '', '', '', '', '', 'NA', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '4.jpg', 0, '2024-01-07 15:58:10'),
+(74, 0, '1st Dose', 'Teacher', 'Married', 'testingan', '', 'Testingan', '1991-02-27', '32 years old', 'Male', 'Testingan', 'Testingan', '9359428963', 'sonerTestinganwin8@gmail.com', 'Testingan', '9359428963', '', 'Testingan', 'Testingan', 'Testingan', 'Testingan', 'TestinganT', 'Testingan', 'Testingan', 'da1d40672b111068e0aaaec166f24a50', 'Testinga', '', '', '', 'NA', 'NA', 'NA', '', '', '', '', '', '', '', '', '', '', '', 'NA', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '3.jpg', 0, '2024-01-07 16:34:28');
 
 -- --------------------------------------------------------
 
@@ -717,13 +721,13 @@ ALTER TABLE `appointment`
 -- AUTO_INCREMENT for table `asking_med`
 --
 ALTER TABLE `asking_med`
-  MODIFY `asking_med_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
+  MODIFY `asking_med_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=133;
 
 --
 -- AUTO_INCREMENT for table `asking_med_transaction_log`
 --
 ALTER TABLE `asking_med_transaction_log`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT for table `consultation`
@@ -765,7 +769,7 @@ ALTER TABLE `form2_transaction_log`
 -- AUTO_INCREMENT for table `medicine`
 --
 ALTER TABLE `medicine`
-  MODIFY `med_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `med_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `notification`
@@ -777,7 +781,7 @@ ALTER TABLE `notification`
 -- AUTO_INCREMENT for table `patient`
 --
 ALTER TABLE `patient`
-  MODIFY `user_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `user_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 
 --
 -- AUTO_INCREMENT for table `physical`

@@ -28,7 +28,7 @@
           <div class="col-md-12">
             <div class="card">
               <div class="card-header p-2">
-                <a href="medicine_mgmt.php?page=create" class="btn btn-sm bg-primary ml-2"><i class="fa-sharp fa-solid fa-square-plus"></i> New record</a>
+                <a href="medicine_mgmt.php?page=create" class="btn btn-sm bg-primary ml-2"><i class="fa-sharp fa-solid fa-square-plus"></i> Add New Medicine</a>
 
                 <div class="card-tools mr-1 mt-3">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -264,7 +264,7 @@
                   </thead>
                   <tbody id="users_data">
                       <?php 
-                        $sql = mysqli_query($conn, "SELECT * FROM medicine WHERE DATE(expiration_date)>CURDATE() AND is_returned=0 ");
+                        $sql = mysqli_query($conn, "SELECT * FROM medicine WHERE DATE(expiration_date)>=CURDATE() AND is_returned=0 ");
                         while ($row = mysqli_fetch_array($sql)) {
                           $expirationDate = $row['expiration_date'];
                           $currentDate = date('Y-m-d');

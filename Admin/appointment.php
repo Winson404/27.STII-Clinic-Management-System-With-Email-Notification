@@ -93,27 +93,27 @@
                                   <?php endif; ?>
                                 <?php else: ?>
                                   <button type="button" class="btn bg-success btn-sm" data-toggle="modal" data-target="#approve<?php echo $row['appt_Id']; ?>"><i class="fa-solid fa-circle-check"></i> Approve/Update</button>
-                                  <button type="button" class="btn bg-info btn-sm" data-toggle="modal" data-target="#settled<?php echo $row['appt_Id']; ?>"disabled><i class="fa-solid fa-circle-check"></i> Settled</button>
+                                  <!--<button type="button" class="btn bg-info btn-sm" data-toggle="modal" data-target="#settled<?php echo $row['appt_Id']; ?>"disabled><i class="fa-solid fa-circle-check"></i> Settled</button>-->
                                   <button type="button" class="btn bg-warning btn-sm" data-toggle="modal" data-target="#deny<?php echo $row['appt_Id']; ?>"><i class="fa-solid fa-circle-xmark"></i> Deny</button>
                                   <button type="button" class="btn bg-danger btn-sm" data-toggle="modal" data-target="#delete<?php echo $row['appt_Id']; ?>"><i class="fas fa-trash"></i> Delete</button>
                                 <?php endif; ?>
                           <?php elseif($row['appt_status'] == 1): ?>
 
                                 <button type="button" class="btn bg-success btn-sm" data-toggle="modal" data-target="#approve<?php echo $row['appt_Id']; ?>"disabled><i class="fa-solid fa-circle-check"></i> Approve/Update</button>
-                                <button type="button" class="btn bg-info btn-sm" data-toggle="modal" data-target="#settled<?php echo $row['appt_Id']; ?>"><i class="fa-solid fa-circle-check"></i> Settled</button>
+                                <!--<button type="button" class="btn bg-info btn-sm" data-toggle="modal" data-target="#settled<?php echo $row['appt_Id']; ?>"><i class="fa-solid fa-circle-check"></i> Settled</button>-->
                                 <button type="button" class="btn bg-warning btn-sm" data-toggle="modal" data-target="#deny<?php echo $row['appt_Id']; ?>" disabled><i class="fa-solid fa-circle-xmark"></i> Deny</button>
                                 <button type="button" class="btn bg-danger btn-sm" data-toggle="modal" data-target="#delete<?php echo $row['appt_Id']; ?>" disabled><i class="fas fa-trash"></i> Delete</button>
 
                           <?php elseif($row['appt_status'] == 2): ?>
 
                                 <button type="button" class="btn bg-success btn-sm" data-toggle="modal" data-target="#approve<?php echo $row['appt_Id']; ?>"><i class="fa-solid fa-circle-check"></i> Approve/Update</button>
-                                <button type="button" class="btn bg-info btn-sm" data-toggle="modal" data-target="#settled<?php echo $row['appt_Id']; ?>"disabled><i class="fa-solid fa-circle-check"></i> Settled</button>
+                                <!--<button type="button" class="btn bg-info btn-sm" data-toggle="modal" data-target="#settled<?php echo $row['appt_Id']; ?>"disabled><i class="fa-solid fa-circle-check"></i> Settled</button>-->
                                 <button type="button" class="btn bg-warning btn-sm" data-toggle="modal" data-target="#deny<?php echo $row['appt_Id']; ?>" disabled><i class="fa-solid fa-circle-xmark"></i> Deny</button>
                                 <button type="button" class="btn bg-danger btn-sm" data-toggle="modal" data-target="#delete<?php echo $row['appt_Id']; ?>" disabled><i class="fas fa-trash"></i> Delete</button>
 
                           <?php else: ?>
                                 <button type="button" class="btn bg-success btn-sm" data-toggle="modal" data-target="#approve<?php echo $row['appt_Id']; ?>" disabled><i class="fa-solid fa-circle-check"></i> Approve/Update</button>
-                                <button type="button" class="btn bg-info btn-sm" data-toggle="modal" data-target="#settled<?php echo $row['appt_Id']; ?>"disabled><i class="fa-solid fa-circle-check"></i> Settled</button>
+                                <!--<button type="button" class="btn bg-info btn-sm" data-toggle="modal" data-target="#settled<?php echo $row['appt_Id']; ?>"disabled><i class="fa-solid fa-circle-check"></i> Settled</button>-->
                                 <button type="button" class="btn bg-warning btn-sm" data-toggle="modal" data-target="#deny<?php echo $row['appt_Id']; ?>" disabled><i class="fa-solid fa-circle-xmark"></i> Deny</button>
                                 <button type="button" class="btn bg-danger btn-sm" data-toggle="modal" data-target="#delete<?php echo $row['appt_Id']; ?>"><i class="fas fa-trash"></i> Delete</button>
 

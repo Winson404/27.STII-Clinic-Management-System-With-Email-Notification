@@ -151,7 +151,7 @@
                             <td class="text-primary"><?php if(!empty($row['date_added'])) { echo date("F d, Y", strtotime($row['expiration_date'])); } ?></td>
                             <td class="text-primary"><?php if(!empty($row['date_added'])) { echo date("F d, Y", strtotime($row['date_added'])); } ?></td>
                             <td>
-                              <button type="button" class="btn bg-danger btn-sm" data-toggle="modal" data-target="#delete<?php echo $row['med_Id']; ?>"><i class="fas fa-trash"></i> Delete</button>
+                              <!--button type="button" class="btn bg-danger btn-sm" data-toggle="modal" data-target="#delete<?php echo $row['med_Id']; ?>"><i class="fas fa-trash"></i> Delete</button>-->
                             </td> 
                         </tr>
                         <?php include 'medicine_delete.php'; } ?>
@@ -231,7 +231,7 @@
                         <th>RELEASED</th>
                         <th>EXP. DATE</th>
                         <th>DATE ADDED</th>
-                        <th>TOOLS</th>
+                        <!--<th>TOOLS</th>-->
                       </tr>
                       </thead>
                       <tbody id="users_data">
@@ -248,7 +248,7 @@
                             <td class="text-primary"><?php if(!empty($row['date_added'])) { echo date("F d, Y", strtotime($row['expiration_date'])); } ?></td>
                             <td class="text-primary"><?php if(!empty($row['date_added'])) { echo date("F d, Y", strtotime($row['date_added'])); } ?></td>
                             <td>
-                              <button type="button" class="btn bg-danger btn-sm" data-toggle="modal" data-target="#delete<?php echo $row['med_Id']; ?>"><i class="fas fa-trash"></i> Delete</button>
+                              <!--<button type="button" class="btn bg-danger btn-sm" data-toggle="modal" data-target="#delete<?php echo $row['med_Id']; ?>"><i class="fas fa-trash"></i> Delete</button>-->
                             </td> 
                         </tr>
                         <?php include 'medicine_delete.php'; } ?>
@@ -266,7 +266,7 @@
                       <th>RELEASED</th>
                       <th>EXP. DATE</th>
                       <th>DATE ADDED</th>
-                      <th>TOOLS</th>
+                      <!--th>TOOLS</th>-->
                     </tr>
                     </thead>
                     <tbody id="users_data">
@@ -284,7 +284,7 @@
                           <td class="text-primary"><?php if(!empty($row['date_added'])) { echo date("F d, Y", strtotime($row['expiration_date'])); } ?></td>
                           <td class="text-primary"><?php if(!empty($row['date_added'])) { echo date("F d, Y", strtotime($row['date_added'])); } ?></td>
                           <td>
-                            <button type="button" class="btn bg-danger btn-sm" data-toggle="modal" data-target="#delete<?php echo $row['med_Id']; ?>"><i class="fas fa-trash"></i> Delete</button>
+                            <!--<button type="button" class="btn bg-danger btn-sm" data-toggle="modal" data-target="#delete<?php echo $row['med_Id']; ?>"><i class="fas fa-trash"></i> Delete</button>-->
                           </td> 
                       </tr>
                       <?php include 'medicine_delete.php'; } ?>

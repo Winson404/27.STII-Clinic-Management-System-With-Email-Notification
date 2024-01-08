@@ -1019,9 +1019,6 @@
                           <input type="file" class="custom-file-input" id="exampleInputFile" name="fileToUpload" onchange="getImagePreview(event)" required>
                           <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                         </div>
-                        <div class="input-group-append">
-                          <span class="input-group-text">Upload</span>
-                        </div>
                       </div>
                       <p class="help-block text-danger">Max. 500KB</p>
                     </div>

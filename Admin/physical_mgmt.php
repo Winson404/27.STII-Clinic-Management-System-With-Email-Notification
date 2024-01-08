@@ -395,7 +395,7 @@
                                       <tr>
                                           <th>Medicine Name</th>
                                           <th class="text-center">Available Stock</th>
-                                          <th class="text-center">Stock Used</th>
+                                          <th class="text-center">Medicine given</th>
                                       </tr>
                                   </thead>
                                   <tbody>
@@ -909,7 +909,7 @@
                                       <tr>
                                           <th>Medicine Name</th>
                                           <th class="text-center">Available Stock</th>
-                                          <th class="text-center">Stock Used</th>
+                                          <th class="text-center">Medicine given</th>
                                       </tr>
                                   </thead>
                                   <tbody>

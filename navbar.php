@@ -45,7 +45,7 @@
       <!-- Navbar -->
       <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
         <div class="container">
-          <a href="login.php" class="navbar-brand">
+          <a href="index.php" class="navbar-brand">
             <img src="images/stii.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
             <span class="brand-text font-weight-light">STII Clinic Management System</span>
           </a>
@@ -80,9 +80,13 @@
           </div>
           <!-- Right navbar links -->
           <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-            <li class="nav-item">
-              <a href="login.php" class="nav-link">Login</a>
-            </li>
+            <?php 
+              $current_page = basename($_SERVER['PHP_SELF']);
+              if ($current_page !== 'index.php') { ?>
+                <li class="nav-item">
+                    <a href="login.php" class="nav-link">Login</a>
+                </li>
+            <?php } ?>
           </ul>
         </div>
       </nav>

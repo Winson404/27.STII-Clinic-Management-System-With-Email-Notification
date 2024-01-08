@@ -74,7 +74,7 @@
                           <?php if($row['is_rescheduled'] == 1): ?>
                             <button type="button" class="btn bg-warning btn-sm" data-toggle="modal" data-target="#resched<?php echo $row['appt_Id']; ?>" disabled><i class="fa-solid fa-calendar-check"></i> Reschedule</button>
                           <?php else: ?>
-                            <button type="button" class="btn bg-warning btn-sm" data-toggle="modal" data-target="#resched<?php echo $row['appt_Id']; ?>"><i class="fa-solid fa-calendar-check"></i> Reschedule</button>
+                            <button type="button" class="btn bg-warning btn-sm" data-toggle="modal" data-target="#resched<?php echo $row['appt_Id']; ?>" <?php if($row['appt_status'] == 3) { echo 'disabled'; } ?>><i class="fa-solid fa-calendar-check"></i> Reschedule</button>
                           <?php endif; ?>
                           
                         </td> 

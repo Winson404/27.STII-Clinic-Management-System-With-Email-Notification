@@ -67,7 +67,7 @@
               <option value="04:00-05:00 PM">04:00-05:00 PM</option>
             </select> -->
             <select class="form-control" name="appt_time" id="appt_time" required>
-                <option value="" selected disabled>Select time</option>
+                <option value="" selected disabled>Select time available</option>
             </select>
           </div>
           <div class="form-group">

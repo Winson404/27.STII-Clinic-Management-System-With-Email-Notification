@@ -608,7 +608,7 @@
                       <?php if($row['appt_time'] == ""): ?>
                         <span>Waiting for approval</span>
                       <?php else : ?>
-                        <span><?php echo date("h:i A", strtotime($row['appt_time'])); ?></span>
+                        <span><?php echo $row['appt_time'] ?></span>
                       <?php endif; ?>
                     </td>
                     <td>

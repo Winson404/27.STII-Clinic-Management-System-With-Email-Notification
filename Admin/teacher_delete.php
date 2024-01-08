@@ -90,7 +90,7 @@
           <img src="../images-users/<?php echo $row['picture']; ?>" alt="" width="200" height="200" class="img-circle" style="box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;">
       </div>
       <div class="modal-footer alert-light d-flex justify-content-center">
-        <a href="../images-users/<?php echo $row['pecture']; ?>" type="button" class="btn bg-gradient-primary" download><i class="fa-solid fa-download"></i> Download</a>
+        <a href="../images-users/<?php echo $row['picture']; ?>" type="button" class="btn bg-gradient-primary" download><i class="fa-solid fa-download"></i> Download</a>
       </div>
     </div>
   </div>

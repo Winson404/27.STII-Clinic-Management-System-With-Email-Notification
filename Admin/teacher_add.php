@@ -171,13 +171,13 @@
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-4 col-12">
                             <div class="form-group">
-                              <span class="text-dark"><b>Height</b></span>
+                              <span class="text-dark"><b>Height(ft)</b></span>
                               <input class="form-control" placeholder="Height" name="height" required>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-4 col-12">
                             <div class="form-group">
-                              <span class="text-dark"><b>Weight</b></span>
+                              <span class="text-dark"><b>Weight(klg)</b></span>
                               <input class="form-control" placeholder="Weight" name="weight" required>
                             </div>
                         </div>
@@ -196,7 +196,7 @@
                         <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                             <div class="form-group">
                               <span class="text-dark"><b>Password</b></span>
-                              <input type="password" class="form-control" name="password" placeholder="Password" id="password" required minlength="8" onkeypress="validate_password()" style="text-transform:none">
+                              <input type="password" class="form-control" name="password" placeholder="Password" id="password" required maxlength="8" onkeypress="validate_password()" style="text-transform:none">
                               <small id="length"></small>
 
                             </div>
@@ -204,7 +204,7 @@
                         <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                             <div class="form-group">
                               <span class="text-dark"><b>Confirm password</b></span>
-                              <input type="password" class="form-control" placeholder="Retype password" id="cpassword" onkeyup="validate_password_confirm_password()" required minlength="8" style="text-transform:none">
+                              <input type="password" class="form-control" placeholder="Retype password" id="cpassword" onkeyup="validate_password_confirm_password()" required maxlength="8" style="text-transform:none">
                               <small id="wrong_pass_alert"></small>
                             </div>
                         </div>

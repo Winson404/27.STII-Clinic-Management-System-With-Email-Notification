@@ -3,9 +3,9 @@
 	use PHPMailer\PHPMailer\PHPMailer;
 	use PHPMailer\PHPMailer\Exception;
 
-	require '../vendor/PHPMailer/src/Exception.php';
-	require '../vendor/PHPMailer/src/PHPMailer.php';
-	require '../vendor/PHPMailer/src/SMTP.php';
+	require '../vendor/phpmailer/src/Exception.php';
+	require '../vendor/phpmailer/src/PHPMailer.php';
+	require '../vendor/phpmailer/src/SMTP.php';
 
 		
 	// UPDATE ADMIN - ADMIN_MGMT.PHP
@@ -1332,7 +1332,7 @@
 			 if($delete) {
 
 			 	  $subject = 'Rescheduled appointment';
-			      $message = '<p>Good day '.$gender.' '.$name.', your appointment has been rescheduled. Please confirm this message by clicking rescheduled button in your appointment page after you login.</p>
+			      $message = '<p>Good day '.$gender.' '.$name.', your appointment has been rescheduled. Please confirm this message by clicking accept or denied appointment button in your appointment page after you login.</p>
 			      <p><b>NOTE:</b> This is a system generated email. Please do not reply.</p> ';
 
 			      $mail = new PHPMailer(true);                            
@@ -1368,7 +1368,7 @@
 			        $mail->send();
 
 			        	// SAVE NOTIFICATION
-			        	$message2 = 'Good day '.$gender.' '.$name.', your appointment has been rescheduled. Please confirm this message by clicking rescheduled button in your appointment page after you login.';
+			        	$message2 = 'Good day '.$gender.' '.$name.', your appointment has been rescheduled. Please confirm this message by clicking accept or denied appointment button in your appointment page after you login.';
 			        	$notif = mysqli_query($conn, "INSERT INTO notification (type, subject, message, sender) VALUES ('Appointment', '$subject', '$message2', '$patient_Id') ");
 			        	if($notif) {
 			        		$_SESSION['message'] = "Reschedule suggestion has been sent to patient!";
@@ -2379,6 +2379,7 @@
 	
 
 	if(isset($_GET['seen'])) {
+	    $date_today = date('Y-m-d');
 		$type = $_GET['seen'];
 		if($type == 'appointment') {
 			$query = mysqli_query($conn, "UPDATE appointment SET seen_by_admin=1 WHERE appt_status=0 AND DATE(date_added)='$date_today'");
@@ -2387,7 +2388,7 @@
 				if($query2) {
 					$query3 = mysqli_query($conn, "UPDATE medicine SET seen_by_admin=1 WHERE DATE(expiration_date)>CURDATE() AND is_returned=0  AND med_stock_in<20 AND seen_by_admin=0");
 					if($query3) {
-						$query4 = mysqli_query($conn, "UPDATE appointment SET seen_by_admin=1 WHERE DATE(appt_date)<CURDATE() AND (appt_status != 3 AND appt_status != 2 AND appt_status !=4) AND seen_by_admin=0 ");
+						$query4 = mysqli_query($conn, "UPDATE appointment SET seen_by_admin=1 WHERE appt_date < '$date_today' AND (appt_status != 3 AND appt_status != 2 AND appt_status !=4) AND seen_by_admin=0 ");
 						if($query4) {
 							header("Location: dashboard.php");
 						} else {

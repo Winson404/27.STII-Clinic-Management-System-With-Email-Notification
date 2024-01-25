@@ -447,11 +447,19 @@ if(isset($_POST['sendcode'])) {
 	$user_Id = $_POST['user_Id'];
 	$key     = substr(number_format(time() * rand(), 0, '', ''), 0, 6);
 
+	// GET USERS NAME
+	$patient = mysqli_query($conn, "SELECT * FROM users WHERE user_Id='$user_Id' ");
+	$row     = mysqli_fetch_array($patient);
+	$name    = $row['firstname'].' '.$row['middlename'].' '.$row['lastname'];
+
+	$gender = "";
+	if($row['gender'] == 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+
 	$insert_code = mysqli_query($conn, "UPDATE users SET verification_code='$key' WHERE email='$email' AND user_Id='$user_Id'");
 	if($insert_code) {
 
 		$subject = 'Verification code';
-		$message = '<p>Good day sir/maam '.$email.', your verification code is <b>'.$key.'</b>. Please do not share this code to other people. Thank you!</p>
+		$message = '<p>Good day '.$gender.' '.$name.', your verification code is <b>'.$key.'</b>. Please do not share this code to other people. Thank you!</p>
 		<p>You can change your password by just clicking it <a href="http://localhost/PROJECT%200.%20My%20NEW%20Template%20System/changepassword.php?user_Id='.$user_Id.'">here!</a></p> 
 		<p><b>NOTE:</b> This is a system generated email. Please do not reply.</p> ';
 
@@ -516,11 +524,19 @@ if(isset($_POST['sendcode_patient'])) {
 	$patient_Id = $_POST['patient_Id'];
 	$key     = substr(number_format(time() * rand(), 0, '', ''), 0, 6);
 
+	// GET PATIENT NAME
+	$patient = mysqli_query($conn, "SELECT * FROM patient WHERE user_Id='$patient_Id' ");
+	$row     = mysqli_fetch_array($patient);
+	$name    = $row['name'];
+
+	$gender = "";
+	if($row['sex'] == 'Male') { $gender = 'Sir'; } else { $gender = 'Maam'; }
+
 	$insert_code = mysqli_query($conn, "UPDATE patient SET verification_code='$key' WHERE email='$email' AND user_Id='$patient_Id'");
 	if($insert_code) {
 
 		$subject = 'Verification code';
-		$message = '<p>Good day sir/maam '.$email.', your verification code is <b>'.$key.'</b>. Please do not share this code to other people. Thank you!</p>
+		$message = '<p>Good day '.$gender.' '.$name.', your verification code is <b>'.$key.'</b>. Please do not share this code to other people. Thank you!</p>
 		<p>You can change your password by just clicking it <a href="http://localhost/PROJECT%200.%20My%20NEW%20Template%20System/changepassword.php?patient_Id='.$patient_Id.'">here!</a></p> 
 		<p><b>NOTE:</b> This is a system generated email. Please do not reply.</p> ';
 

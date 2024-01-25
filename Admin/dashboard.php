@@ -1,6 +1,7 @@
 <title>STII Clinic Management System | Dashboard</title>
 <?php 
     include 'navbar.php';  
+    $date_today = date('Y-m-d');
     $check_appt = mysqli_query($conn, "SELECT * FROM appointment WHERE appt_status=0 AND DATE(date_added)='$date_today' AND seen_by_admin=0"); 
     $result = mysqli_num_rows($check_appt);
 
@@ -10,7 +11,7 @@
     $check_med_stock = mysqli_query($conn, "SELECT * FROM medicine WHERE DATE(expiration_date)>CURDATE() AND is_returned=0  AND med_stock_in<20 AND seen_by_admin=0"); 
     $result3 = mysqli_num_rows($check_med_stock);
 
-    $check_unsettled = mysqli_query($conn, "SELECT * FROM appointment WHERE DATE(appt_date)<CURDATE() AND (appt_status != 3 AND appt_status != 2 AND appt_status !=4) AND seen_by_admin=0"); 
+    $check_unsettled = mysqli_query($conn, "SELECT * FROM appointment WHERE appt_date < '$date_today' AND (appt_status != 3 AND appt_status != 2 AND appt_status !=4) AND seen_by_admin=0"); 
     $result4  = mysqli_num_rows($check_unsettled);
 
 ?>
@@ -722,7 +723,7 @@
                   </thead>
                   <tbody id="users_data">
                       <?php 
-                        $sql = mysqli_query($conn, "SELECT * FROM appointment WHERE DATE(appt_date)<CURDATE() AND (appt_status != 3 AND appt_status != 2 AND appt_status !=4) AND seen_by_admin=0 ");
+                        $sql = mysqli_query($conn, "SELECT * FROM appointment WHERE appt_date < '$date_karun' AND (appt_status != 3 AND appt_status != 2 AND appt_status !=4) AND seen_by_admin=0 ");
                         while ($row = mysqli_fetch_array($sql)) {
                       ?>
                     <tr>
@@ -737,7 +738,7 @@
                           <?php if($row['appt_time'] == ""): ?>
                             <span class="badge badge-warning pt-1">Waiting for approval</span>
                           <?php else : ?>
-                            <span><?php echo date("h:i A", strtotime($row['appt_time'])); ?></span>
+                            <span><?php echo $row['appt_time']; ?></span>
                           <?php endif; ?>
                         </td>
                         <td><?php echo $row['appt_reason']; ?></td>
